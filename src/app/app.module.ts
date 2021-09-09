@@ -1,17 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
+import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 
 // Import components
-import { AppComponent } from './app.component';
-import { DefaultLayoutComponent } from './containers';
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { AppComponent } from "./app.component";
+import { DefaultLayoutComponent } from "./containers";
+import { P404Component } from "./views/error/404.component";
+import { P500Component } from "./views/error/500.component";
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
 
 import {
   AppAsideModule,
@@ -19,16 +19,20 @@ import {
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
-} from '@coreui/angular';
+} from "@coreui/angular";
 
 // Import routing module
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from "./app-routing.module";
 
 // Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts';
-import { ToasterModule, ToasterService } from 'angular2-toaster';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { ChartsModule } from "ng2-charts";
+import { ToasterModule, ToasterService } from "angular2-toaster";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TextMaskModule } from 'angular2-text-mask';
+
 
 @NgModule({
   imports: [
@@ -44,7 +48,10 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    ToasterModule
+    ToasterModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,TextMaskModule
   ],
   declarations: [
     AppComponent,
@@ -52,14 +59,15 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  },
-  ToasterService
-],
-  bootstrap: [ AppComponent ]
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
+    ToasterService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

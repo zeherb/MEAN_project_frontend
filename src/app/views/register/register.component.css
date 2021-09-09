@@ -1,0 +1,41 @@
+
+/* #inputGroupFile04 {
+  opacity: 1;
+}
+.avatar-label {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+} */
+
+
+.file {
+  display: none;
+}
+
+.file-name {
+  position: relative;
+  overflow: hidden;
+  line-height: 30px;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 15px;
+  vertical-align: middle;
+  border: 1px solid #e4e7ea;
+  border-radius: 0 0.25rem 0.25rem 0;
+  background-color: white;
+}
+
+.btn-file {
+  background: #f0f3f5;
+  border: 1px solid #e4e7ea;
+  border-radius: 0.25rem 0 0 0.25rem;
+  box-sizing: border-box;
+  background-color: #f0f3f5;
+  color: #5c6873;
+  font-size: 15px;
+}
+.error{
+  color: red;
+  position: absolute;
+  margin-top: 33px;
+}
