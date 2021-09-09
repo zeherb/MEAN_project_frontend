@@ -10,6 +10,7 @@ import {
   ValidatorFn,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import { AuthentificationService } from "../../services/authentification.service";
 
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
   public dateMask = [/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/];
   constructor(
     private toasterService: ToasterService,
-    private authService: AuthentificationService
+    private authService: AuthentificationService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.registerForm = new FormGroup(
@@ -121,6 +123,7 @@ export class RegisterComponent implements OnInit {
           this.showSuccess();
           this.registerForm.reset();
           this.invalidStatus = false;
+          this.router.navigate(["/login"]);
         }
       );
     }
