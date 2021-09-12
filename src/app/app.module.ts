@@ -10,8 +10,8 @@ import { AppComponent } from "./app.component";
 import { DefaultLayoutComponent } from "./containers";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
-import { LoginComponent } from "./views/login/login.component";
-import { RegisterComponent } from "./views/register/register.component";
+import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
+import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 
 import {
   AppAsideModule,
@@ -31,8 +31,9 @@ import { ChartsModule } from "ng2-charts";
 import { ToasterModule, ToasterService } from "angular2-toaster";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { TextMaskModule } from 'angular2-text-mask';
-
+import { TextMaskModule } from "angular2-text-mask";
+import { HomeComponent } from './my-components/home/home.component';
+import { AddEventComponent } from './my-components/add-event/add-event.component';
 
 @NgModule({
   imports: [
@@ -51,15 +52,19 @@ import { TextMaskModule } from 'angular2-text-mask';
     ToasterModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,TextMaskModule
+    ReactiveFormsModule,
+    TextMaskModule,
   ],
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
     P404Component,
     P500Component,
-    LoginComponent,
-    RegisterComponent,
+
+    MyRegisterComponent,
+    MyLoginComponent,
+    HomeComponent,
+    AddEventComponent,
   ],
   providers: [
     {

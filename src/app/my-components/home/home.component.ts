@@ -1,12 +1,12 @@
-import { Component, OnDestroy, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { navItems } from "../../_nav";
-
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./default-layout.component.html",
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
-export class DefaultLayoutComponent implements OnDestroy {
+export class HomeComponent implements OnInit {
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
@@ -23,7 +23,5 @@ export class DefaultLayoutComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.changes.disconnect();
-  }
+  ngOnInit(): void {}
 }

@@ -1,10 +1,9 @@
-/* #inputGroupFile04 {
-  opacity: 1;
+.app-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-.avatar-label {
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-} */
 
 .file {
   display: none;

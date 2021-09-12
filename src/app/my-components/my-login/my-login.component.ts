@@ -1,19 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToasterService } from "angular2-toaster";
-import { from } from "rxjs";
 import { AuthentificationService } from "../../services/authentification.service";
-
+import { Router } from "@angular/router";
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "login.component.html",
+  selector: "app-my-login",
+  templateUrl: "./my-login.component.html",
+  styleUrls: ["./my-login.component.css"],
 })
-export class LoginComponent implements OnInit {
+export class MyLoginComponent implements OnInit {
   loginForm: FormGroup;
   refused: Boolean;
   constructor(
     private toasterService: ToasterService,
-    private authService: AuthentificationService
+    private authService: AuthentificationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
         () => {
           this.showSuccess();
           this.refused = false;
+          this.router.navigate(["/home"]);
         }
       );
     }

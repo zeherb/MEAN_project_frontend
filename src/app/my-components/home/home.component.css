@@ -1,0 +1,22 @@
+.components .nav-item {
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.components .nav-item:hover {
+  background-color: #306bffd2;
+  font-weight: 900;
+  transition: 0.5s;
+}
+.components .nav-item .nav-link:hover {
+  color: white;
+}
+.active-link {
+  background-color: #306bffd2;
+  font-weight: 900;
+}
+.active-link a {
+  color: white;
+}
+.utilities {
+  margin-right: 10px;
+}

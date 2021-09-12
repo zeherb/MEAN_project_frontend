@@ -101,6 +101,16 @@
                       "
                       >Birth Date is <strong>INVALID</strong>
                     </small>
+                    <small
+                      class="error"
+                      *ngIf="
+                        invalidStatus &&
+                        validateBirthDate(registerForm) &&
+                        !registerForm.controls['birthDate'].errors?.required &&
+                        !registerForm.controls['birthDate'].errors?.pattern
+                      "
+                      >You must be at least <strong>16</strong> years old
+                    </small>
                   </div>
                 </fieldset>
                 <div class="input-group mb-3">
