@@ -1,9 +1,22 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
-import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-
+import {
+  LocationStrategy,
+  HashLocationStrategy,
+  DatePipe,
+} from "@angular/common";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -32,8 +45,8 @@ import { ToasterModule, ToasterService } from "angular2-toaster";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TextMaskModule } from "angular2-text-mask";
-import { HomeComponent } from './my-components/home/home.component';
-import { AddEventComponent } from './my-components/add-event/add-event.component';
+import { HomeComponent } from "./my-components/home/home.component";
+import { AddEventComponent } from "./my-components/add-event/add-event.component";
 
 @NgModule({
   imports: [
@@ -54,6 +67,14 @@ import { AddEventComponent } from './my-components/add-event/add-event.component
     FormsModule,
     ReactiveFormsModule,
     TextMaskModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    NgxMatNativeDateModule,
+    MatInputModule,
+    MatIconModule,
   ],
   declarations: [
     AppComponent,
@@ -71,7 +92,9 @@ import { AddEventComponent } from './my-components/add-event/add-event.component
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+
     ToasterService,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

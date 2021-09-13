@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Import Containers
 import { DefaultLayoutComponent } from "./containers";
+import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
@@ -29,6 +30,7 @@ export const routes: Routes = [
       title: "Page 500",
     },
   },
+  // ************
   {
     path: "login",
     component: MyLoginComponent,
@@ -47,6 +49,11 @@ export const routes: Routes = [
       title: "Register Page",
     },
   },
+  {
+    path: "add-event",
+    component: AddEventComponent,
+  },
+  // *************
   {
     path: "",
     component: DefaultLayoutComponent,

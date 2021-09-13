@@ -1,3 +1,6 @@
+.components {
+  margin-left: 10px;
+}
 .components .nav-item {
   border-radius: 5px;
   margin-right: 5px;
