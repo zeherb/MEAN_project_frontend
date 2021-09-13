@@ -1,17 +1,30 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
-import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-
+import {
+  LocationStrategy,
+  HashLocationStrategy,
+  DatePipe,
+} from "@angular/common";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
 
 // Import components
 import { AppComponent } from "./app.component";
 import { DefaultLayoutComponent } from "./containers";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
-import { LoginComponent } from "./views/login/login.component";
-import { RegisterComponent } from "./views/register/register.component";
+import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
+import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 
 import {
   AppAsideModule,
@@ -31,8 +44,9 @@ import { ChartsModule } from "ng2-charts";
 import { ToasterModule, ToasterService } from "angular2-toaster";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { TextMaskModule } from 'angular2-text-mask';
-
+import { TextMaskModule } from "angular2-text-mask";
+import { HomeComponent } from "./my-components/home/home.component";
+import { AddEventComponent } from "./my-components/add-event/add-event.component";
 
 @NgModule({
   imports: [
@@ -51,22 +65,36 @@ import { TextMaskModule } from 'angular2-text-mask';
     ToasterModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,TextMaskModule
+    ReactiveFormsModule,
+    TextMaskModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    NgxMatNativeDateModule,
+    MatInputModule,
+    MatIconModule,
   ],
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
     P404Component,
     P500Component,
-    LoginComponent,
-    RegisterComponent,
+
+    MyRegisterComponent,
+    MyLoginComponent,
+    HomeComponent,
+    AddEventComponent,
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+
     ToasterService,
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

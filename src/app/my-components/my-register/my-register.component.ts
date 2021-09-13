@@ -15,11 +15,11 @@ import { ToasterService } from "angular2-toaster";
 import { AuthentificationService } from "../../services/authentification.service";
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "register.component.html",
-  styleUrls: ["register.component.css"],
+  selector: "app-my-register",
+  templateUrl: "./my-register.component.html",
+  styleUrls: ["./my-register.component.css"],
 })
-export class RegisterComponent implements OnInit {
+export class MyRegisterComponent implements OnInit {
   registerForm: FormGroup;
   matcher = new MyErrorStateMatcher();
   invalidStatus = false;
@@ -91,7 +91,11 @@ export class RegisterComponent implements OnInit {
     }
   }
   register(form) {
-    if (form.status == "INVALID" || this.checkFile(this.registerForm)) {
+    if (
+      form.status == "INVALID" ||
+      this.checkFile(this.registerForm) ||
+      this.validateBirthDate(this.registerForm)
+    ) {
       this.invalidStatus = true;
       this.showError("Please fill the form correctly");
     } else {
@@ -150,7 +154,18 @@ export class RegisterComponent implements OnInit {
       return allowedFiles.includes(fileType) ? null : { notSame: true };
     }
   };
+  validateBirthDate: ValidatorFn = (
+    group: AbstractControl
+  ): ValidationErrors | null => {
+    {
+      const year = new Date(group.get("birthDate").value).getFullYear();
+      const today = new Date().getFullYear();
+      return today - year >= 16 ? null : { notSame: true };
+    }
+  };
 }
+
+// MyErrorStateMatcher (confirm password)
 export class MyErrorStateMatcher implements MyErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
