@@ -1,0 +1,23 @@
+<form [formGroup]="tagForm" id="tagForm" (ngSubmit)="addTag(tagForm)">
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="name" />
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea
+      id="description"
+      matInput
+      type="text"
+      formControlName="description"
+    ></textarea>
+  </mat-form-field>
+  <div id="buttons">
+    <button type="button" [mat-dialog-close]="false" class="btn btn-danger">
+      Cancel
+    </button>
+    <button type="submit" [mat-dialog-close]="true" class="btn btn-success">
+      Add tag
+    </button>
+  </div>
+</form>

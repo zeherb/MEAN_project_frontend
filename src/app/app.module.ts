@@ -12,11 +12,16 @@ import {
   NgxMatTimepickerModule,
 } from "@angular-material-components/datetime-picker";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
+import { MatNativeDateModule, MAT_DATE_LOCALE } from "@angular/material/core";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSelectModule } from "@angular/material/select";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -47,6 +52,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TextMaskModule } from "angular2-text-mask";
 import { HomeComponent } from "./my-components/home/home.component";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
+import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-tag/add-new-tag.component";
 
 @NgModule({
   imports: [
@@ -75,7 +81,13 @@ import { AddEventComponent } from "./my-components/add-event/add-event.component
     NgxMatNativeDateModule,
     MatInputModule,
     MatIconModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatSelectModule,
   ],
+  entryComponents: [AddNewTagComponent],
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
@@ -86,12 +98,14 @@ import { AddEventComponent } from "./my-components/add-event/add-event.component
     MyLoginComponent,
     HomeComponent,
     AddEventComponent,
+    AddNewTagComponent,
   ],
   providers: [
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
+    { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
 
     ToasterService,
     DatePipe,

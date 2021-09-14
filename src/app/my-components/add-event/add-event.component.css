@@ -53,3 +53,23 @@
 #price-label {
   margin-left: 15px;
 }
+#add-event-btn {
+  color: white;
+  background-color: #bdc3c7;
+}
+#add-event-btn:focus {
+  outline: none;
+}
+#tags-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.file {
+  display: none;
+}
+
+#fileInputGroup {
+  display: flex;
+  justify-content: space-between;
+}

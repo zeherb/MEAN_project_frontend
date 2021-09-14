@@ -1,7 +1,29 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { DatePipe, DOCUMENT } from "@angular/common";
 import { navItems } from "../../_nav";
-import { FormControl, FormGroup } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from "@angular/forms";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { MatChipInputEvent } from "@angular/material/chips";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { TagsService } from "../../services/tags.service";
+import { ToasterService } from "angular2-toaster";
+import { MatDialog } from "@angular/material/dialog";
+import { AddNewTagComponent } from "./dialogs/add-new-tag/add-new-tag.component";
 
 @Component({
   selector: "app-add-event",
@@ -11,14 +33,30 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class AddEventComponent implements OnInit {
   eventForm: FormGroup;
   minStartDate: Date;
+  maxStartDate: Date;
   minEndDate: Date;
+  defaultHours: any;
+  alltags: any[];
+  alltagsNames: string[] = [];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  filteredTags: Observable<string[]>;
+  selectedTags: string[] = [];
 
+  @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
+
+  // default
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
 
-  constructor(private customDate: DatePipe, @Inject(DOCUMENT) _document?: any) {
+  constructor(
+    private dialog: MatDialog,
+    private toasterService: ToasterService,
+    private tagService: TagsService,
+    private customDate: DatePipe,
+    @Inject(DOCUMENT) _document?: any
+  ) {
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized =
         _document.body.classList.contains("sidebar-minimized");
@@ -31,24 +69,171 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tagService.getAllTags().subscribe(
+      (res) => {
+        this.alltags = res;
+        res.forEach((element) => {
+          this.alltagsNames.push(element.name.toLowerCase());
+        });
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
+
+    this.defaultHours = new Date().getHours() + 1;
     this.eventForm = new FormGroup({
-      title: new FormControl(""),
-      description: new FormControl(""),
-      price: new FormControl(""),
-      startDateTilme: new FormControl(""),
-      endDateTime: new FormControl(""),
-      location: new FormControl(""),
-      tags: new FormControl(""),
-      availableTicketNumber: new FormControl(""),
-      eventType: new FormControl(""),
+      title: new FormControl("", Validators.required),
+      description: new FormControl("", Validators.required),
+      price: new FormControl(
+        "",
+        Validators.pattern("^[0-9]+(\\.[0-9][0-9]?)?")
+      ),
+      startDateTime: new FormControl("", Validators.required),
+      endDateTime: new FormControl("", Validators.required),
+      location: new FormControl("", Validators.required),
+      tags: new FormControl("", Validators.required),
+      availableTicketNumber: new FormControl("", [
+        Validators.required,
+        Validators.pattern("^[0-9]*"),
+      ]),
+      eventType: new FormControl("", Validators.required),
+      image: new FormControl("", Validators.required),
+      fakeImage: new FormControl("", Validators.required),
+      readOnlyInput: new FormControl("", [
+        Validators.required,
+        Validators.pattern("[^\\s]+(.*?)\\.(jpg|jpeg|png)$"),
+      ]),
     });
     this.minStartDate = new Date();
+    this.filteredTags = this.eventForm.controls.tags.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) =>
+        tag ? this._filter(tag) : this.alltagsNames.slice()
+      )
+    );
   }
+
   changeDate() {
-    console.log(this.minEndDate);
-    this.minEndDate = new Date(this.eventForm.controls.startDateTilme.value);
+    if (this.eventForm.controls.startDateTime.value) {
+      this.minEndDate = new Date(this.eventForm.controls.startDateTime.value);
+    }
+    if (this.eventForm.controls.endDateTime.value) {
+      this.maxStartDate = new Date(this.eventForm.controls.endDateTime.value);
+    }
   }
   submitForm(form) {
-    console.log(form.value);
+    this.eventForm.controls.tags.setValue(this.selectedTags[0]);
+    console.log(form.status);
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = event.value.trim();
+    if (
+      !this.alltagsNames.includes(value.toLocaleLowerCase()) &&
+      value !== ""
+    ) {
+      this.showToaster(
+        "error",
+        "This tag does not exist!",
+        "You can add it by clicking on the add button"
+      );
+      event.input.value = "";
+
+      this.eventForm.controls.tags.setValue(null);
+    }
+  }
+
+  remove(fruit: string): void {
+    const index = this.selectedTags.indexOf(fruit);
+
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    if (
+      this.alltagsNames.includes(event.option.viewValue) &&
+      !this.selectedTags.includes(event.option.viewValue)
+    ) {
+      this.selectedTags.push(event.option.viewValue);
+    } else if (!this.alltagsNames.includes(event.option.viewValue)) {
+      this.showToaster(
+        "error",
+        "This tag does not exist!",
+        "You can add it by clicking on the add button"
+      );
+    } else {
+      this.showToaster("warning", "warning", "This tag is already selected");
+    }
+    this.tagInput.nativeElement.value = "";
+    this.eventForm.controls.tags.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.alltagsNames.filter((tag) =>
+      tag.toLowerCase().includes(filterValue)
+    );
+  }
+
+  showToaster(type, title, err) {
+    this.toasterService.pop(type, title, err);
+  }
+  addTagDialog() {
+    const dialogRef = this.dialog.open(AddNewTagComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "50%",
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.tagService.getAllTags().subscribe(
+          (res) => {
+            this.alltags = res;
+            this.alltagsNames = [];
+            res.forEach((element) => {
+              this.alltagsNames.push(element.name.toLowerCase());
+            });
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {}
+        );
+      }
+    });
+  }
+  eventTypeChange({ value }) {
+    if (value === 0) {
+      this.eventForm.get("price").setValue(0);
+      this.eventForm.get("price").disable();
+    } else {
+      this.eventForm.get("price").enable();
+    }
+  }
+
+  fileSelected(fi, roi, event) {
+    if (fi.value !== null && fi.value !== "" && fi.value !== undefined) {
+      roi.value = fi.files[0].name;
+      this.eventForm.controls.readOnlyInput.setValue(roi.value);
+      const file = (event.target as HTMLInputElement).files[0];
+      this.eventForm.patchValue({
+        fakeImage: file,
+      });
+      this.eventForm.get("image").updateValueAndValidity();
+    } else {
+      roi.value = "";
+      this.eventForm.controls.readOnlyInput.setValue(roi.value);
+    }
+  }
+
+  test() {
+    console.log(this.eventForm.controls.image.value);
+    console.log(this.eventForm.controls.fakeImage.value);
+    console.log(this.eventForm.controls.readOnlyInput.value);
   }
 }
