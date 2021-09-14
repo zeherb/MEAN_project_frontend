@@ -1,0 +1,21 @@
+#tagForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#description {
+  height: 60px;
+  resize: none;
+}
+#buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.btn {
+  width: 45%;
+  font-weight: 500;
+}
+.example-form-field {
+  width: 100%;
+}
