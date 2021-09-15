@@ -1,25 +1,114 @@
 .components {
   margin-left: 10px;
 }
-.components .nav-item {
+.components .nav-item a {
   border-radius: 5px;
-  margin-right: 5px;
+  padding: 2px 10px 2px 10px;
 }
-.components .nav-item:hover {
+
+.components .nav-item a:hover {
   background-color: #306bffd2;
   font-weight: 900;
   transition: 0.5s;
-}
-.components .nav-item .nav-link:hover {
   color: white;
 }
 .active-link {
-  background-color: #306bffd2;
+  background-color: #306bffd2 !important;
   font-weight: 900;
-}
-.active-link a {
   color: white;
 }
+
 .utilities {
   margin-right: 10px;
+}
+.nav-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+button:focus {
+  outline: none;
+}
+.content {
+  margin-top: 10px;
+  margin-bottom: 60px;
+}
+.cards {
+  display: flex;
+  justify-content: space-between;
+}
+.one-card {
+  margin-bottom: 10px;
+}
+.event-owner-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px 0px rgb(61, 61, 61);
+}
+.custom-card-header {
+  height: 80px;
+}
+.custom-card-image {
+  height: 225px;
+}
+.custom-card-content {
+  height: 250px;
+}
+.instructions {
+  height: 100px;
+}
+.instructions .description-title {
+  margin-bottom: 10px !important ;
+  font-size: 14px;
+}
+.content-card-description {
+  max-height: 70px;
+  overflow-y: scroll;
+}
+.content-card-tags {
+  max-height: 80px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.description-title {
+  line-height: 1;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}
+.infos {
+  display: flex;
+  justify-content: space-around;
+}
+.infos .btn {
+  width: 46%;
+  padding: 0;
+}
+.infos .AP {
+  width: 54% !important;
+}
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
