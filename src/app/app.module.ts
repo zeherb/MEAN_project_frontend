@@ -22,6 +22,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatCardModule } from "@angular/material/card";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -86,6 +88,8 @@ import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-ta
     MatButtonModule,
     MatDialogModule,
     MatSelectModule,
+    MatMenuModule,
+    MatCardModule,
   ],
   entryComponents: [AddNewTagComponent],
   declarations: [

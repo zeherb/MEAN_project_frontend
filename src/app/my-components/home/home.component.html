@@ -18,13 +18,13 @@
   [mobileAsideMenuToggler]="false"
 >
   <ul class="components nav navbar-nav d-md-down-none">
-    <li class="nav-item px-3 active-link">
-      <a class="nav-link" [routerLink]="['/home']">Home</a>
+    <li class="nav-item px-1">
+      <a class="nav-link active-link" [routerLink]="['/home']">Home</a>
     </li>
-    <li class="nav-item px-3">
+    <li class="nav-item px-1">
       <a class="nav-link" [routerLink]="['/add-event']">Add Event</a>
     </li>
-    <li class="nav-item px-3">
+    <li class="nav-item px-1">
       <a class="nav-link" [routerLink]="['/profile']">Profile</a>
     </li>
   </ul>
@@ -340,7 +340,7 @@
   </ul>
 </app-header>
 <div class="app-body">
-  <app-sidebar [fixed]="true" [display]="'lg'">
+  <app-sidebar [fixed]="true" [display]="'xs'">
     <app-sidebar-nav
       [navItems]="navItems"
       [perfectScrollbar]
@@ -348,8 +348,121 @@
     ></app-sidebar-nav>
   </app-sidebar>
   <!-- Main content -->
+  <div class="main">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
+          <li class="d-flex col-9 col-md-8">
+            <input
+              class="form-control me-2 search-input"
+              type="search"
+              placeholder="Search for events"
+              aria-label="Search"
+            />
+          </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item>
+                Ascending price <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item>
+                Decreasing price <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item>Availability</button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="content container-fluid">
+      <div class="row cards">
+        <div class="one-card col-12 col-md-4" *ngFor="let event of eventList">
+          <mat-card class="example-card">
+            <mat-card-header class="custom-card-header">
+              <div mat-card-avatar class="example-header-image">
+                <img
+                  class="event-owner-img"
+                  src="../../../assets/img/avatars/3.jpg"
+                  alt="Event Owner's avatar"
+                />
+              </div>
+
+              <mat-card-title>{{ event.title }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ event.owner.firstName }}
+                {{ event.owner.lastName }}</mat-card-subtitle
+              >
+            </mat-card-header>
+            <img
+              class="custom-card-image"
+              mat-card-image
+              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+              alt="Event's image"
+            />
+            <mat-card-content class="custom-card-content">
+              <div class="instructions">
+                <h3 class="description-title">
+                  <strong> Starting At :</strong>
+                  <span>{{ event.startDateTime }}</span>
+                </h3>
+                <h3 class="description-title">
+                  <strong> Ending At :</strong>
+                  <span>{{ event.endDateTime }}</span>
+                </h3>
+                <h3 class="description-title">
+                  <strong> Location :</strong><span>{{ event.location }}</span>
+                </h3>
+              </div>
+              <h3 class="description-title">
+                <strong> Description :</strong>
+              </h3>
+              <p class="content-card-description">
+                {{ event.description }}
+              </p>
+              <div class="content-card-tags">
+                <mat-chip-list class="example-chip">
+                  <mat-chip class="example-box" *ngFor="let tag of event.tags">
+                    #{{ tag.name }}
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
+            </mat-card-content>
+            <mat-card-actions class="card-buttons">
+              <div class="infos">
+                <button class="btn" *ngIf="event.eventType == 'Payable'">
+                  Price: <strong>{{ event.price }} $</strong>
+                </button>
+                <button class="btn" *ngIf="event.eventType == 'Free'">
+                  <strong> {{ event.eventType }}</strong>
+                </button>
+                <button class="btn AP">
+                  Available:
+                  <strong> {{ event.availableTicketNumber }}</strong>
+                </button>
+              </div>
+              <button
+                class="btn btn-danger"
+                *ngIf="event.availableTicketNumber == 0"
+              >
+                Out of stock
+              </button>
+              <button
+                class="btn btn-success"
+                *ngIf="event.availableTicketNumber !== 0"
+              >
+                Book
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<app-footer>
+<app-footer id="footer">
   <span>Zaher Bouzid &copy; september 2021.</span>
   <span class="ml-auto">
     <a href="https://github.com/zeherb/">Visit my github</a></span
