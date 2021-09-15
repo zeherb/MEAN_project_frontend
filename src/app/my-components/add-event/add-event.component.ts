@@ -5,16 +5,9 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { DatePipe, DOCUMENT } from "@angular/common";
+import { DOCUMENT } from "@angular/common";
 import { navItems } from "../../_nav";
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
@@ -24,6 +17,8 @@ import { TagsService } from "../../services/tags.service";
 import { ToasterService } from "angular2-toaster";
 import { MatDialog } from "@angular/material/dialog";
 import { AddNewTagComponent } from "./dialogs/add-new-tag/add-new-tag.component";
+import { EventService } from "../../services/event.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-add-event",
@@ -51,10 +46,11 @@ export class AddEventComponent implements OnInit {
   public element: HTMLElement;
 
   constructor(
+    private router: Router,
+    private eventService: EventService,
     private dialog: MatDialog,
     private toasterService: ToasterService,
     private tagService: TagsService,
-    private customDate: DatePipe,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -125,7 +121,41 @@ export class AddEventComponent implements OnInit {
   }
   submitForm(form) {
     this.eventForm.controls.tags.setValue(this.selectedTags[0]);
-    console.log(form.status);
+    if (form.status === "VALID") {
+      let formData = new FormData();
+      formData.append("title", form.get("title").value);
+      formData.append("description", form.get("description").value);
+      formData.append("price", form.get("price").value);
+      formData.append("location", form.get("location").value);
+      formData.append("tags", JSON.stringify(this.selectedTags));
+      formData.append(
+        "availableTicketNumber",
+        form.get("availableTicketNumber").value
+      );
+      formData.append("startDateTime", form.get("startDateTime").value);
+      formData.append("endDateTime", form.get("endDateTime").value);
+      formData.append("eventType", form.get("eventType").value);
+      formData.append("image", form.get("fakeImage").value);
+      this.eventService
+        .addNewEvent("613dd4127087fc0d9f2a897e", formData)
+        .subscribe(
+          (res) => {
+            console.log(res);
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            this.showToaster(
+              "success",
+              "Success",
+              "Event created successfully"
+            );
+            this.eventForm.reset();
+            this.router.navigate(["/home"]);
+          }
+        );
+    }
   }
 
   add(event: MatChipInputEvent): void {
@@ -229,11 +259,5 @@ export class AddEventComponent implements OnInit {
       roi.value = "";
       this.eventForm.controls.readOnlyInput.setValue(roi.value);
     }
-  }
-
-  test() {
-    console.log(this.eventForm.controls.image.value);
-    console.log(this.eventForm.controls.fakeImage.value);
-    console.log(this.eventForm.controls.readOnlyInput.value);
   }
 }
