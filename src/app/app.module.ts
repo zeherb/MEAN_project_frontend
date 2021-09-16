@@ -49,12 +49,13 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
 import { ToasterModule, ToasterService } from "angular2-toaster";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TextMaskModule } from "angular2-text-mask";
 import { HomeComponent } from "./my-components/home/home.component";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-tag/add-new-tag.component";
+import { AuthInterceptor } from "./services/auth.interceptor";
 
 @NgModule({
   imports: [
@@ -110,6 +111,7 @@ import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-ta
       useClass: HashLocationStrategy,
     },
     { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
     ToasterService,
     DatePipe,
