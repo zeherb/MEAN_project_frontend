@@ -31,8 +31,7 @@ export class MyLoginComponent implements OnInit {
       };
       this.authService.login(body).subscribe(
         (res) => {
-          console.log("result" + res.token);
-          localStorage.setItem("loginToken", res.token);
+          localStorage.setItem("loginToken", JSON.stringify(res));
         },
         (err) => {
           console.log("error" + err.message);

@@ -30,6 +30,7 @@
   </ul>
   <ul class="utilities nav navbar-nav ml-auto">
     <li
+      *ngIf="connectedUser?.role == 'admin'"
       class="nav-item dropdown d-md-down-none"
       dropdown
       placement="bottom right"
@@ -72,6 +73,7 @@
       </div>
     </li>
     <li
+      *ngIf="connectedUser?.role == 'admin'"
       class="nav-item dropdown d-md-down-none"
       dropdown
       placement="bottom right"
@@ -318,9 +320,10 @@
         (click)="(false)"
       >
         <img
-          src="assets/img/avatars/6.jpg"
+          *ngIf="connectedUser"
+          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }}"
           class="img-avatar"
-          alt="admin@bootstrapmaster.com"
+          alt="prifile-pic"
         />
       </a>
       <div
@@ -334,7 +337,9 @@
           ><i class="fa fa-wrench"></i> Settings</a
         >
 
-        <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
+        <a class="dropdown-item" (click)="logOut()"
+          ><i class="fa fa-lock"></i> Logout</a
+        >
       </div>
     </li>
   </ul>
@@ -385,7 +390,7 @@
               <div mat-card-avatar class="example-header-image">
                 <img
                   class="event-owner-img"
-                  src="../../../assets/img/avatars/3.jpg"
+                  src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                   alt="Event Owner's avatar"
                 />
               </div>
@@ -399,7 +404,7 @@
             <img
               class="custom-card-image"
               mat-card-image
-              src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+              src="{{ baseUrl }}/event-pics/{{ event.image }}"
               alt="Event's image"
             />
             <mat-card-content class="custom-card-content">
