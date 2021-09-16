@@ -19,6 +19,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddNewTagComponent } from "./dialogs/add-new-tag/add-new-tag.component";
 import { EventService } from "../../services/event.service";
 import { Router } from "@angular/router";
+import { UserService } from "../../services/user.service";
+import { user } from "../../models/user";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-add-event",
@@ -26,6 +29,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./add-event.component.css"],
 })
 export class AddEventComponent implements OnInit {
+  baseUrl = environment.baseUrl;
   eventForm: FormGroup;
   minStartDate: Date;
   maxStartDate: Date;
@@ -36,6 +40,7 @@ export class AddEventComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredTags: Observable<string[]>;
   selectedTags: string[] = [];
+  connectedUser: user;
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
@@ -47,6 +52,7 @@ export class AddEventComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private userService: UserService,
     private eventService: EventService,
     private dialog: MatDialog,
     private toasterService: ToasterService,
@@ -65,6 +71,18 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService
+      .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
+      .subscribe(
+        (res) => {
+          this.connectedUser = res;
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {}
+      );
+
     this.tagService.getAllTags().subscribe(
       (res) => {
         this.alltags = res;
@@ -136,25 +154,20 @@ export class AddEventComponent implements OnInit {
       formData.append("endDateTime", form.get("endDateTime").value);
       formData.append("eventType", form.get("eventType").value);
       formData.append("image", form.get("fakeImage").value);
-      this.eventService
-        .addNewEvent("613dd4127087fc0d9f2a897e", formData)
-        .subscribe(
-          (res) => {
-            console.log(res);
-          },
-          (err) => {
-            console.log(err);
-          },
-          () => {
-            this.showToaster(
-              "success",
-              "Success",
-              "Event created successfully"
-            );
-            this.eventForm.reset();
-            this.router.navigate(["/home"]);
-          }
-        );
+      let userId = JSON.parse(localStorage.getItem("loginToken")).userId;
+      this.eventService.addNewEvent(userId, formData).subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          this.showToaster("success", "Success", "Event created successfully");
+          this.eventForm.reset();
+          this.router.navigate(["/home"]);
+        }
+      );
     }
   }
 
@@ -259,5 +272,9 @@ export class AddEventComponent implements OnInit {
       roi.value = "";
       this.eventForm.controls.readOnlyInput.setValue(roi.value);
     }
+  }
+  logOut() {
+    localStorage.removeItem("loginToken");
+    this.router.navigate(["/login"]);
   }
 }

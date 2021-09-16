@@ -32,6 +32,7 @@
   </ul>
   <ul class="utilities nav navbar-nav ml-auto">
     <li
+      *ngIf="connectedUser?.role == 'admin'"
       class="nav-item dropdown d-md-down-none"
       dropdown
       placement="bottom right"
@@ -74,6 +75,7 @@
       </div>
     </li>
     <li
+      *ngIf="connectedUser?.role == 'admin'"
       class="nav-item dropdown d-md-down-none"
       dropdown
       placement="bottom right"
@@ -320,9 +322,10 @@
         (click)="(false)"
       >
         <img
-          src="assets/img/avatars/6.jpg"
+          *ngIf="connectedUser"
+          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }}"
           class="img-avatar"
-          alt="admin@bootstrapmaster.com"
+          alt="avatar"
         />
       </a>
       <div
@@ -336,7 +339,9 @@
           ><i class="fa fa-wrench"></i> Settings</a
         >
 
-        <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Logout</a>
+        <a class="dropdown-item" (click)="logOut()"
+          ><i class="fa fa-lock"></i> Logout</a
+        >
       </div>
     </li>
   </ul>

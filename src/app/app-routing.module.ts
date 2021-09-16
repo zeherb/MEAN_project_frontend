@@ -4,6 +4,8 @@ import { Routes, RouterModule } from "@angular/router";
 // Import Containers
 import { DefaultLayoutComponent } from "./containers";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
+import { AuthGuard } from "./my-components/auth.guard";
+import { ConnectedGuard } from "./my-components/connected.guard";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
@@ -13,7 +15,7 @@ import { P500Component } from "./views/error/500.component";
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "dashboard",
+    redirectTo: "login",
     pathMatch: "full",
   },
   {
@@ -37,10 +39,12 @@ export const routes: Routes = [
     data: {
       title: "Login Page",
     },
+    canActivate: [ConnectedGuard],
   },
   {
     path: "home",
     component: HomeComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "register",
@@ -48,10 +52,12 @@ export const routes: Routes = [
     data: {
       title: "Register Page",
     },
+    canActivate: [ConnectedGuard],
   },
   {
     path: "add-event",
     component: AddEventComponent,
+    canActivate: [AuthGuard],
   },
   // *************
   {
