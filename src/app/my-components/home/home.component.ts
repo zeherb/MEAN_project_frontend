@@ -7,6 +7,7 @@ import { user } from "../../models/user";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
 import { Router } from "@angular/router";
+import { ToasterService } from "angular2-toaster";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
     private datePipe: DatePipe,
     private eventService: EventService,
     private userservice: UserService,
+    private toaster: ToasterService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -71,6 +73,10 @@ export class HomeComponent implements OnInit {
   }
   logOut() {
     localStorage.removeItem("loginToken");
+    this.showToaster("success", "Success", "Logged out successfully");
     this.router.navigate(["/login"]);
+  }
+  showToaster(type, title, message) {
+    this.toaster.pop(type, title, message);
   }
 }

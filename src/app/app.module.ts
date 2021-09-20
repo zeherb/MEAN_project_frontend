@@ -24,6 +24,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatCardModule } from "@angular/material/card";
+import { MatTabsModule } from "@angular/material/tabs";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -32,6 +33,7 @@ import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
+import { MyProfileComponent } from "./my-components/my-profile/my-profile.component";
 
 import {
   AppAsideModule,
@@ -56,6 +58,9 @@ import { HomeComponent } from "./my-components/home/home.component";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-tag/add-new-tag.component";
 import { AuthInterceptor } from "./services/auth.interceptor";
+import { UpdateEventComponent } from "./my-components/my-profile/dialogs/update-event/update-event.component";
+import { UpdateEventImageComponent } from "./my-components/my-profile/dialogs/update-event-image/update-event-image.component";
+import { ConfirmDeleteEventComponent } from "./my-components/my-profile/dialogs/confirm-delete-event/confirm-delete-event.component";
 
 @NgModule({
   imports: [
@@ -91,8 +96,14 @@ import { AuthInterceptor } from "./services/auth.interceptor";
     MatSelectModule,
     MatMenuModule,
     MatCardModule,
+    MatTabsModule,
   ],
-  entryComponents: [AddNewTagComponent],
+  entryComponents: [
+    AddNewTagComponent,
+    UpdateEventComponent,
+    UpdateEventImageComponent,
+    ConfirmDeleteEventComponent,
+  ],
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
@@ -104,6 +115,10 @@ import { AuthInterceptor } from "./services/auth.interceptor";
     HomeComponent,
     AddEventComponent,
     AddNewTagComponent,
+    MyProfileComponent,
+    UpdateEventComponent,
+    UpdateEventImageComponent,
+    ConfirmDeleteEventComponent,
   ],
   providers: [
     {

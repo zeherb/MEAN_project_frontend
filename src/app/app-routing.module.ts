@@ -8,6 +8,7 @@ import { AuthGuard } from "./my-components/auth.guard";
 import { ConnectedGuard } from "./my-components/connected.guard";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
+import { MyProfileComponent } from "./my-components/my-profile/my-profile.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
@@ -40,6 +41,11 @@ export const routes: Routes = [
       title: "Login Page",
     },
     canActivate: [ConnectedGuard],
+  },
+  {
+    path: "profile",
+    component: MyProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "home",

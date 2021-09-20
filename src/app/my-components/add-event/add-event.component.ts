@@ -275,6 +275,7 @@ export class AddEventComponent implements OnInit {
   }
   logOut() {
     localStorage.removeItem("loginToken");
+    this.toasterService.pop("success", "Success", "Logged out successfully");
     this.router.navigate(["/login"]);
   }
 }

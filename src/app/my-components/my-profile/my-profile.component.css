@@ -29,13 +29,87 @@
 button:focus {
   outline: none;
 }
-.content {
-  margin-top: 10px;
-  margin-bottom: 60px;
+
+::-webkit-scrollbar {
+  width: 5px;
 }
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}
+.main {
+  margin-bottom: 50px;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.user-infos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+.profile-pic-group {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: fit-content;
+}
+.profile-pic-group img {
+  height: 160px;
+  width: 160px;
+  border-radius: 80px;
+  box-shadow: 0px 0px 10px 0px black;
+  z-index: 1;
+}
+.updatePhotoBtn {
+  background-color: transparent;
+  padding: 0px 2px 0px 0px;
+  box-shadow: none;
+  position: absolute;
+  align-self: flex-end;
+  border: 1px solid gray;
+  z-index: 0;
+  color: rgb(202, 201, 201);
+}
+.updatePhotoBtn:hover {
+  box-shadow: 0px 0px 10px 0px black;
+  background-color: white;
+  color: rgb(107, 107, 107);
+  transition: 0.5s;
+  z-index: 2;
+}
+.infos {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.info-details-group {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+}
+
 .cards {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+}
+.profile-content {
+  padding-left: 20px;
 }
 .one-card {
   margin-bottom: 10px;
@@ -86,37 +160,29 @@ button:focus {
   justify-content: space-between;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f7f7f7;
-  border-radius: 20px;
-}
-::-webkit-scrollbar-thumb {
-  background: #dedede;
-  border-radius: 20px;
-}
-.infos {
+.event-infos {
   display: flex;
   justify-content: space-around;
 }
-.infos .btn {
+.event-infos .btn {
   width: 46%;
   padding: 0;
 }
-.infos .AP {
+.event-infos .AP {
   width: 54% !important;
 }
 .card-buttons {
   display: flex;
   flex-direction: column;
 }
-#footer {
-  position: fixed;
-  bottom: 0;
+.mat-tabs {
   width: 100%;
+  margin: 0;
+}
+.update-event-btn {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 a {
   cursor: pointer;
