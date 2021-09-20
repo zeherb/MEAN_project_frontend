@@ -406,7 +406,7 @@
         class="mat-tabs"
         style="min-height: 800px"
       >
-        <mat-tab label="Not started events" class="mat-tab container"
+        <mat-tab label="Not started events" class="mat-tab"
           ><div class="row cards">
             <div
               class="one-card col-12 col-md-4"
@@ -480,12 +480,30 @@
                     </button>
                   </div>
 
-                  <button class="btn btn-success">Book</button>
-                  <button class="btn btn-warning update-event-btn">
+                  <button
+                    *ngIf="event.availableTicketNumber > 0"
+                    class="btn btn-success"
+                  >
+                    Book
+                  </button>
+                  <button
+                    *ngIf="event.availableTicketNumber == 0"
+                    class="btn btn-outline-danger"
+                    disabled
+                  >
+                    Out of stock
+                  </button>
+                  <button
+                    class="btn btn-warning update-event-btn"
+                    (click)="openUpdateEventDialog(event)"
+                  >
                     Update Event
                     <mat-icon>change_circle</mat-icon>
                   </button>
-                  <button class="btn btn-danger update-event-btn">
+                  <button
+                    (click)="confirmDeleteDialog(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
                     Delete Event
                     <mat-icon>delete_forever </mat-icon>
                   </button>
@@ -494,7 +512,7 @@
             </div>
           </div></mat-tab
         >
-        <mat-tab label="In progress events">
+        <mat-tab label="In progress events" class="mat-tab">
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"
@@ -570,7 +588,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab label="Finished events">
+        <mat-tab label="Finished events" class="mat-tab">
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"

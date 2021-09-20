@@ -104,7 +104,7 @@ button:focus {
 
 .cards {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 20px;
   width: 100%;
 }

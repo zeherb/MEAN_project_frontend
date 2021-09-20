@@ -1,0 +1,56 @@
+<form [formGroup]="imageForm" id="imageForm" (ngSubmit)="submitForm(imageForm)">
+  <h1>Image update</h1>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Select your new image</mat-label>
+    <div id="fileInputGroup">
+      <input
+        type="file"
+        formControlName="image"
+        name="file"
+        id="file"
+        #fileInput
+        class="file"
+        (change)="fileSelected(fileInput, readOnlyInput, $event)"
+      />
+      <input
+        matInput
+        type="text"
+        name="file-name"
+        placeholder="Select your avatar"
+        id="file-name"
+        #readOnlyInput
+        (click)="fileInput.click()"
+        formControlName="readOnlyInput"
+        readonly="readonly"
+      />
+      <input type="text" formControlName="fakeImage" style="display: none" />
+      <button
+        type="button"
+        id="add-event-btn"
+        (click)="fileInput.click()"
+        mat-mini-fab
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <mat-error
+      class="error"
+      *ngIf="imageForm.controls.readOnlyInput.errors?.required"
+      >Please select a <strong>file</strong></mat-error
+    >
+    <mat-error
+      class="error"
+      *ngIf="
+        imageForm.controls.readOnlyInput.errors?.pattern &&
+        !imageForm.controls.readOnlyInput.errors?.required
+      "
+      >Wrong <strong>file</strong></mat-error
+    >
+  </mat-form-field>
+  <div class="buttons">
+    <button type="button" [mat-dialog-close]="false" class="btn btn-danger">
+      Cancel
+    </button>
+    <button type="submit" class="btn btn-success">Upload image</button>
+  </div>
+</form>

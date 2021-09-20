@@ -1,0 +1,6 @@
+<h2>Are you sure you want to delete this event?</h2>
+<h1>{{ selectedEvent.title }}</h1>
+<div class="buttons">
+  <button class="btn btn-danger" [mat-dialog-close]="false">Cancel</button>
+  <button class="btn btn-success" (click)="confirm()">Confirm</button>
+</div>

@@ -21,6 +21,6 @@ export class ConnectedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return !this.authService.checkNotConnected();
+    return this.authService.checkNotConnected();
   }
 }
