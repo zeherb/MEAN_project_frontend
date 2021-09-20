@@ -1,0 +1,173 @@
+<form id="form" [formGroup]="eventForm" (ngSubmit)="submitForm(eventForm)">
+  <h1>Update Event</h1>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" />
+    <mat-error *ngIf="eventForm.controls.title.errors?.required">
+      Title is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea
+      id="description"
+      matInput
+      type="text"
+      formControlName="description"
+    ></textarea>
+    <mat-error *ngIf="eventForm.controls.description.errors?.required">
+      Description is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label id="price-label">Price</mat-label>
+    <div id="price-input-group">
+      <i class="fa fa-dollar fa-lg"></i>
+      <input matInput type="number" formControlName="price" />
+    </div>
+    <mat-error *ngIf="eventForm.controls.price.errors?.pattern">
+      Wrong is <strong>Price</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Location</mat-label>
+    <input matInput type="text" formControlName="location" />
+    <mat-error *ngIf="eventForm.controls.location.errors?.required">
+      Please indicate your event <strong>location</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Event tags</mat-label>
+    <div id="tags-content">
+      <div id="tag-inputs">
+        <mat-chip-list #chipList aria-label="tag selection">
+          <mat-chip
+            *ngFor="let tag of selectedTags"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="remove(tag)"
+          >
+            {{ tag }}
+            <mat-icon matChipRemove>close</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Tags"
+            #tagInput
+            formControlName="tags"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+            {{ tag }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="eventForm.controls.tags.touched && selectedTags.length == 0"
+        >
+          <small> Please select your event <strong>tags</strong></small>
+        </mat-error>
+      </div>
+      <button
+        type="button"
+        id="add-event-btn"
+        mat-mini-fab
+        (click)="$event.stopPropagation(); addTagDialog()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label id="tickets-label">Tickets number</mat-label>
+    <input matInput type="number" formControlName="availableTicketNumber" />
+    <mat-error
+      *ngIf="eventForm.controls.availableTicketNumber.errors?.required"
+    >
+      Please indicate <strong>the Vailable tickets number</strong>
+    </mat-error>
+    <mat-error *ngIf="eventForm.controls.availableTicketNumber.errors?.pattern">
+      Must contain numbers<strong>only</strong>
+    </mat-error>
+  </mat-form-field>
+  <div id="start-end-date-time" class="row">
+    <mat-form-field
+      class="example-form-field col-12 col-md-6"
+      appearance="fill"
+    >
+      <mat-label>Starting date and time</mat-label>
+      <input
+        matInput
+        [ngxMatDatetimePicker]="picker"
+        formControlName="startDateTime"
+        [min]="minStartDate"
+        [max]="maxStartDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker"
+        (click)="changeDate()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #picker [defaultTime]="[defaultHours, 00, 00]">
+      </ngx-mat-datetime-picker>
+      <mat-error *ngIf="eventForm.controls.startDateTime.errors?.required">
+        Please select a <strong>starting date</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      class="example-form-field col-12 col-md-6"
+      appearance="fill"
+    >
+      <mat-label>Ending date and time</mat-label>
+      <input
+        matInput
+        [ngxMatDatetimePicker]="picker1"
+        formControlName="endDateTime"
+        [min]="minEndDate"
+        [max]="maxDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker1"
+        (click)="changeDate()"
+      ></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker
+        #picker1
+        [defaultTime]="[defaultHours + 1, 00, 00]"
+      >
+      </ngx-mat-datetime-picker>
+      <mat-error *ngIf="eventForm.controls.endDateTime.errors?.required">
+        Please select an <strong>ending date</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Select event type</mat-label>
+    <mat-select
+      formControlName="eventType"
+      (selectionChange)="eventTypeChange($event)"
+    >
+      <mat-option [value]="0"> Free </mat-option>
+      <mat-option [value]="1"> Payable </mat-option>
+    </mat-select>
+    <mat-error *ngIf="eventForm.controls.eventType.errors?.required">
+      Please select your event <strong>type</strong>
+    </mat-error>
+  </mat-form-field>
+  <button type="button" class="btn btn-info" (click)="openChangeImageDialog()">
+    <span>Change event Picture</span>
+    <mat-icon>attachment</mat-icon>
+  </button>
+  <div class="dialog-close-group">
+    <button type="button" [mat-dialog-close]="false" class="btn btn-danger">
+      Cancel
+    </button>
+    <button type="submit" class="btn btn-success">Update</button>
+  </div>
+</form>

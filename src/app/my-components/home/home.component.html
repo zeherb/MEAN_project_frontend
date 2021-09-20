@@ -332,7 +332,9 @@
         aria-labelledby="simple-dropdown"
       >
         <div class="dropdown-header text-center"><strong>Account</strong></div>
-        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+        <a class="dropdown-item" [routerLink]="['/profile']"
+          ><i class="fa fa-user"></i> Profile</a
+        >
         <a class="dropdown-item" href="#"
           ><i class="fa fa-wrench"></i> Settings</a
         >

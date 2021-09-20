@@ -5,7 +5,7 @@ export interface user {
   email: String;
   events: event[];
   role: String;
-  birthDate: String;
+  birthDate: Date;
   phone: String;
   address: String;
   avatar: String;

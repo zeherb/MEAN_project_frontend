@@ -1,0 +1,25 @@
+#fileInputGroup {
+  display: flex;
+  justify-content: space-between;
+}
+.file {
+  display: none;
+}
+#add-event-btn {
+  color: white;
+  background-color: #bdc3c7;
+}
+#imageForm {
+  width: 100%;
+}
+.example-form-field {
+  width: 100%;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.buttons .btn {
+  width: 40%;
+}

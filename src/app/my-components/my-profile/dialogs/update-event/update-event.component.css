@@ -1,0 +1,48 @@
+#form {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  width: 100%;
+}
+#description {
+  height: 60px;
+  resize: none;
+}
+
+.input-group-text {
+  width: 40px;
+}
+#price-input-group {
+  display: flex;
+}
+#price-label {
+  margin-left: 15px;
+}
+#add-event-btn {
+  color: white;
+  background-color: #bdc3c7;
+}
+#add-event-btn:focus {
+  outline: none;
+}
+#tags-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-info {
+  display: flex;
+  width: 50%;
+  min-width: 200px;
+  justify-content: space-evenly;
+  font-weight: bold;
+  margin-bottom: 20px;
+  align-self: center;
+}
+.dialog-close-group {
+  display: flex;
+  justify-content: space-around;
+}
+.dialog-close-group .btn {
+  width: 40%;
+}
