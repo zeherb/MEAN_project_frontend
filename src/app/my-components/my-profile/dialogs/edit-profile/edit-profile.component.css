@@ -1,0 +1,13 @@
+.buttons {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.buttons .btn {
+  width: 40%;
+}
+mat-form-field {
+  width: 100%;
+  margin-top: 10px;
+}

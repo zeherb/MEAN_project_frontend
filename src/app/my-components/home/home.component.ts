@@ -58,6 +58,16 @@ export class HomeComponent implements OnInit {
         console.log(err);
       },
       () => {
+        for (let i = 0; i < this.eventList.length; i++) {
+          const element = this.eventList[i];
+          if (
+            new Date(element.startDateTime).getTime() < new Date().getTime()
+          ) {
+            this.eventList.splice(i, 1);
+            i--;
+          }
+        }
+
         this.eventList.forEach((element) => {
           element.startDateTime = this.datePipe.transform(
             element.startDateTime,

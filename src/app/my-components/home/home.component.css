@@ -35,7 +35,7 @@ button:focus {
 }
 .cards {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .one-card {
   margin-bottom: 10px;

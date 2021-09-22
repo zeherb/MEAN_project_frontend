@@ -25,6 +25,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatCardModule } from "@angular/material/card";
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -61,6 +62,10 @@ import { AuthInterceptor } from "./services/auth.interceptor";
 import { UpdateEventComponent } from "./my-components/my-profile/dialogs/update-event/update-event.component";
 import { UpdateEventImageComponent } from "./my-components/my-profile/dialogs/update-event-image/update-event-image.component";
 import { ConfirmDeleteEventComponent } from "./my-components/my-profile/dialogs/confirm-delete-event/confirm-delete-event.component";
+import { EditProfileComponent } from "./my-components/my-profile/dialogs/edit-profile/edit-profile.component";
+import { EditAvatarComponent } from "./my-components/my-profile/dialogs/edit-avatar/edit-avatar.component";
+import { ResetPasswordComponent } from './my-components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './my-components/forgot-password/forgot-password.component';
 
 @NgModule({
   imports: [
@@ -97,12 +102,16 @@ import { ConfirmDeleteEventComponent } from "./my-components/my-profile/dialogs/
     MatMenuModule,
     MatCardModule,
     MatTabsModule,
+    MatExpansionModule,
+    HttpClientModule,
   ],
   entryComponents: [
     AddNewTagComponent,
     UpdateEventComponent,
     UpdateEventImageComponent,
     ConfirmDeleteEventComponent,
+    EditProfileComponent,
+    EditAvatarComponent,
   ],
   declarations: [
     AppComponent,
@@ -119,6 +128,10 @@ import { ConfirmDeleteEventComponent } from "./my-components/my-profile/dialogs/
     UpdateEventComponent,
     UpdateEventImageComponent,
     ConfirmDeleteEventComponent,
+    EditProfileComponent,
+    EditAvatarComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent,
   ],
   providers: [
     {
