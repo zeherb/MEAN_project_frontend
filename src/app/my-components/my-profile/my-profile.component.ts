@@ -10,6 +10,7 @@ import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user.service";
 import { navItems } from "../../_nav";
 import { ConfirmDeleteEventComponent } from "./dialogs/confirm-delete-event/confirm-delete-event.component";
+import { EditProfileComponent } from "./dialogs/edit-profile/edit-profile.component";
 import { UpdateEventComponent } from "./dialogs/update-event/update-event.component";
 
 @Component({
@@ -130,7 +131,30 @@ export class MyProfileComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
   updateAvatar() {}
-  updateProfile() {}
+  updateProfile() {
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "70%",
+      maxHeight: window.innerHeight,
+      data: this.connectedUser,
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.userservice
+          .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
+          .subscribe(
+            (res) => {
+              this.connectedUser = res;
+            },
+            (err) => {
+              console.log(err);
+            },
+            () => {}
+          );
+      }
+    });
+  }
   showToaster(type, title, message) {
     this.toaster.pop(type, title, message);
   }

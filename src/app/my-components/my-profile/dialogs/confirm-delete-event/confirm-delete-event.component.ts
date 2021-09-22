@@ -46,10 +46,6 @@ export class ConfirmDeleteEventComponent implements OnInit {
             .split("<br>")
             .shift();
           this.toaster.pop("error", "Error", errorMessage);
-          if (errorMessage.includes("jwt expired")) {
-            this.logout();
-            this.dialogRef.close(false);
-          }
         },
         () => {
           this.toaster.pop("success", "Success", "Event deleted successfully");
