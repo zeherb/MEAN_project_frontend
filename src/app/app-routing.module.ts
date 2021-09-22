@@ -6,10 +6,12 @@ import { DefaultLayoutComponent } from "./containers";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { AuthGuard } from "./my-components/auth.guard";
 import { ConnectedGuard } from "./my-components/connected.guard";
+import { ForgotPasswordComponent } from "./my-components/forgot-password/forgot-password.component";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 import { MyProfileComponent } from "./my-components/my-profile/my-profile.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
+import { ResetPasswordComponent } from "./my-components/reset-password/reset-password.component";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
 
@@ -34,6 +36,14 @@ export const routes: Routes = [
     },
   },
   // ************
+  {
+    path: "forgot-password",
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: "reset-password/:token",
+    component: ResetPasswordComponent,
+  },
   {
     path: "login",
     component: MyLoginComponent,
