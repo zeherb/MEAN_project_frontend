@@ -21,7 +21,7 @@ export class ResetPasswordComponent implements OnInit {
   passwordRegex = "^(?=.*[0-9])(?=.*[a-zA-Z])[^]*([a-zA-Z0-9]+[^]*)$";
   token: any;
   constructor(
-    private _activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private resetPass: RestePasswordService,
     private toaster: ToasterService,
     private router: Router
@@ -36,7 +36,7 @@ export class ResetPasswordComponent implements OnInit {
           Validators.minLength(4),
         ]),
         confirmPassword: new FormControl("", Validators.required),
-        token: new FormControl(this._activatedRoute.snapshot.params.token),
+        token: new FormControl(this.activatedRoute.snapshot.params.token),
       },
       { validators: [this.checkPasswords] }
     );

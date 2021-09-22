@@ -21,12 +21,18 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const loginToken = JSON.parse(localStorage.getItem("loginToken"))?.token;
-    request = request.clone({
-      setHeaders: {
-        authorization: "Bearer " + loginToken,
-      },
-    });
-    return next.handle(request).catch((err) => {
+    let newRequest;
+    if (loginToken !== undefined) {
+      newRequest = request.clone({
+        setHeaders: {
+          authorization: "Bearer " + loginToken,
+        },
+      });
+    } else {
+      newRequest = request;
+    }
+
+    return next.handle(newRequest).catch((err) => {
       if (err instanceof HttpErrorResponse) {
         console.log(err.status);
         console.log(err.statusText);

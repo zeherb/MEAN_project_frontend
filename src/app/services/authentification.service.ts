@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Router } from "@angular/router";
+import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +19,19 @@ export class AuthentificationService {
     return this.http.post<any>(this.userUrl + "/register", registerForm);
   }
   checkLoggedIn(): boolean {
-    return !!localStorage.getItem("loginToken");
+    const token = JSON.parse(localStorage.getItem("loginToken")).token;
+    if (token !== null && token !== undefined) {
+      return this.checkTokenIsNotExpired(token);
+    } else {
+      return false;
+    }
+
+    // return !!localStorage.getItem("loginToken");
+  }
+  checkTokenIsNotExpired(token: string): boolean {
+    const decoded: any = jwtDecode(token);
+    const currentDate = new Date();
+    return decoded.exp >= Math.floor(currentDate.getTime() / 1000);
   }
   checkNotConnected(): boolean {
     if (!localStorage.getItem("loginToken")) {
