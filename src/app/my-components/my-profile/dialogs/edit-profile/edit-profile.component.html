@@ -1,0 +1,119 @@
+<form [formGroup]="editProfileForm" (ngSubmit)="editProfile(editProfileForm)">
+  <h1>Edit profile</h1>
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel class="firstName">
+      <mat-expansion-panel-header>
+        <mat-panel-title> First name </mat-panel-title>
+        <mat-panel-description> {{ user.firstName }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="firstName" />
+        <mat-error *ngIf="editProfileForm.controls.firstName.errors?.required">
+          Please write your <strong>First name</strong>
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls.firstName.errors?.pattern">
+          Wrong <strong>First name</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="lastName">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Last name </mat-panel-title>
+        <mat-panel-description> {{ user.lastName }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="lastName" />
+        <mat-error *ngIf="editProfileForm.controls.lastName.errors?.required">
+          Please write your <strong>Last name</strong>
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls.lastName.errors?.pattern">
+          Wrong <strong>Last name</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="email">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Email </mat-panel-title>
+        <mat-panel-description> {{ user.email }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="editProfileForm.controls.email.errors?.required">
+          Please write your <strong>Email</strong>
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls.email.errors?.email">
+          Wrong <strong>Email</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="birthDate">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Birth Date</mat-panel-title>
+        <mat-panel-description> {{ usersBD }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input
+          matInput
+          formControlName="birthDate"
+          [matDatepicker]="picker"
+          (focus)="picker.open()"
+          readonly
+        />
+        <mat-error *ngIf="editProfileForm.controls.birthDate.errors?.required">
+          Please Select your <strong>Birthday</strong>
+        </mat-error>
+
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="phone">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Phone</mat-panel-title>
+        <mat-panel-description> {{ user.phone }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="phone" />
+        <mat-error *ngIf="editProfileForm.controls.phone.errors?.required">
+          Please write your <strong>Phone number</strong>
+        </mat-error>
+        <mat-error *ngIf="editProfileForm.controls.phone.errors?.pattern">
+          Wrong <strong>Phone number</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="address">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Address</mat-panel-title>
+        <mat-panel-description> {{ user.address }} </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="address" />
+        <mat-error *ngIf="editProfileForm.controls.address.errors?.required">
+          Please write your <strong>Address</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="buttons">
+    <button [mat-dialog-close]="false" class="btn btn-danger">Cancel</button>
+    <button class="btn btn-success">Update</button>
+  </div>
+</form>
+<!-- 
+<form class="profileInfos">
+   
+  </div>
+  <div class="address"></div>
+  <div class="birthDate"></div>
+  <div class="firstName"></div>
+  <div class="phone"></div>
+  <div class="firstName"></div>
+</div> -->
