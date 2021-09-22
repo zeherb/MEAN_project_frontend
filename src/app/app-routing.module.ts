@@ -39,10 +39,12 @@ export const routes: Routes = [
   {
     path: "forgot-password",
     component: ForgotPasswordComponent,
+    canActivate: [ConnectedGuard],
   },
   {
     path: "reset-password/:token",
     component: ResetPasswordComponent,
+    canActivate: [ConnectedGuard],
   },
   {
     path: "login",
