@@ -8,6 +8,7 @@ import { environment } from "../../environments/environment";
 })
 export class UserService {
   userUrl = environment.baseUrl + "/users";
+  userAvatarUrl = environment.baseUrl + "/users-avatar";
 
   constructor(private http: HttpClient) {}
   getUsers(): Observable<any> {
@@ -18,5 +19,8 @@ export class UserService {
   }
   updateUser(id: any, body: any): Observable<any> {
     return this.http.put<any>(this.userUrl + "/" + id, body);
+  }
+  updateUsersAvatar(id: any, body: any): Observable<any> {
+    return this.http.put<any>(this.userAvatarUrl + "/" + id, body);
   }
 }

@@ -22,6 +22,7 @@ import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
 import { user } from "../../models/user";
 import { environment } from "../../../environments/environment";
+import jwtDecode from "jwt-decode";
 
 @Component({
   selector: "app-add-event",
@@ -41,6 +42,7 @@ export class AddEventComponent implements OnInit {
   filteredTags: Observable<string[]>;
   selectedTags: string[] = [];
   connectedUser: user;
+  userId: any;
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
@@ -71,17 +73,18 @@ export class AddEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService
-      .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-      .subscribe(
-        (res) => {
-          this.connectedUser = res;
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {}
-      );
+    this.userId = jwtDecode<any>(
+      JSON.parse(localStorage.getItem("loginToken")).token
+    ).userId;
+    this.userService.getUserById(this.userId).subscribe(
+      (res) => {
+        this.connectedUser = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
 
     this.tagService.getAllTags().subscribe(
       (res) => {
@@ -154,8 +157,7 @@ export class AddEventComponent implements OnInit {
       formData.append("endDateTime", form.get("endDateTime").value);
       formData.append("eventType", form.get("eventType").value);
       formData.append("image", form.get("fakeImage").value);
-      let userId = JSON.parse(localStorage.getItem("loginToken")).userId;
-      this.eventService.addNewEvent(userId, formData).subscribe(
+      this.eventService.addNewEvent(this.userId, formData).subscribe(
         (res) => {
           console.log(res);
         },

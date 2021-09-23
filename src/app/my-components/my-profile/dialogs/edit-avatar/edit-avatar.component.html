@@ -1,1 +1,62 @@
-<p>edit-avatar works!</p>
+<h1>Uplaod new profile picture</h1>
+<form
+  [formGroup]="avatarForm"
+  id="avatarForm"
+  (ngSubmit)="submitForm(avatarForm)"
+>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Select your event image</mat-label>
+    <div id="fileInputGroup">
+      <input
+        type="file"
+        formControlName="image"
+        name="file"
+        id="file"
+        #fileInput
+        class="file"
+        (change)="fileSelected(fileInput, readOnlyInput, $event)"
+      />
+      <input
+        matInput
+        type="text"
+        name="file-name"
+        placeholder="Select your avatar"
+        id="file-name"
+        #readOnlyInput
+        (click)="fileInput.click()"
+        formControlName="readOnlyInput"
+        readonly="readonly"
+      />
+      <input type="text" formControlName="fakeImage" style="display: none" />
+      <button
+        type="button"
+        id="add-event-btn"
+        (click)="fileInput.click()"
+        mat-mini-fab
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <mat-error
+      class="error"
+      *ngIf="avatarForm.controls.readOnlyInput.errors?.required"
+      >Please select a <strong>file</strong></mat-error
+    >
+    <mat-error
+      class="error"
+      *ngIf="
+        avatarForm.controls.readOnlyInput.errors?.pattern &&
+        !avatarForm.controls.readOnlyInput.errors?.required
+      "
+      >Wrong <strong>file</strong></mat-error
+    >
+  </mat-form-field>
+  <div id="buttons">
+    <button type="button" class="btn btn-danger" [mat-dialog-close]="false">
+      Cancel <mat-icon>close</mat-icon>
+    </button>
+    <button type="submit" class="btn btn-success">
+      Confirm <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</form>

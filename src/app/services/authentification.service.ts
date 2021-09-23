@@ -25,8 +25,6 @@ export class AuthentificationService {
     } else {
       return false;
     }
-
-    // return !!localStorage.getItem("loginToken");
   }
   checkTokenIsNotExpired(token: string): boolean {
     const decoded: any = jwtDecode(token);
