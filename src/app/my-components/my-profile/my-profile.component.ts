@@ -176,10 +176,73 @@ export class MyProfileComponent implements OnInit {
       data: event,
     });
     dialogRef.afterClosed().subscribe(() => {
+      this.finishedEvents = [];
+      this.liveEvents = [];
       this.programmedEvents = [];
-      this.userservice
-        .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-        .subscribe(
+      this.userservice.getUserById(this.userId).subscribe(
+        (res) => {
+          this.connectedUser = res;
+        },
+        (err) => {},
+        () => {
+          this.connectedUserBirthDay = this.datePipe.transform(
+            this.connectedUser.birthDate,
+            "dd MMMM yyyy"
+          );
+
+          this.connectedUser.events.forEach((element) => {
+            if (this.today > new Date(element.endDateTime).getTime()) {
+              element.startDateTime = this.datePipe.transform(
+                element.startDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+              element.endDateTime = this.datePipe.transform(
+                element.endDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+
+              this.finishedEvents.push(element);
+            } else if (this.today > new Date(element.startDateTime).getTime()) {
+              element.startDateTime = this.datePipe.transform(
+                element.startDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+              element.endDateTime = this.datePipe.transform(
+                element.endDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+
+              this.liveEvents.push(element);
+            } else if (this.today < new Date(element.startDateTime).getTime()) {
+              element.startDateTime = this.datePipe.transform(
+                element.startDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+              element.endDateTime = this.datePipe.transform(
+                element.endDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+
+              this.programmedEvents.push(element);
+            }
+          });
+        }
+      );
+    });
+  }
+  confirmDeleteDialog(event) {
+    const dialogRef = this.dialog.open(ConfirmDeleteEventComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "70%",
+      data: event,
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.finishedEvents = [];
+        this.liveEvents = [];
+        this.programmedEvents = [];
+        this.userservice.getUserById(this.userId).subscribe(
           (res) => {
             this.connectedUser = res;
           },
@@ -191,10 +254,7 @@ export class MyProfileComponent implements OnInit {
             );
 
             this.connectedUser.events.forEach((element) => {
-              if (
-                this.today >
-                formatDate(element.endDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-              ) {
+              if (this.today > new Date(element.endDateTime).getTime()) {
                 element.startDateTime = this.datePipe.transform(
                   element.startDateTime,
                   "dd-MMM-yyyy, HH:mm"
@@ -206,8 +266,7 @@ export class MyProfileComponent implements OnInit {
 
                 this.finishedEvents.push(element);
               } else if (
-                this.today >
-                formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
+                this.today > new Date(element.startDateTime).getTime()
               ) {
                 element.startDateTime = this.datePipe.transform(
                   element.startDateTime,
@@ -220,8 +279,7 @@ export class MyProfileComponent implements OnInit {
 
                 this.liveEvents.push(element);
               } else if (
-                this.today <
-                formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
+                this.today < new Date(element.startDateTime).getTime()
               ) {
                 element.startDateTime = this.datePipe.transform(
                   element.startDateTime,
@@ -237,78 +295,6 @@ export class MyProfileComponent implements OnInit {
             });
           }
         );
-    });
-  }
-  confirmDeleteDialog(event) {
-    const dialogRef = this.dialog.open(ConfirmDeleteEventComponent, {
-      height: "fit-content",
-      minWidth: "300px",
-      width: "70%",
-      data: event,
-    });
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.programmedEvents = [];
-        this.userservice
-          .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-          .subscribe(
-            (res) => {
-              this.connectedUser = res;
-            },
-            (err) => {},
-            () => {
-              this.connectedUserBirthDay = this.datePipe.transform(
-                this.connectedUser.birthDate,
-                "dd MMMM yyyy"
-              );
-
-              this.connectedUser.events.forEach((element) => {
-                if (
-                  this.today >
-                  formatDate(element.endDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-                ) {
-                  element.startDateTime = this.datePipe.transform(
-                    element.startDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-                  element.endDateTime = this.datePipe.transform(
-                    element.endDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-
-                  this.finishedEvents.push(element);
-                } else if (
-                  this.today >
-                  formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-                ) {
-                  element.startDateTime = this.datePipe.transform(
-                    element.startDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-                  element.endDateTime = this.datePipe.transform(
-                    element.endDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-
-                  this.liveEvents.push(element);
-                } else if (
-                  this.today <
-                  formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-                ) {
-                  element.startDateTime = this.datePipe.transform(
-                    element.startDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-                  element.endDateTime = this.datePipe.transform(
-                    element.endDateTime,
-                    "dd-MMM-yyyy, HH:mm"
-                  );
-
-                  this.programmedEvents.push(element);
-                }
-              });
-            }
-          );
       }
     });
   }
