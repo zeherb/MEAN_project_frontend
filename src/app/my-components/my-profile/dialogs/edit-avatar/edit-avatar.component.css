@@ -1,0 +1,29 @@
+.file {
+  display: none;
+}
+
+#fileInputGroup {
+  display: flex;
+  justify-content: space-between;
+}
+#add-event-btn {
+  color: white;
+  background-color: #bdc3c7;
+}
+#add-event-btn:focus {
+  outline: none;
+}
+.example-form-field {
+  width: 100%;
+}
+#buttons {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+#buttons .btn {
+  width: 120px;
+  display: flex;
+  justify-content: space-evenly;
+}

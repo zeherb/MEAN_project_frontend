@@ -27,11 +27,6 @@ export class MyProfileComponent implements OnInit {
   liveEvents: any[];
   programmedEvents: any[];
   today: any;
-  todayDay: any;
-  todayMonth: any;
-  todayYear: any;
-  todayHours: any;
-  todayMinutes: any;
   userId: any;
 
   public navItems = navItems;
@@ -41,7 +36,6 @@ export class MyProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private datePipe: DatePipe,
-    private eventService: EventService,
     private dialog: MatDialog,
     private userservice: UserService,
     private toaster: ToasterService,
@@ -60,7 +54,6 @@ export class MyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.today = Date.now();
-    this.today = formatDate(this.today, "yyyy-MM-dd-HH-mm", "en_Us");
     this.finishedEvents = [];
     this.liveEvents = [];
     this.programmedEvents = [];
@@ -79,10 +72,7 @@ export class MyProfileComponent implements OnInit {
         );
 
         this.connectedUser.events.forEach((element) => {
-          if (
-            this.today >
-            formatDate(element.endDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-          ) {
+          if (this.today > new Date(element.endDateTime).getTime()) {
             element.startDateTime = this.datePipe.transform(
               element.startDateTime,
               "dd-MMM-yyyy, HH:mm"
@@ -93,10 +83,7 @@ export class MyProfileComponent implements OnInit {
             );
 
             this.finishedEvents.push(element);
-          } else if (
-            this.today >
-            formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-          ) {
+          } else if (this.today > new Date(element.startDateTime).getTime()) {
             element.startDateTime = this.datePipe.transform(
               element.startDateTime,
               "dd-MMM-yyyy, HH:mm"
@@ -107,10 +94,7 @@ export class MyProfileComponent implements OnInit {
             );
 
             this.liveEvents.push(element);
-          } else if (
-            this.today <
-            formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-          ) {
+          } else if (this.today < new Date(element.startDateTime).getTime()) {
             element.startDateTime = this.datePipe.transform(
               element.startDateTime,
               "dd-MMM-yyyy, HH:mm"
@@ -137,7 +121,20 @@ export class MyProfileComponent implements OnInit {
       height: "fit-content",
       minWidth: "300px",
       width: "70%",
-      data: this.connectedUser,
+      data: this.userId,
+    });
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.userservice.getUserById(this.userId).subscribe(
+          (res) => {
+            this.connectedUser = res;
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {}
+        );
+      }
     });
   }
   updateProfile() {
@@ -150,17 +147,20 @@ export class MyProfileComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.userservice
-          .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-          .subscribe(
-            (res) => {
-              this.connectedUser = res;
-            },
-            (err) => {
-              console.log(err);
-            },
-            () => {}
-          );
+        this.userservice.getUserById(this.userId).subscribe(
+          (res) => {
+            this.connectedUser = res;
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            this.connectedUserBirthDay = this.datePipe.transform(
+              this.connectedUser.birthDate,
+              "dd MMMM yyyy"
+            );
+          }
+        );
       }
     });
   }
