@@ -8,6 +8,7 @@ import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
+import jwtDecode from "jwt-decode";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -17,6 +18,7 @@ export class HomeComponent implements OnInit {
   eventList: event[];
   baseUrl = environment.baseUrl;
   connectedUser: user;
+  userId: any;
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
@@ -41,15 +43,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userservice
-      .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-      .subscribe(
-        (res) => {
-          this.connectedUser = res;
-        },
-        (err) => {},
-        () => {}
-      );
+    this.userId = jwtDecode<any>(
+      JSON.parse(localStorage.getItem("loginToken")).token
+    ).userId;
+    this.userservice.getUserById(this.userId).subscribe(
+      (res) => {
+        this.connectedUser = res;
+      },
+      (err) => {},
+      () => {}
+    );
     this.eventService.getAllEvents().subscribe(
       (res) => {
         this.eventList = res;

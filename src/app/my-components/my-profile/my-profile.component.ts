@@ -4,14 +4,15 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import { environment } from "../../../environments/environment";
-import { event } from "../../models/event";
 import { user } from "../../models/user";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user.service";
 import { navItems } from "../../_nav";
 import { ConfirmDeleteEventComponent } from "./dialogs/confirm-delete-event/confirm-delete-event.component";
+import { EditAvatarComponent } from "./dialogs/edit-avatar/edit-avatar.component";
 import { EditProfileComponent } from "./dialogs/edit-profile/edit-profile.component";
 import { UpdateEventComponent } from "./dialogs/update-event/update-event.component";
+import jwtDecode from "jwt-decode";
 
 @Component({
   selector: "app-my-profile",
@@ -31,6 +32,7 @@ export class MyProfileComponent implements OnInit {
   todayYear: any;
   todayHours: any;
   todayMinutes: any;
+  userId: any;
 
   public navItems = navItems;
   public sidebarMinimized = true;
@@ -62,67 +64,67 @@ export class MyProfileComponent implements OnInit {
     this.finishedEvents = [];
     this.liveEvents = [];
     this.programmedEvents = [];
+    this.userId = jwtDecode<any>(
+      JSON.parse(localStorage.getItem("loginToken")).token
+    ).userId;
+    this.userservice.getUserById(this.userId).subscribe(
+      (res) => {
+        this.connectedUser = res;
+      },
+      (err) => {},
+      () => {
+        this.connectedUserBirthDay = this.datePipe.transform(
+          this.connectedUser.birthDate,
+          "dd MMMM yyyy"
+        );
 
-    this.userservice
-      .getUserById(JSON.parse(localStorage.getItem("loginToken")).userId)
-      .subscribe(
-        (res) => {
-          this.connectedUser = res;
-        },
-        (err) => {},
-        () => {
-          this.connectedUserBirthDay = this.datePipe.transform(
-            this.connectedUser.birthDate,
-            "dd MMMM yyyy"
-          );
+        this.connectedUser.events.forEach((element) => {
+          if (
+            this.today >
+            formatDate(element.endDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
+          ) {
+            element.startDateTime = this.datePipe.transform(
+              element.startDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
+            element.endDateTime = this.datePipe.transform(
+              element.endDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
 
-          this.connectedUser.events.forEach((element) => {
-            if (
-              this.today >
-              formatDate(element.endDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-            ) {
-              element.startDateTime = this.datePipe.transform(
-                element.startDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
-              element.endDateTime = this.datePipe.transform(
-                element.endDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
+            this.finishedEvents.push(element);
+          } else if (
+            this.today >
+            formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
+          ) {
+            element.startDateTime = this.datePipe.transform(
+              element.startDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
+            element.endDateTime = this.datePipe.transform(
+              element.endDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
 
-              this.finishedEvents.push(element);
-            } else if (
-              this.today >
-              formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-            ) {
-              element.startDateTime = this.datePipe.transform(
-                element.startDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
-              element.endDateTime = this.datePipe.transform(
-                element.endDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
+            this.liveEvents.push(element);
+          } else if (
+            this.today <
+            formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
+          ) {
+            element.startDateTime = this.datePipe.transform(
+              element.startDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
+            element.endDateTime = this.datePipe.transform(
+              element.endDateTime,
+              "dd-MMM-yyyy, HH:mm"
+            );
 
-              this.liveEvents.push(element);
-            } else if (
-              this.today <
-              formatDate(element.startDateTime, "yyyy-MM-dd-HH-mm", "en_Us")
-            ) {
-              element.startDateTime = this.datePipe.transform(
-                element.startDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
-              element.endDateTime = this.datePipe.transform(
-                element.endDateTime,
-                "dd-MMM-yyyy, HH:mm"
-              );
-
-              this.programmedEvents.push(element);
-            }
-          });
-        }
-      );
+            this.programmedEvents.push(element);
+          }
+        });
+      }
+    );
   }
 
   logOut() {
@@ -130,7 +132,14 @@ export class MyProfileComponent implements OnInit {
     this.showToaster("success", "Success", "Logged out successfully");
     this.router.navigate(["/login"]);
   }
-  updateAvatar() {}
+  updateAvatar() {
+    const dialogRef = this.dialog.open(EditAvatarComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "70%",
+      data: this.connectedUser,
+    });
+  }
   updateProfile() {
     const dialogRef = this.dialog.open(EditProfileComponent, {
       height: "fit-content",
