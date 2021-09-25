@@ -1,0 +1,12 @@
+<h1>Booking confirmation :</h1>
+<h2>Hello {{ user.firstName }},</h2>
+<h3>After confirming you will recieve you ticket on this email :</h3>
+<h3>{{ user.email }}</h3>
+<div class="buttons">
+  <button class="btn btn-danger" [mat-dialog-close]="false">
+    <span>Cancel</span><mat-icon>close</mat-icon>
+  </button>
+  <button class="btn btn-success" (click)="confirm(event, user)">
+    <span>Confirm</span><mat-icon>check</mat-icon>
+  </button>
+</div>
