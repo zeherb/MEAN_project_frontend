@@ -44,7 +44,11 @@
       >
         <span>Book</span><mat-icon>assignment_turned_in</mat-icon>
       </button>
-      <button class="btn btn-success" *ngIf="event.eventType !== 'Free'">
+      <button
+        class="btn btn-success"
+        *ngIf="event.eventType !== 'Free'"
+        (click)="openStripe($event)"
+      >
         <span>Pay</span><mat-icon>payment</mat-icon>
       </button>
     </div>

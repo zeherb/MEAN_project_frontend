@@ -483,6 +483,7 @@
                   <button
                     *ngIf="event.availableTicketNumber > 0"
                     class="btn btn-success"
+                    (click)="openBookingDialog(event)"
                   >
                     Book
                   </button>
