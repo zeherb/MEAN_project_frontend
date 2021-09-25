@@ -21,7 +21,6 @@ export class ConfirmBookingComponent implements OnInit {
   ngOnInit(): void {
     this.event = this.data.event;
     this.user = this.data.user;
-    console.log(this.data);
   }
   confirm(event, user) {
     this.reservationService.reservation(event._id, user._id).subscribe(

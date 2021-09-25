@@ -25,7 +25,6 @@ export class BookingDialogComponent implements OnInit {
   ngOnInit(): void {
     this.event = this.data.event;
     this.user = this.data.user;
-    console.log(this.data);
   }
   openConfirmation(event, user) {
     const dialogRef = this.dialog.open(ConfirmBookingComponent, {
