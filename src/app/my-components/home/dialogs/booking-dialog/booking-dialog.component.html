@@ -1,0 +1,56 @@
+<div class="mainContent">
+  <div class="backGround">
+    <img src="{{ baseUrl }}/event-pics/{{ event.image }}" alt="" />
+  </div>
+  <div class="content">
+    <h1 class="oneInfo">
+      Tilte: <span>{{ event.title }}</span>
+    </h1>
+    <hr />
+    <h2 class="oneInfo">
+      Starts at: <span>{{ event.startDateTime }}</span>
+    </h2>
+    <hr />
+
+    <h2 class="oneInfo">
+      Ends at: <span>{{ event.endDateTime }}</span>
+    </h2>
+    <hr />
+
+    <h2 class="oneInfo">
+      Location:<span> {{ event.location }}</span>
+    </h2>
+    <hr />
+
+    <h2 class="oneInfo">
+      Description:<small> {{ event.description }}</small>
+    </h2>
+    <hr />
+
+    <h1 class="oneInfo" *ngIf="event.eventType !== 'Free'">
+      Price: <span> {{ event.price }} $</span>
+    </h1>
+    <h1 class="oneInfo" *ngIf="event.eventType == 'Free'">
+      Price: <span> {{ event.eventType }} </span>
+    </h1>
+    <div class="buttons">
+      <button [mat-dialog-close]="false" class="btn btn-danger">
+        <span>Close</span><mat-icon>close</mat-icon>
+      </button>
+      <button
+        class="btn btn-success"
+        *ngIf="event.eventType == 'Free'"
+        (click)="openConfirmation(event, user)"
+      >
+        <span>Book</span><mat-icon>assignment_turned_in</mat-icon>
+      </button>
+      <button
+        class="btn btn-success"
+        *ngIf="event.eventType !== 'Free'"
+        (click)="openStripe($event)"
+      >
+        <span>Pay</span><mat-icon>payment</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,8 @@ import { UserService } from "../../services/user.service";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
+import { MatDialog } from "@angular/material/dialog";
+import { BookingDialogComponent } from "./dialogs/booking-dialog/booking-dialog.component";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -29,6 +31,7 @@ export class HomeComponent implements OnInit {
     private eventService: EventService,
     private userservice: UserService,
     private toaster: ToasterService,
+    private dialog: MatDialog,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -91,5 +94,48 @@ export class HomeComponent implements OnInit {
   }
   showToaster(type, title, message) {
     this.toaster.pop(type, title, message);
+  }
+  openBookingDialog(event) {
+    const dialogRef = this.dialog.open(BookingDialogComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "70%",
+      maxHeight: window.innerHeight,
+      data: { event: event, user: this.connectedUser },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: Boolean) => {
+      if (confirmed) {
+        this.eventService.getAllEvents().subscribe(
+          (res) => {
+            this.eventList = res;
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            for (let i = 0; i < this.eventList.length; i++) {
+              const element = this.eventList[i];
+              if (
+                new Date(element.startDateTime).getTime() < new Date().getTime()
+              ) {
+                this.eventList.splice(i, 1);
+                i--;
+              }
+            }
+
+            this.eventList.forEach((element) => {
+              element.startDateTime = this.datePipe.transform(
+                element.startDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+              element.endDateTime = this.datePipe.transform(
+                element.endDateTime,
+                "dd-MMM-yyyy, HH:mm"
+              );
+            });
+          }
+        );
+      }
+    });
   }
 }

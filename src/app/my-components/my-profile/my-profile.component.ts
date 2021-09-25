@@ -13,6 +13,7 @@ import { EditAvatarComponent } from "./dialogs/edit-avatar/edit-avatar.component
 import { EditProfileComponent } from "./dialogs/edit-profile/edit-profile.component";
 import { UpdateEventComponent } from "./dialogs/update-event/update-event.component";
 import jwtDecode from "jwt-decode";
+import { BookingDialogComponent } from "../home/dialogs/booking-dialog/booking-dialog.component";
 
 @Component({
   selector: "app-my-profile",
@@ -238,6 +239,75 @@ export class MyProfileComponent implements OnInit {
       data: event,
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.finishedEvents = [];
+        this.liveEvents = [];
+        this.programmedEvents = [];
+        this.userservice.getUserById(this.userId).subscribe(
+          (res) => {
+            this.connectedUser = res;
+          },
+          (err) => {},
+          () => {
+            this.connectedUserBirthDay = this.datePipe.transform(
+              this.connectedUser.birthDate,
+              "dd MMMM yyyy"
+            );
+
+            this.connectedUser.events.forEach((element) => {
+              if (this.today > new Date(element.endDateTime).getTime()) {
+                element.startDateTime = this.datePipe.transform(
+                  element.startDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+                element.endDateTime = this.datePipe.transform(
+                  element.endDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+
+                this.finishedEvents.push(element);
+              } else if (
+                this.today > new Date(element.startDateTime).getTime()
+              ) {
+                element.startDateTime = this.datePipe.transform(
+                  element.startDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+                element.endDateTime = this.datePipe.transform(
+                  element.endDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+
+                this.liveEvents.push(element);
+              } else if (
+                this.today < new Date(element.startDateTime).getTime()
+              ) {
+                element.startDateTime = this.datePipe.transform(
+                  element.startDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+                element.endDateTime = this.datePipe.transform(
+                  element.endDateTime,
+                  "dd-MMM-yyyy, HH:mm"
+                );
+
+                this.programmedEvents.push(element);
+              }
+            });
+          }
+        );
+      }
+    });
+  }
+  openBookingDialog(event) {
+    const dialogRef = this.dialog.open(BookingDialogComponent, {
+      height: "fit-content",
+      minWidth: "300px",
+      width: "70%",
+      maxHeight: window.innerHeight,
+      data: { event: event, user: this.connectedUser },
+    });
+    dialogRef.afterClosed().subscribe((confirmed: Boolean) => {
       if (confirmed) {
         this.finishedEvents = [];
         this.liveEvents = [];

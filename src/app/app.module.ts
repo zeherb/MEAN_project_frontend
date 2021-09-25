@@ -64,8 +64,10 @@ import { UpdateEventImageComponent } from "./my-components/my-profile/dialogs/up
 import { ConfirmDeleteEventComponent } from "./my-components/my-profile/dialogs/confirm-delete-event/confirm-delete-event.component";
 import { EditProfileComponent } from "./my-components/my-profile/dialogs/edit-profile/edit-profile.component";
 import { EditAvatarComponent } from "./my-components/my-profile/dialogs/edit-avatar/edit-avatar.component";
-import { ResetPasswordComponent } from './my-components/reset-password/reset-password.component';
-import { ForgotPasswordComponent } from './my-components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from "./my-components/reset-password/reset-password.component";
+import { ForgotPasswordComponent } from "./my-components/forgot-password/forgot-password.component";
+import { BookingDialogComponent } from "./my-components/home/dialogs/booking-dialog/booking-dialog.component";
+import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-booking/confirm-booking.component";
 
 @NgModule({
   imports: [
@@ -112,13 +114,14 @@ import { ForgotPasswordComponent } from './my-components/forgot-password/forgot-
     ConfirmDeleteEventComponent,
     EditProfileComponent,
     EditAvatarComponent,
+    BookingDialogComponent,
+    ConfirmBookingComponent,
   ],
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
     P404Component,
     P500Component,
-
     MyRegisterComponent,
     MyLoginComponent,
     HomeComponent,
@@ -132,6 +135,8 @@ import { ForgotPasswordComponent } from './my-components/forgot-password/forgot-
     EditAvatarComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    BookingDialogComponent,
+    ConfirmBookingComponent,
   ],
   providers: [
     {

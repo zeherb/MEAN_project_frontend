@@ -11,3 +11,16 @@ mat-form-field {
   width: 100%;
   margin-top: 10px;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}
