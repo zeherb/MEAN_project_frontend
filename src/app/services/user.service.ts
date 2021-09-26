@@ -23,4 +23,13 @@ export class UserService {
   updateUsersAvatar(id: any, body: any): Observable<any> {
     return this.http.put<any>(this.userAvatarUrl + "/" + id, body);
   }
+  affectAdminRole(id: any, body?: any): Observable<any> {
+    return this.http.put(this.userUrl + "/affectRole/" + id, body);
+  }
+  desaffectAdminRole(id: any, body?: any): Observable<any> {
+    return this.http.put(this.userUrl + "/desaffectRole/" + id, body);
+  }
+  deleteUser(id: any): Observable<any> {
+    return this.http.delete(this.userUrl + "/" + id);
+  }
 }

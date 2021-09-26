@@ -1,0 +1,352 @@
+<app-header
+  [navbarBrandRouterLink]="['/home']"
+  [fixed]="true"
+  [navbarBrandFull]="{
+    src: '../../assets/img/CodeEventLogo.png',
+    width: 120,
+    height: 36,
+    alt: 'Event Code logo'
+  }"
+  [navbarBrandMinimized]="{
+    src: '../../assets/img/CodeEventLogo.png',
+    width: 120,
+    height: 36,
+    alt: 'Event Code logo'
+  }"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="false"
+  [mobileAsideMenuToggler]="false"
+>
+  <ul class="components nav navbar-nav d-md-down-none">
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/home']">Home</a>
+    </li>
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/add-event']">Add Event</a>
+    </li>
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+    </li>
+  </ul>
+  <ul class="utilities nav navbar-nav ml-auto">
+    <li
+      *ngIf="connectedUser?.role == 'admin'"
+      class="nav-item dropdown d-md-down-none"
+      dropdown
+      placement="bottom right"
+    >
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <i class="fa fa-id-badge fa-lg"></i>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right dropdown-menu-lg"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center">
+          <strong>Admin space</strong>
+        </div>
+        <a [routerLink]="['/admin-space-users']" class="dropdown-item">
+          <i class="icon-user-follow text-success"></i> Users
+        </a>
+        <a [routerLink]="['/admin-space-events']" class="dropdown-item">
+          <i class="icon-chart text-info"></i> Events
+        </a>
+        <a [routerLink]="['/admin-space-tickets']" class="dropdown-item">
+          <i class="icon-basket-loaded text-primary"></i> Tickets
+        </a>
+        <a [routerLink]="['/admin-space-tags']" class="dropdown-item">
+          <i class="icon-speedometer text-warning"></i> Tags
+        </a>
+      </div>
+    </li>
+    <li
+      class="nav-item dropdown d-md-down-none"
+      dropdown
+      placement="bottom right"
+    >
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <i class="icon-bell"></i
+        ><span class="badge badge-pill badge-danger">7</span>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right dropdown-menu-lg"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center">
+          <strong>Notifications</strong>
+        </div>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/7.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-success"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">Just now</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              <span class="fa fa-exclamation text-danger"></span> Important
+              message
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/6.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-warning"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">5 minutes ago</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/5.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-danger"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">1:52 PM</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/4.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-info"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">4:03 PM</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+      </div>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <img
+          *ngIf="connectedUser"
+          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }}"
+          class="img-avatar"
+          alt="prifile-pic"
+        />
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center"><strong>Account</strong></div>
+        <a class="dropdown-item" [routerLink]="['/profile']"
+          ><i class="fa fa-user"></i> Profile</a
+        >
+        <a class="dropdown-item" href="#"
+          ><i class="fa fa-wrench"></i> Settings</a
+        >
+
+        <a class="dropdown-item" (click)="logOut()"
+          ><i class="fa fa-lock"></i> Logout</a
+        >
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body">
+  <app-sidebar [fixed]="true" [display]="'xs'">
+    <app-sidebar-nav
+      [navItems]="navItems"
+      [perfectScrollbar]
+      [disabled]="sidebarMinimized"
+    ></app-sidebar-nav>
+  </app-sidebar>
+  <!-- Main content -->
+  <div class="main">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
+          <li class="d-flex col-9 col-md-8">
+            <input
+              class="form-control me-2 search-input"
+              type="search"
+              placeholder="Search for events"
+              aria-label="Search"
+            />
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="content">
+      <h1 class="page-title">Admin Space : Users</h1>
+      <div class="list admins">
+        <h1>Admins</h1>
+        <hr />
+        <mat-card class="example-card" *ngFor="let admin of adminList">
+          <mat-card-title-group>
+            <mat-card-title
+              >{{ admin.firstName }} {{ admin.lastName }}</mat-card-title
+            >
+            <mat-card-subtitle>{{ admin.role }}</mat-card-subtitle>
+            <img
+              class="card-img-avatar"
+              mat-card-sm-image
+              src="{{ baseUrl }}/avatar/{{ admin.avatar }}"
+            />
+          </mat-card-title-group>
+          <mat-card-content class="card-content">
+            <div class="infos">
+              <p><strong>Email :</strong> {{ admin.email }}</p>
+              <p><strong>Birth Date :</strong> {{ admin.birthDate }}</p>
+              <p><strong>Address :</strong> {{ admin.address }}</p>
+              <p><strong>Phone number:</strong> {{ admin.phone }}</p>
+              <p>
+                <strong>Total created events :</strong>
+                {{ admin.events.length }}
+              </p>
+              <p><strong>Last update :</strong> {{ admin.updatedAt }}</p>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-warning" (click)="desaffectAdmin(admin)">
+                Desaffect admin role
+              </button>
+              <button class="btn btn-danger" (click)="deleteUser(admin)">
+                Delete admin
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="list users">
+        <hr />
+        <h1>Users</h1>
+        <hr />
+        <mat-card class="example-card" *ngFor="let user of usersList">
+          <mat-card-title-group>
+            <mat-card-title
+              >{{ user.firstName }} {{ user.lastName }}</mat-card-title
+            >
+            <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+            <img
+              class="card-img-avatar"
+              mat-card-sm-image
+              src="{{ baseUrl }}/avatar/{{ user.avatar }}"
+            />
+          </mat-card-title-group>
+          <mat-card-content class="card-content">
+            <div class="infos">
+              <p><strong>Email :</strong> {{ user.email }}</p>
+              <p><strong>Birth Date :</strong> {{ user.birthDate }}</p>
+              <p><strong>Address :</strong> {{ user.address }}</p>
+              <p><strong>Phone number:</strong> {{ user.phone }}</p>
+              <p>
+                <strong>Total created events :</strong>
+                {{ user.events.length }}
+              </p>
+              <p><strong>Last update :</strong> {{ user.updatedAt }}</p>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-info" (click)="affectAdmin(user)">
+                Affect admin role
+              </button>
+              <button class="btn btn-danger" (click)="deleteUser(user)">
+                Delete user
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>
+<app-footer id="footer">
+  <span>Zaher Bouzid &copy; september 2021.</span>
+  <span class="ml-auto">
+    <a href="https://github.com/zeherb/">Visit my github</a></span
+  >
+</app-footer>
