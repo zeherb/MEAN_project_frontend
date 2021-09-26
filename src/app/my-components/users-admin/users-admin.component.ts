@@ -1,11 +1,12 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { DatePipe, DOCUMENT } from "@angular/common";
+import { Component, Inject, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
+import { navItems } from "../../_nav";
 import { ConfirmationComponent } from "./dialogs/confirmation/confirmation.component";
 
 @Component({
@@ -20,13 +21,28 @@ export class UsersAdminComponent implements OnInit {
   adminList: any;
   usersList: any;
   baseUrl = environment.baseUrl;
+  public navItems = navItems;
+  public sidebarMinimized = true;
+  private changes: MutationObserver;
+  public element: HTMLElement;
   constructor(
     private userservice: UserService,
     private toaster: ToasterService,
     private router: Router,
     private datePipe: DatePipe,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    @Inject(DOCUMENT) _document?: any
+  ) {
+    this.changes = new MutationObserver((mutations) => {
+      this.sidebarMinimized =
+        _document.body.classList.contains("sidebar-minimized");
+    });
+    this.element = _document.body;
+    this.changes.observe(<Element>this.element, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
 
   ngOnInit(): void {
     this.adminList = [];

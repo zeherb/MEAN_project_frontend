@@ -32,4 +32,10 @@ export class UserService {
   deleteUser(id: any): Observable<any> {
     return this.http.delete(this.userUrl + "/" + id);
   }
+  resetPassword(id: any, body: any): Observable<any> {
+    return this.http.put(this.userUrl + "/reset-password/" + id, body);
+  }
+  desactivateAccount(id: any, body: any): Observable<any> {
+    return this.http.put(this.userUrl + "/delete-account/" + id, body);
+  }
 }

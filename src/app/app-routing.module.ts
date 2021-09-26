@@ -13,6 +13,7 @@ import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 import { MyProfileComponent } from "./my-components/my-profile/my-profile.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
 import { ResetPasswordComponent } from "./my-components/reset-password/reset-password.component";
+import { SettingsComponent } from "./my-components/settings/settings.component";
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
@@ -77,6 +78,11 @@ export const routes: Routes = [
   {
     path: "add-event",
     component: AddEventComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "settings",
+    component: SettingsComponent,
     canActivate: [AuthGuard],
   },
   {

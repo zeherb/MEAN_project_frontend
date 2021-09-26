@@ -70,6 +70,7 @@ import { BookingDialogComponent } from "./my-components/home/dialogs/booking-dia
 import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-booking/confirm-booking.component";
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { ConfirmationComponent } from "./my-components/users-admin/dialogs/confirmation/confirmation.component";
+import { SettingsComponent } from "./my-components/settings/settings.component";
 
 @NgModule({
   imports: [
@@ -142,6 +143,7 @@ import { ConfirmationComponent } from "./my-components/users-admin/dialogs/confi
     ConfirmBookingComponent,
     UsersAdminComponent,
     ConfirmationComponent,
+    SettingsComponent,
   ],
   providers: [
     {
