@@ -3,9 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
-  UrlTree,
 } from "@angular/router";
-import { Observable } from "rxjs";
 import { AuthentificationService } from "../services/authentification.service";
 
 @Injectable({
@@ -16,11 +14,7 @@ export class ConnectedGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  ): boolean {
     return this.authService.checkNotConnected();
   }
 }
