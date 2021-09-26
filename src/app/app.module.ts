@@ -68,6 +68,9 @@ import { ResetPasswordComponent } from "./my-components/reset-password/reset-pas
 import { ForgotPasswordComponent } from "./my-components/forgot-password/forgot-password.component";
 import { BookingDialogComponent } from "./my-components/home/dialogs/booking-dialog/booking-dialog.component";
 import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-booking/confirm-booking.component";
+import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
+import { ConfirmationComponent } from "./my-components/users-admin/dialogs/confirmation/confirmation.component";
+import { SettingsComponent } from "./my-components/settings/settings.component";
 
 @NgModule({
   imports: [
@@ -116,6 +119,7 @@ import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-bo
     EditAvatarComponent,
     BookingDialogComponent,
     ConfirmBookingComponent,
+    ConfirmationComponent,
   ],
   declarations: [
     AppComponent,
@@ -137,6 +141,9 @@ import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-bo
     ForgotPasswordComponent,
     BookingDialogComponent,
     ConfirmBookingComponent,
+    UsersAdminComponent,
+    ConfirmationComponent,
+    SettingsComponent,
   ],
   providers: [
     {

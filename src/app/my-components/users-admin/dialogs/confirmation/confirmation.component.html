@@ -1,0 +1,14 @@
+<h1>{{ data.title }}</h1>
+<p>{{ data.message }}</p>
+<p>
+  <strong>{{ data.userFirstName }} {{ data.userLastName }}</strong>
+</p>
+
+<div class="buttons">
+  <button [mat-dialog-close]="false" class="btn btn-danger">
+    Cancel <mat-icon>close</mat-icon>
+  </button>
+  <button [mat-dialog-close]="true" class="btn btn-success">
+    Confirm <mat-icon>check</mat-icon>
+  </button>
+</div>

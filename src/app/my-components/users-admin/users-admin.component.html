@@ -19,7 +19,7 @@
 >
   <ul class="components nav navbar-nav d-md-down-none">
     <li class="nav-item px-1">
-      <a class="nav-link active-link" [routerLink]="['/home']">Home</a>
+      <a class="nav-link" [routerLink]="['/home']">Home</a>
     </li>
     <li class="nav-item px-1">
       <a class="nav-link" [routerLink]="['/add-event']">Add Event</a>
@@ -257,106 +257,90 @@
               aria-label="Search"
             />
           </li>
-          <li class="nav-item dropdown col-2 col-md-3">
-            <button mat-button [matMenuTriggerFor]="beforeMenu">
-              Sort <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #beforeMenu="matMenu" xPosition="before">
-              <button mat-menu-item>
-                Ascending price <mat-icon>north</mat-icon>
-              </button>
-              <button mat-menu-item>
-                Decreasing price <mat-icon>south</mat-icon>
-              </button>
-              <button mat-menu-item>Availability</button>
-            </mat-menu>
-          </li>
         </ul>
       </div>
     </nav>
-    <div class="content container-fluid">
-      <div class="row cards">
-        <div class="one-card col-12 col-md-4" *ngFor="let event of eventList">
-          <mat-card class="example-card">
-            <mat-card-header class="custom-card-header">
-              <div mat-card-avatar class="example-header-image">
-                <img
-                  class="event-owner-img"
-                  src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
-                  alt="Event Owner's avatar"
-                />
-              </div>
-
-              <mat-card-title>{{ event.title }}</mat-card-title>
-              <mat-card-subtitle
-                >{{ event.owner.firstName }}
-                {{ event.owner.lastName }}</mat-card-subtitle
-              >
-            </mat-card-header>
+    <div class="content">
+      <h1 class="page-title">Admin Space : Users</h1>
+      <div class="list admins">
+        <h1>Admins</h1>
+        <hr />
+        <mat-card class="example-card" *ngFor="let admin of adminList">
+          <mat-card-title-group>
+            <mat-card-title
+              >{{ admin.firstName }} {{ admin.lastName }}</mat-card-title
+            >
+            <mat-card-subtitle>{{ admin.role }}</mat-card-subtitle>
             <img
-              class="custom-card-image"
-              mat-card-image
-              src="{{ baseUrl }}/event-pics/{{ event.image }}"
-              alt="Event's image"
+              class="card-img-avatar"
+              mat-card-sm-image
+              src="{{ baseUrl }}/avatar/{{ admin.avatar }}"
             />
-            <mat-card-content class="custom-card-content">
-              <div class="instructions">
-                <h3 class="description-title">
-                  <strong> Starting At :</strong>
-                  <span>{{ event.startDateTime }}</span>
-                </h3>
-                <h3 class="description-title">
-                  <strong> Ending At :</strong>
-                  <span>{{ event.endDateTime }}</span>
-                </h3>
-                <h3 class="description-title">
-                  <strong> Location :</strong><span>{{ event.location }}</span>
-                </h3>
-              </div>
-              <h3 class="description-title">
-                <strong> Description :</strong>
-              </h3>
-              <p class="content-card-description">
-                {{ event.description }}
+          </mat-card-title-group>
+          <mat-card-content class="card-content">
+            <div class="infos">
+              <p><strong>Email :</strong> {{ admin.email }}</p>
+              <p><strong>Birth Date :</strong> {{ admin.birthDate }}</p>
+              <p><strong>Address :</strong> {{ admin.address }}</p>
+              <p><strong>Phone number:</strong> {{ admin.phone }}</p>
+              <p>
+                <strong>Total created events :</strong>
+                {{ admin.events.length }}
               </p>
-              <div class="content-card-tags">
-                <mat-chip-list class="example-chip">
-                  <mat-chip class="example-box" *ngFor="let tag of event.tags">
-                    #{{ tag.name }}
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
-            </mat-card-content>
-            <mat-card-actions class="card-buttons">
-              <div class="infos">
-                <button class="btn" *ngIf="event.eventType == 'Payable'">
-                  Price: <strong>{{ event.price }} $</strong>
-                </button>
-                <button class="btn" *ngIf="event.eventType == 'Free'">
-                  <strong> {{ event.eventType }}</strong>
-                </button>
-                <button class="btn AP">
-                  Available:
-                  <strong> {{ event.availableTicketNumber }}</strong>
-                </button>
-              </div>
-              <button
-                class="btn btn-danger"
-                *ngIf="event.availableTicketNumber == 0"
-              >
-                Out of stock
+              <p><strong>Last update :</strong> {{ admin.updatedAt }}</p>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-warning" (click)="desaffectAdmin(admin)">
+                Desaffect admin role
               </button>
-              <button
-                class="btn btn-success"
-                *ngIf="event.availableTicketNumber !== 0"
-                (click)="openBookingDialog(event)"
-              >
-                Book
+              <button class="btn btn-danger" (click)="deleteUser(admin)">
+                Delete admin
               </button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
+
+      <div class="list users">
+        <hr />
+        <h1>Users</h1>
+        <hr />
+        <mat-card class="example-card" *ngFor="let user of usersList">
+          <mat-card-title-group>
+            <mat-card-title
+              >{{ user.firstName }} {{ user.lastName }}</mat-card-title
+            >
+            <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+            <img
+              class="card-img-avatar"
+              mat-card-sm-image
+              src="{{ baseUrl }}/avatar/{{ user.avatar }}"
+            />
+          </mat-card-title-group>
+          <mat-card-content class="card-content">
+            <div class="infos">
+              <p><strong>Email :</strong> {{ user.email }}</p>
+              <p><strong>Birth Date :</strong> {{ user.birthDate }}</p>
+              <p><strong>Address :</strong> {{ user.address }}</p>
+              <p><strong>Phone number:</strong> {{ user.phone }}</p>
+              <p>
+                <strong>Total created events :</strong>
+                {{ user.events.length }}
+              </p>
+              <p><strong>Last update :</strong> {{ user.updatedAt }}</p>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-info" (click)="affectAdmin(user)">
+                Affect admin role
+              </button>
+              <button class="btn btn-danger" (click)="deleteUser(user)">
+                Delete user
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <hr />
     </div>
   </div>
 </div>
