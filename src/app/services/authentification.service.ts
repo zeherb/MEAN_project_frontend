@@ -39,4 +39,22 @@ export class AuthentificationService {
       return false;
     }
   }
+  checkAdmin() {
+    const token = JSON.parse(localStorage.getItem("loginToken")).token;
+    if (token !== null && token !== undefined) {
+      const decoded: any = jwtDecode(token);
+      const currentDate = new Date();
+      const role = decoded.role;
+      if (
+        decoded.exp >= Math.floor(currentDate.getTime() / 1000) &&
+        decoded.role == "admin"
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
