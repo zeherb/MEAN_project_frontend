@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { Router } from "@angular/router";
 import jwtDecode from "jwt-decode";
+import { ToasterService } from "angular2-toaster";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +12,11 @@ import jwtDecode from "jwt-decode";
 export class AuthentificationService {
   userUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toaster: ToasterService
+  ) {}
   login(loginForm): Observable<any> {
     return this.http.post<any>(this.userUrl + "/login", loginForm);
   }
@@ -51,6 +56,7 @@ export class AuthentificationService {
       ) {
         return true;
       } else {
+        this.toaster.pop("error", "Error", "NOT AUTHORIZED");
         return false;
       }
     } else {
