@@ -71,7 +71,9 @@ import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-bo
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { ConfirmationComponent } from "./my-components/users-admin/dialogs/confirmation/confirmation.component";
 import { SettingsComponent } from "./my-components/settings/settings.component";
-import { EventsAdminComponent } from './my-components/events-admin/events-admin.component';
+import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
+import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
+import { UpdateTagComponent } from "./my-components/tags-admin/dialogs/update-tag/update-tag.component";
 
 @NgModule({
   imports: [
@@ -121,6 +123,7 @@ import { EventsAdminComponent } from './my-components/events-admin/events-admin.
     BookingDialogComponent,
     ConfirmBookingComponent,
     ConfirmationComponent,
+    UpdateTagComponent,
   ],
   declarations: [
     AppComponent,
@@ -146,6 +149,8 @@ import { EventsAdminComponent } from './my-components/events-admin/events-admin.
     ConfirmationComponent,
     SettingsComponent,
     EventsAdminComponent,
+    TagsAdminComponent,
+    UpdateTagComponent,
   ],
   providers: [
     {
