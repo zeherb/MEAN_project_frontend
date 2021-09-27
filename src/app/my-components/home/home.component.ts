@@ -138,4 +138,8 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+  profile(id) {
+    localStorage.setItem("selectedUserId", id);
+    this.router.navigate(["/user-profile"]);
+  }
 }

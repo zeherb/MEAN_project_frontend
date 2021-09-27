@@ -5,6 +5,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { DefaultLayoutComponent } from "./containers";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { AdminGuard } from "./my-components/admin.guard";
+import { AnyOtherProfileComponent } from "./my-components/any-other-profile/any-other-profile.component";
 import { AuthGuard } from "./my-components/auth.guard";
 import { ConnectedGuard } from "./my-components/connected.guard";
 import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
@@ -101,6 +102,11 @@ export const routes: Routes = [
     path: "admin-space-tags",
     component: TagsAdminComponent,
     canActivate: [AdminGuard],
+  },
+  {
+    path: "user-profile",
+    component: AnyOtherProfileComponent,
+    canActivate: [AuthGuard],
   },
   // *************
   {

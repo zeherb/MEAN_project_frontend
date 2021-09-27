@@ -74,6 +74,7 @@ import { SettingsComponent } from "./my-components/settings/settings.component";
 import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
 import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
 import { UpdateTagComponent } from "./my-components/tags-admin/dialogs/update-tag/update-tag.component";
+import { AnyOtherProfileComponent } from './my-components/any-other-profile/any-other-profile.component';
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import { UpdateTagComponent } from "./my-components/tags-admin/dialogs/update-ta
     EventsAdminComponent,
     TagsAdminComponent,
     UpdateTagComponent,
+    AnyOtherProfileComponent,
   ],
   providers: [
     {

@@ -284,11 +284,14 @@
                   class="event-owner-img"
                   src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                   alt="Event Owner's avatar"
+                  (click)="profile(event.owner._id)"
                 />
               </div>
 
               <mat-card-title>{{ event.title }}</mat-card-title>
               <mat-card-subtitle
+                class="owner-name"
+                (click)="profile(event.owner._id)"
                 >{{ event.owner.firstName }}
                 {{ event.owner.lastName }}</mat-card-subtitle
               >
