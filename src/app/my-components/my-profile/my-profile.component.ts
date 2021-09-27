@@ -28,6 +28,8 @@ export class MyProfileComponent implements OnInit {
   programmedEvents: any[];
   today: any;
   userId: any;
+  joinedUsText: String;
+  joinedUsNumber: number;
 
   public navItems = navItems;
   public sidebarMinimized = true;
@@ -57,6 +59,7 @@ export class MyProfileComponent implements OnInit {
     this.finishedEvents = [];
     this.liveEvents = [];
     this.programmedEvents = [];
+
     this.userId = jwtDecode<any>(
       JSON.parse(localStorage.getItem("loginToken")).token
     ).userId;
@@ -70,7 +73,26 @@ export class MyProfileComponent implements OnInit {
           this.connectedUser.birthDate,
           "dd MMMM yyyy"
         );
-
+        let createdAt = new Date(this.connectedUser.createdAt);
+        let today = new Date();
+        let diff = (today.getTime() - createdAt.getTime()) / (1000 * 3600 * 24);
+        let diff2 = diff / 30;
+        let diff3 = diff2 / 12;
+        if (diff3 >= 2) {
+          this.joinedUsText = "years ago";
+          this.joinedUsNumber = Math.floor(diff3);
+        } else if (diff3 >= 1) {
+          this.joinedUsText = "year ago";
+          this.joinedUsNumber = Math.floor(diff3);
+        } else if (diff2 >= 2) {
+          this.joinedUsText = "months ago";
+          this.joinedUsNumber = Math.floor(diff2);
+        } else if (diff2 >= 1) {
+          this.joinedUsText = "month ago";
+          this.joinedUsNumber = Math.floor(diff2);
+        } else {
+          this.joinedUsText = "Less than one month";
+        }
         this.connectedUser.events.forEach((element) => {
           if (this.today > new Date(element.endDateTime).getTime()) {
             element.startDateTime = this.datePipe.transform(

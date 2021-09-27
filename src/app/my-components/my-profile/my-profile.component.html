@@ -280,6 +280,10 @@
               <strong>Total created events :</strong>
               {{ connectedUser?.events.length }}
             </p>
+            <p>
+              <strong>Joined us :</strong> {{ joinedUsNumber }}
+              {{ joinedUsText }}
+            </p>
           </div>
           <button class="btn btn-outline-success" (click)="updateProfile()">
             Edit profile

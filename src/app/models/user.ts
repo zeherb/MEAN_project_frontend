@@ -9,4 +9,6 @@ export interface user {
   phone: String;
   address: String;
   avatar: String;
+  createdAt: Date;
+  updatedAt: Date;
 }
