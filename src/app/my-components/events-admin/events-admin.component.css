@@ -47,6 +47,7 @@ button:focus {
 }
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -93,10 +94,10 @@ a {
   height: 225px;
 }
 .custom-card-content {
-  height: 250px;
+  height: 300px;
 }
 .instructions {
-  height: 100px;
+  height: 150px;
 }
 .instructions .description-title {
   margin-bottom: 10px !important ;

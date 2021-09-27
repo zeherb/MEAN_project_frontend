@@ -71,6 +71,14 @@ export class EventsAdminComponent implements OnInit {
       (err) => {},
       () => {
         this.allEvents.forEach((element) => {
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd-MMM-yyyy, HH:mm"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd-MMM-yyyy, HH:mm"
+          );
           if (this.today > new Date(element.endDateTime).getTime()) {
             element.startDateTime = this.datePipe.transform(
               element.startDateTime,
@@ -152,6 +160,14 @@ export class EventsAdminComponent implements OnInit {
               (err) => {},
               () => {
                 this.allEvents.forEach((element) => {
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
+                    "dd-MMM-yyyy, HH:mm"
+                  );
+                  element.updatedAt = this.datePipe.transform(
+                    element.updatedAt,
+                    "dd-MMM-yyyy, HH:mm"
+                  );
                   if (this.today > new Date(element.endDateTime).getTime()) {
                     element.startDateTime = this.datePipe.transform(
                       element.startDateTime,
