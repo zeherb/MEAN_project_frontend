@@ -18,9 +18,6 @@ import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confi
 export class EventsAdminComponent implements OnInit {
   userId: any;
   connectedUser: any;
-  allUsersList: any;
-  adminList: any;
-  usersList: any;
   allEvents: any[];
   finishedEvents: any[];
   liveEvents: any[];
