@@ -1,11 +1,10 @@
-import { DatePipe, DOCUMENT, formatDate } from "@angular/common";
+import { DatePipe, DOCUMENT } from "@angular/common";
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import { environment } from "../../../environments/environment";
 import { user } from "../../models/user";
-import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user.service";
 import { navItems } from "../../_nav";
 import { ConfirmDeleteEventComponent } from "./dialogs/confirm-delete-event/confirm-delete-event.component";
