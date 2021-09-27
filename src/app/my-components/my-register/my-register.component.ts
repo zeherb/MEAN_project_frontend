@@ -158,9 +158,15 @@ export class MyRegisterComponent implements OnInit {
     group: AbstractControl
   ): ValidationErrors | null => {
     {
-      const year = new Date(group.get("birthDate").value).getFullYear();
-      const today = new Date().getFullYear();
-      return today - year >= 16 ? null : { notSame: true };
+      const input = group.get("birthDate").value.split("/");
+      const birthDate = new Date(
+        input[2] - -16,
+        input[1] - 1,
+        input[0]
+      ).getTime();
+      const today = new Date().getTime();
+
+      return today > birthDate ? null : { notSame: true };
     }
   };
 }
