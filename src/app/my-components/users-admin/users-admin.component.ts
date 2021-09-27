@@ -75,6 +75,10 @@ export class UsersAdminComponent implements OnInit {
             element.updatedAt,
             "dd MMMM yyyy, à HH:mm"
           );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
           if (element.role == "admin") {
             this.adminList.push(element);
           } else {
@@ -133,6 +137,10 @@ export class UsersAdminComponent implements OnInit {
                   );
                   element.updatedAt = this.datePipe.transform(
                     element.updatedAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
                   if (element.role == "admin") {
@@ -194,6 +202,10 @@ export class UsersAdminComponent implements OnInit {
                     element.updatedAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
                   if (element.role == "admin") {
                     this.adminList.push(element);
                   } else {
@@ -247,6 +259,10 @@ export class UsersAdminComponent implements OnInit {
                   );
                   element.updatedAt = this.datePipe.transform(
                     element.updatedAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
                   if (element.role == "admin") {
