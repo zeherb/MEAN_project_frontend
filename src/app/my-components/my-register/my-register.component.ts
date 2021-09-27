@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import {
   AbstractControl,
@@ -30,7 +31,8 @@ export class MyRegisterComponent implements OnInit {
   constructor(
     private toasterService: ToasterService,
     private authService: AuthentificationService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
   ngOnInit(): void {
     this.registerForm = new FormGroup(
@@ -99,12 +101,14 @@ export class MyRegisterComponent implements OnInit {
       this.invalidStatus = true;
       this.showError("Please fill the form correctly");
     } else {
+      const dob = form.controls.birthDate.value.split("/");
+      const birthDate = dob[1] + "/" + dob[0] + "/" + dob[2];
       let formData = new FormData();
       formData.append("firstName", form.controls.firstName.value.trim());
       formData.append("lastName", form.controls.lastName.value.trim());
       formData.append("email", form.controls.email.value.trim());
       formData.append("password", form.controls.password.value);
-      formData.append("birthDate", form.controls.birthDate.value);
+      formData.append("birthDate", birthDate);
       formData.append("phone", form.controls.phone.value);
       formData.append("address", form.controls.address.value.trim());
       formData.append("avatar", form.get("fakeAvatar").value);
