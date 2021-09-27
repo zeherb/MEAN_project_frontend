@@ -1,0 +1,543 @@
+<app-header
+  [navbarBrandRouterLink]="['/home']"
+  [fixed]="true"
+  [navbarBrandFull]="{
+    src: '../../assets/img/CodeEventLogo.png',
+    width: 120,
+    height: 36,
+    alt: 'Event Code logo'
+  }"
+  [navbarBrandMinimized]="{
+    src: '../../assets/img/CodeEventLogo.png',
+    width: 120,
+    height: 36,
+    alt: 'Event Code logo'
+  }"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="false"
+  [mobileAsideMenuToggler]="false"
+>
+  <ul class="components nav navbar-nav d-md-down-none">
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/home']">Home</a>
+    </li>
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/add-event']">Add Event</a>
+    </li>
+    <li class="nav-item px-1">
+      <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+    </li>
+  </ul>
+  <ul class="utilities nav navbar-nav ml-auto">
+    <li
+      *ngIf="connectedUser?.role == 'admin'"
+      class="nav-item dropdown d-md-down-none"
+      dropdown
+      placement="bottom right"
+    >
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <i class="fa fa-id-badge fa-lg"></i>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right dropdown-menu-lg"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center">
+          <strong>Admin space</strong>
+        </div>
+        <a [routerLink]="['/admin-space-users']" class="dropdown-item">
+          <i class="icon-user-follow text-success"></i> Users
+        </a>
+        <a [routerLink]="['/admin-space-events']" class="dropdown-item">
+          <i class="icon-chart text-info"></i> Events
+        </a>
+        <a [routerLink]="['/admin-space-tickets']" class="dropdown-item">
+          <i class="icon-basket-loaded text-primary"></i> Tickets
+        </a>
+        <a [routerLink]="['/admin-space-tags']" class="dropdown-item">
+          <i class="icon-speedometer text-warning"></i> Tags
+        </a>
+      </div>
+    </li>
+    <li
+      class="nav-item dropdown d-md-down-none"
+      dropdown
+      placement="bottom right"
+    >
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <i class="icon-bell"></i
+        ><span class="badge badge-pill badge-danger">7</span>
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right dropdown-menu-lg"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center">
+          <strong>Notifications</strong>
+        </div>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/7.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-success"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">Just now</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              <span class="fa fa-exclamation text-danger"></span> Important
+              message
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/6.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-warning"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">5 minutes ago</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/5.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-danger"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">1:52 PM</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+        <a href="#" class="dropdown-item">
+          <div class="message">
+            <div class="py-3 mr-3 float-left">
+              <div class="avatar">
+                <img
+                  src="assets/img/avatars/4.jpg"
+                  class="img-avatar"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span class="avatar-status badge-info"></span>
+              </div>
+            </div>
+            <div>
+              <small class="text-muted">John Doe</small>
+              <small class="text-muted float-right mt-1">4:03 PM</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+              Lorem ipsum dolor sit amet
+            </div>
+            <div class="small text-muted text-truncate">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt...
+            </div>
+          </div>
+        </a>
+      </div>
+    </li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a
+        class="nav-link"
+        data-toggle="dropdown"
+        href="#"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+        dropdownToggle
+        (click)="(false)"
+      >
+        <img
+          *ngIf="connectedUser"
+          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }}"
+          class="img-avatar"
+          alt="prifile-pic"
+        />
+      </a>
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        *dropdownMenu
+        aria-labelledby="simple-dropdown"
+      >
+        <div class="dropdown-header text-center"><strong>Account</strong></div>
+        <a class="dropdown-item" [routerLink]="['/profile']"
+          ><i class="fa fa-user"></i> Profile</a
+        >
+        <a class="dropdown-item" [routerLink]="['/settings']"
+          ><i class="fa fa-wrench"></i> Settings</a
+        >
+
+        <a class="dropdown-item" (click)="logOut()"
+          ><i class="fa fa-lock"></i> Logout</a
+        >
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body">
+  <app-sidebar [fixed]="true" [display]="'xs'">
+    <app-sidebar-nav
+      [navItems]="navItems"
+      [perfectScrollbar]
+      [disabled]="sidebarMinimized"
+    ></app-sidebar-nav>
+  </app-sidebar>
+  <!-- Main content -->
+  <div class="main">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
+          <li class="d-flex col-9 col-md-8">
+            <input
+              class="form-control me-2 search-input"
+              type="search"
+              placeholder="Search for events"
+              aria-label="Search"
+            />
+          </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item>
+                Ascending price <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item>
+                Decreasing price <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item>Availability</button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="content">
+      <h1 class="page-title">Admin Space : Events</h1>
+      <mat-tab-group
+        mat-align-tabs="center"
+        class="mat-tabs"
+        style="min-height: 800px"
+      >
+        <mat-tab label="Not started events" class="mat-tab"
+          ><div class="row cards">
+            <div
+              class="one-card col-12 col-md-4"
+              *ngFor="let event of programmedEvents"
+            >
+              <mat-card class="example-card">
+                <mat-card-header class="custom-card-header">
+                  <div mat-card-avatar class="example-header-image">
+                    <img
+                      class="event-owner-img"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
+                      alt="Event Owner's avatar"
+                    />
+                  </div>
+
+                  <mat-card-title>{{ event.title }}</mat-card-title>
+                  <mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
+                  >
+                </mat-card-header>
+                <img
+                  class="custom-card-image"
+                  mat-card-image
+                  src="{{ baseUrl }}/event-pics/{{ event.image }}"
+                  alt="Event's image"
+                />
+                <mat-card-content class="custom-card-content">
+                  <div class="instructions">
+                    <h3 class="description-title">
+                      <strong> Starting At :</strong>
+                      <span>{{ event.startDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Ending At :</strong>
+                      <span>{{ event.endDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Location :</strong
+                      ><span>{{ event.location }}</span>
+                    </h3>
+                  </div>
+                  <h3 class="description-title">
+                    <strong> Description :</strong>
+                  </h3>
+                  <p class="content-card-description">
+                    {{ event.description }}
+                  </p>
+                  <div class="content-card-tags">
+                    <mat-chip-list class="example-chip">
+                      <mat-chip
+                        class="example-box"
+                        *ngFor="let tag of event.tags"
+                      >
+                        #{{ tag.name }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </mat-card-content>
+                <mat-card-actions class="card-buttons">
+                  <div class="event-infos">
+                    <button class="btn" *ngIf="event.eventType == 'Payable'">
+                      Price: <strong>{{ event.price }} $</strong>
+                    </button>
+                    <button class="btn" *ngIf="event.eventType == 'Free'">
+                      <strong> {{ event.eventType }}</strong>
+                    </button>
+                    <button class="btn AP">
+                      Available:
+                      <strong> {{ event.availableTicketNumber }}</strong>
+                    </button>
+                  </div>
+
+                  <button
+                    (click)="deleteEvent(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
+                    Delete Event
+                    <mat-icon>delete_forever </mat-icon>
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div></mat-tab
+        >
+        <mat-tab label="In progress events" class="mat-tab">
+          <div class="row cards">
+            <div
+              class="one-card col-12 col-md-4"
+              *ngFor="let event of liveEvents"
+            >
+              <mat-card class="example-card">
+                <mat-card-header class="custom-card-header">
+                  <div mat-card-avatar class="example-header-image">
+                    <img
+                      class="event-owner-img"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
+                      alt="Event Owner's avatar"
+                    />
+                  </div>
+
+                  <mat-card-title>{{ event.title }}</mat-card-title>
+                  <mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
+                  >
+                </mat-card-header>
+                <img
+                  class="custom-card-image"
+                  mat-card-image
+                  src="{{ baseUrl }}/event-pics/{{ event.image }}"
+                  alt="Event's image"
+                />
+                <mat-card-content class="custom-card-content">
+                  <div class="instructions">
+                    <h3 class="description-title">
+                      <strong> Starting At :</strong>
+                      <span>{{ event.startDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Ending At :</strong>
+                      <span>{{ event.endDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Location :</strong
+                      ><span>{{ event.location }}</span>
+                    </h3>
+                  </div>
+                  <h3 class="description-title">
+                    <strong> Description :</strong>
+                  </h3>
+                  <p class="content-card-description">
+                    {{ event.description }}
+                  </p>
+                  <div class="content-card-tags">
+                    <mat-chip-list class="example-chip">
+                      <mat-chip
+                        class="example-box"
+                        *ngFor="let tag of event.tags"
+                      >
+                        #{{ tag.name }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </mat-card-content>
+                <mat-card-actions class="card-buttons">
+                  <div class="event-infos">
+                    <button class="btn" *ngIf="event.eventType == 'Payable'">
+                      Price: <strong>{{ event.price }} $</strong>
+                    </button>
+                    <button class="btn" *ngIf="event.eventType == 'Free'">
+                      <strong> {{ event.eventType }}</strong>
+                    </button>
+                  </div>
+
+                  <button
+                    (click)="deleteEvent(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
+                    Delete Event
+                    <mat-icon>delete_forever </mat-icon>
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Finished events" class="mat-tab">
+          <div class="row cards">
+            <div
+              class="one-card col-12 col-md-4"
+              *ngFor="let event of finishedEvents"
+            >
+              <mat-card class="example-card">
+                <mat-card-header class="custom-card-header">
+                  <div mat-card-avatar class="example-header-image">
+                    <img
+                      class="event-owner-img"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
+                      alt="Event Owner's avatar"
+                    />
+                  </div>
+
+                  <mat-card-title>{{ event.title }}</mat-card-title>
+                  <mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
+                  >
+                </mat-card-header>
+                <img
+                  class="custom-card-image"
+                  mat-card-image
+                  src="{{ baseUrl }}/event-pics/{{ event.image }}"
+                  alt="Event's image"
+                />
+                <mat-card-content class="custom-card-content">
+                  <div class="instructions">
+                    <h3 class="description-title">
+                      <strong> Starting At :</strong>
+                      <span>{{ event.startDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Ending At :</strong>
+                      <span>{{ event.endDateTime }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Location :</strong
+                      ><span>{{ event.location }}</span>
+                    </h3>
+                  </div>
+                  <h3 class="description-title">
+                    <strong> Description :</strong>
+                  </h3>
+                  <p class="content-card-description">
+                    {{ event.description }}
+                  </p>
+                  <div class="content-card-tags">
+                    <mat-chip-list class="example-chip">
+                      <mat-chip
+                        class="example-box"
+                        *ngFor="let tag of event.tags"
+                      >
+                        #{{ tag.name }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </mat-card-content>
+                <mat-card-actions class="card-buttons">
+                  <div class="event-infos">
+                    <button class="btn" *ngIf="event.eventType == 'Payable'">
+                      Price: <strong>{{ event.price }} $</strong>
+                    </button>
+                    <button class="btn" *ngIf="event.eventType == 'Free'">
+                      <strong> {{ event.eventType }}</strong>
+                    </button>
+                  </div>
+
+                  <button
+                    (click)="deleteEvent(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
+                    Delete Event
+                    <mat-icon>delete_forever </mat-icon>
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+<app-footer id="footer">
+  <span>Zaher Bouzid &copy; september 2021.</span>
+  <span class="ml-auto">
+    <a href="https://github.com/zeherb/">Visit my github</a></span
+  >
+</app-footer>

@@ -7,6 +7,7 @@ import { AddEventComponent } from "./my-components/add-event/add-event.component
 import { AdminGuard } from "./my-components/admin.guard";
 import { AuthGuard } from "./my-components/auth.guard";
 import { ConnectedGuard } from "./my-components/connected.guard";
+import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
 import { ForgotPasswordComponent } from "./my-components/forgot-password/forgot-password.component";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
@@ -88,6 +89,11 @@ export const routes: Routes = [
   {
     path: "admin-space-users",
     component: UsersAdminComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "admin-space-events",
+    component: EventsAdminComponent,
     canActivate: [AdminGuard],
   },
   // *************

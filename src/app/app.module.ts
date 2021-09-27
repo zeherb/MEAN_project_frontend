@@ -71,6 +71,7 @@ import { ConfirmBookingComponent } from "./my-components/home/dialogs/confirm-bo
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { ConfirmationComponent } from "./my-components/users-admin/dialogs/confirmation/confirmation.component";
 import { SettingsComponent } from "./my-components/settings/settings.component";
+import { EventsAdminComponent } from './my-components/events-admin/events-admin.component';
 
 @NgModule({
   imports: [
@@ -144,6 +145,7 @@ import { SettingsComponent } from "./my-components/settings/settings.component";
     UsersAdminComponent,
     ConfirmationComponent,
     SettingsComponent,
+    EventsAdminComponent,
   ],
   providers: [
     {
