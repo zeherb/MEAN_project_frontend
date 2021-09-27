@@ -11,4 +11,5 @@ export interface user {
   avatar: String;
   createdAt: Date;
   updatedAt: Date;
+  _id: any;
 }

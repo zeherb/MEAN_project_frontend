@@ -139,7 +139,11 @@ export class HomeComponent implements OnInit {
     });
   }
   profile(id) {
-    localStorage.setItem("selectedUserId", id);
-    this.router.navigate(["/user-profile"]);
+    if (id == this.connectedUser._id) {
+      this.router.navigate(["/profile"]);
+    } else {
+      localStorage.setItem("selectedUserId", id);
+      this.router.navigate(["/user-profile"]);
+    }
   }
 }
