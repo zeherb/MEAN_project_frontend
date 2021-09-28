@@ -25,7 +25,7 @@
       <a class="nav-link" [routerLink]="['/add-event']">Add Event</a>
     </li>
     <li class="nav-item px-1">
-      <a class="nav-link active-link" [routerLink]="['/profile']">Profile</a>
+      <a class="nav-link" [routerLink]="['/profile']">Profile</a>
     </li>
   </ul>
   <ul class="utilities nav navbar-nav ml-auto">
@@ -222,10 +222,7 @@
         aria-labelledby="simple-dropdown"
       >
         <div class="dropdown-header text-center"><strong>Account</strong></div>
-        <a
-          class="dropdown-item"
-          [routerLink]="['/profile']"
-          routerLinkActive="router-link-active"
+        <a class="dropdown-item" [routerLink]="['/profile']"
           ><i class="fa fa-user"></i> Profile</a
         >
         <a class="dropdown-item" [routerLink]="['/settings']"
@@ -249,52 +246,39 @@
   </app-sidebar>
   <!-- Main content -->
   <div class="main">
-    <div class="user-infos">
-      <div class="profile-pic-group">
-        <img
-          *ngIf="connectedUser"
-          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }} "
-          alt=""
-        />
-        <button mat-mini-fab class="updatePhotoBtn" (click)="updateAvatar()">
-          <mat-icon
-            ><span class="material-icons-outlined">
-              add_a_photo
-            </span></mat-icon
-          >
-        </button>
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
+          <li class="d-flex col-9 col-md-8">
+            <input
+              [(ngModel)]="searchText"
+              class="form-control me-2 search-input"
+              type="search"
+              placeholder="Search for events"
+              aria-label="Search"
+            />
+          </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="ascendingPrice()">
+                Ascending price <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="decreasingPrice()">
+                Decreasing price <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="availability()">
+                Availability
+              </button>
+            </mat-menu>
+          </li>
+        </ul>
       </div>
-
-      <div class="infos">
-        <h1>
-          <strong
-            >{{ connectedUser?.firstName.toUpperCase() }}
-            {{ connectedUser?.lastName.toUpperCase() }}</strong
-          >
-        </h1>
-        <div class="info-details-group">
-          <div class="info-details">
-            <p><strong>Birthday :</strong> {{ connectedUserBirthDay }}</p>
-            <p><strong>Address :</strong> {{ connectedUser?.address }}</p>
-            <p>
-              <strong>Total created events :</strong>
-              {{ connectedUser?.events.length }}
-            </p>
-            <p>
-              <strong>Joined us :</strong> {{ joinedUsNumber }}
-              {{ joinedUsText }}
-            </p>
-          </div>
-          <button class="btn btn-outline-success" (click)="updateProfile()">
-            Edit profile
-          </button>
-        </div>
-      </div>
-      <hr
-        style="width: 100%; margin: 0; background-color: rgb(173, 173, 173)"
-      />
-    </div>
-    <div class="profile-content">
+    </nav>
+    <div class="content">
+      <h1 class="page-title">Admin Space : Events</h1>
       <mat-tab-group
         mat-align-tabs="center"
         class="mat-tabs"
@@ -304,22 +288,22 @@
           ><div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of programmedEvents"
+              *ngFor="let event of programmedEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img
@@ -341,6 +325,14 @@
                     <h3 class="description-title">
                       <strong> Location :</strong
                       ><span>{{ event.location }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Created at :</strong
+                      ><span>{{ event.createdAt }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Last update :</strong
+                      ><span>{{ event.updatedAt }}</span>
                     </h3>
                   </div>
                   <h3 class="description-title">
@@ -375,28 +367,7 @@
                   </div>
 
                   <button
-                    *ngIf="event.availableTicketNumber > 0"
-                    class="btn btn-success"
-                    (click)="openBookingDialog(event)"
-                  >
-                    Book
-                  </button>
-                  <button
-                    *ngIf="event.availableTicketNumber == 0"
-                    class="btn btn-outline-danger"
-                    disabled
-                  >
-                    Out of stock
-                  </button>
-                  <button
-                    class="btn btn-warning update-event-btn"
-                    (click)="openUpdateEventDialog(event)"
-                  >
-                    Update Event
-                    <mat-icon>change_circle</mat-icon>
-                  </button>
-                  <button
-                    (click)="confirmDeleteDialog(event)"
+                    (click)="deleteEvent(event)"
                     class="btn btn-danger update-event-btn"
                   >
                     Delete Event
@@ -411,22 +382,22 @@
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of liveEvents"
+              *ngFor="let event of liveEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img
@@ -448,6 +419,14 @@
                     <h3 class="description-title">
                       <strong> Location :</strong
                       ><span>{{ event.location }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Created at :</strong
+                      ><span>{{ event.createdAt }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Last update :</strong
+                      ><span>{{ event.updatedAt }}</span>
                     </h3>
                   </div>
                   <h3 class="description-title">
@@ -477,7 +456,13 @@
                     </button>
                   </div>
 
-                  <button class="btn btn-warning">Event already started</button>
+                  <button
+                    (click)="deleteEvent(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
+                    Delete Event
+                    <mat-icon>delete_forever </mat-icon>
+                  </button>
                 </mat-card-actions>
               </mat-card>
             </div>
@@ -487,22 +472,22 @@
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of finishedEvents"
+              *ngFor="let event of finishedEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ event.owner.firstName }}
+                    {{ event.owner.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img
@@ -524,6 +509,14 @@
                     <h3 class="description-title">
                       <strong> Location :</strong
                       ><span>{{ event.location }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Created at :</strong
+                      ><span>{{ event.createdAt }}</span>
+                    </h3>
+                    <h3 class="description-title">
+                      <strong> Last update :</strong
+                      ><span>{{ event.updatedAt }}</span>
                     </h3>
                   </div>
                   <h3 class="description-title">
@@ -553,7 +546,13 @@
                     </button>
                   </div>
 
-                  <button class="btn btn-danger">Finished</button>
+                  <button
+                    (click)="deleteEvent(event)"
+                    class="btn btn-danger update-event-btn"
+                  >
+                    Delete Event
+                    <mat-icon>delete_forever </mat-icon>
+                  </button>
                 </mat-card-actions>
               </mat-card>
             </div>

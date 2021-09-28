@@ -65,7 +65,7 @@
           <i class="icon-basket-loaded text-primary"></i> Tickets
         </a>
         <a [routerLink]="['/admin-space-tags']" class="dropdown-item">
-          <i class="icon-speedometer text-warning"></i> Tags
+          <i class="fa fa-hashtag text-warning"></i> Tags
         </a>
       </div>
     </li>
@@ -251,11 +251,49 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
           <li class="d-flex col-9 col-md-8">
             <input
+              [(ngModel)]="searchText"
               class="form-control me-2 search-input"
               type="search"
-              placeholder="Search for events"
+              placeholder="Search for users"
               aria-label="Search"
             />
+          </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="AtoZ()">
+                Name (A-Z) <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ZtoA()">
+                Name (Z-A) <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="creationUp()">
+                First created <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="creationDown()">
+                Last created <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="updateUp()">
+                First updated <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="updateDown()">
+                Last Updated <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ageUp()">
+                Ascending age <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ageDown()">
+                Decreasing age <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="eventsUp()">
+                More Events <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="eventsDown()">
+                Less Events <mat-icon>south</mat-icon>
+              </button>
+            </mat-menu>
           </li>
         </ul>
       </div>
@@ -265,7 +303,10 @@
       <div class="list admins">
         <h1>Admins</h1>
         <hr />
-        <mat-card class="example-card" *ngFor="let admin of adminList">
+        <mat-card
+          class="example-card"
+          *ngFor="let admin of adminList | filter: searchText"
+        >
           <mat-card-title-group>
             <mat-card-title
               >{{ admin.firstName }} {{ admin.lastName }}</mat-card-title
@@ -287,6 +328,7 @@
                 <strong>Total created events :</strong>
                 {{ admin.events.length }}
               </p>
+              <p><strong>Created at :</strong> {{ admin.createdAt }}</p>
               <p><strong>Last update :</strong> {{ admin.updatedAt }}</p>
             </div>
             <div class="buttons">
@@ -305,7 +347,10 @@
         <hr />
         <h1>Users</h1>
         <hr />
-        <mat-card class="example-card" *ngFor="let user of usersList">
+        <mat-card
+          class="example-card"
+          *ngFor="let user of usersList | filter: searchText"
+        >
           <mat-card-title-group>
             <mat-card-title
               >{{ user.firstName }} {{ user.lastName }}</mat-card-title
@@ -327,6 +372,7 @@
                 <strong>Total created events :</strong>
                 {{ user.events.length }}
               </p>
+              <p><strong>Created at :</strong> {{ user.createdAt }}</p>
               <p><strong>Last update :</strong> {{ user.updatedAt }}</p>
             </div>
             <div class="buttons">

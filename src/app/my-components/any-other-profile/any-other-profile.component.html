@@ -30,7 +30,7 @@
   </ul>
   <ul class="utilities nav navbar-nav ml-auto">
     <li
-      *ngIf="connectedUser?.role == 'admin'"
+      *ngIf="selectedUser?.role == 'admin'"
       class="nav-item dropdown d-md-down-none"
       dropdown
       placement="bottom right"
@@ -210,7 +210,7 @@
         (click)="(false)"
       >
         <img
-          *ngIf="connectedUser"
+          *ngIf="selectedUser"
           src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }}"
           class="img-avatar"
           alt="prifile-pic"
@@ -252,42 +252,32 @@
     <div class="user-infos">
       <div class="profile-pic-group">
         <img
-          *ngIf="connectedUser"
-          src="{{ baseUrl }}/avatar/{{ connectedUser.avatar }} "
+          *ngIf="selectedUser"
+          src="{{ baseUrl }}/avatar/{{ selectedUser.avatar }} "
           alt=""
         />
-        <button mat-mini-fab class="updatePhotoBtn" (click)="updateAvatar()">
-          <mat-icon
-            ><span class="material-icons-outlined">
-              add_a_photo
-            </span></mat-icon
-          >
-        </button>
       </div>
 
       <div class="infos">
         <h1>
           <strong
-            >{{ connectedUser?.firstName.toUpperCase() }}
-            {{ connectedUser?.lastName.toUpperCase() }}</strong
+            >{{ selectedUser?.firstName.toUpperCase() }}
+            {{ selectedUser?.lastName.toUpperCase() }}</strong
           >
         </h1>
         <div class="info-details-group">
           <div class="info-details">
-            <p><strong>Birthday :</strong> {{ connectedUserBirthDay }}</p>
-            <p><strong>Address :</strong> {{ connectedUser?.address }}</p>
+            <p><strong>Birthday :</strong> {{ selectedUser?.birthDate }}</p>
+            <p><strong>Address :</strong> {{ selectedUser?.address }}</p>
             <p>
               <strong>Total created events :</strong>
-              {{ connectedUser?.events.length }}
+              {{ selectedUser?.events.length }}
             </p>
             <p>
               <strong>Joined us :</strong> {{ joinedUsNumber }}
               {{ joinedUsText }}
             </p>
           </div>
-          <button class="btn btn-outline-success" (click)="updateProfile()">
-            Edit profile
-          </button>
         </div>
       </div>
       <hr
@@ -311,15 +301,15 @@
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ selectedUser?.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ selectedUser.firstName }}
+                    {{ selectedUser?.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img
@@ -388,20 +378,6 @@
                   >
                     Out of stock
                   </button>
-                  <button
-                    class="btn btn-warning update-event-btn"
-                    (click)="openUpdateEventDialog(event)"
-                  >
-                    Update Event
-                    <mat-icon>change_circle</mat-icon>
-                  </button>
-                  <button
-                    (click)="confirmDeleteDialog(event)"
-                    class="btn btn-danger update-event-btn"
-                  >
-                    Delete Event
-                    <mat-icon>delete_forever </mat-icon>
-                  </button>
                 </mat-card-actions>
               </mat-card>
             </div>
@@ -418,15 +394,15 @@
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ selectedUser?.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ selectedUser.firstName }}
+                    {{ selectedUser?.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img
@@ -494,15 +470,15 @@
                   <div mat-card-avatar class="example-header-image">
                     <img
                       class="event-owner-img"
-                      src="{{ baseUrl }}/avatar/{{ connectedUser?.avatar }}"
+                      src="{{ baseUrl }}/avatar/{{ selectedUser?.avatar }}"
                       alt="Event Owner's avatar"
                     />
                   </div>
 
                   <mat-card-title>{{ event.title }}</mat-card-title>
                   <mat-card-subtitle
-                    >{{ connectedUser.firstName }}
-                    {{ connectedUser?.lastName }}</mat-card-subtitle
+                    >{{ selectedUser.firstName }}
+                    {{ selectedUser?.lastName }}</mat-card-subtitle
                   >
                 </mat-card-header>
                 <img

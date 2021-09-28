@@ -225,7 +225,7 @@
         <a class="dropdown-item" [routerLink]="['/profile']"
           ><i class="fa fa-user"></i> Profile</a
         >
-        <a class="dropdown-item" href="#"
+        <a class="dropdown-item" [routerLink]="['/settings']"
           ><i class="fa fa-wrench"></i> Settings</a
         >
 
@@ -246,92 +246,90 @@
   </app-sidebar>
   <!-- Main content -->
   <div class="main">
+    <nav class="navbar navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
+          <li class="d-flex col-9 col-md-8">
+            <input
+              [(ngModel)]="searchText"
+              class="form-control me-2 search-input"
+              type="search"
+              placeholder="Search for tickets"
+              aria-label="Search"
+            />
+          </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="creationUp()">
+                First created <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="creationDown()">
+                Last created <mat-icon>south</mat-icon>
+              </button>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <div class="content">
-      <h1 class="page-title">Settings</h1>
+      <h1 class="page-title">Admin Space : Tickets</h1>
+      <div class="list">
+        <hr />
+        <mat-card
+          class="example-card"
+          *ngFor="let ticket of ticketList | filter: searchText"
+        >
+          <mat-card-title-group>
+            <mat-card-title>Ticket id : {{ ticket._id }}</mat-card-title>
+            <mat-card-subtitle
+              >Booked at : {{ ticket.createdAt }}</mat-card-subtitle
+            >
+
+            <button
+              mat-mini-fab
+              mat-card-sm-image
+              color="primary"
+              class="downloadBtn"
+              aria-label="Example icon button with a menu icon"
+              (click)="downloadTicket(ticket.ticketPath)"
+            >
+              <mat-icon>find_in_page</mat-icon>
+            </button>
+          </mat-card-title-group>
+          <mat-card-content class="card-content">
+            <div class="infos">
+              <h3>User infos :</h3>
+              <p>
+                <strong>Name : </strong>{{ ticket.owner.firstName }}
+                {{ ticket.owner.lastName }}
+              </p>
+              <p><strong>Email :</strong> {{ ticket.owner.email }}</p>
+              <p><strong>Phone number :</strong> {{ ticket.owner.phone }}</p>
+              <hr />
+              <h3>Event Infos :</h3>
+              <p><strong>Title:</strong> {{ ticket.event.title }}</p>
+              <p>
+                <strong>description:</strong>
+                {{ ticket.event.description }}
+              </p>
+              <p>
+                <strong>Starts at :</strong> {{ ticket.event.startDateTime }}
+              </p>
+              <p><strong>Ends at :</strong> {{ ticket.event.endDateTime }}</p>
+            </div>
+            <div class="buttons">
+              <button class="btn btn-danger" (click)="deleteTicket(ticket)">
+                Delete Ticket
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
       <hr />
-      <mat-accordion class="according">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Reset password </mat-panel-title>
-            <mat-panel-description> Reset your password </mat-panel-description>
-          </mat-expansion-panel-header>
-          <form
-            [formGroup]="resetPasswordForm"
-            id="resetPasswordForm"
-            (ngSubmit)="resetPassword(resetPasswordForm)"
-          >
-            <mat-form-field id="with-errors" appearance="fill">
-              <mat-label>enter your old password here</mat-label>
-              <input type="password" matInput formControlName="oldPassword" />
-              <mat-error
-                *ngIf="resetPasswordForm.controls.oldPassword.errors?.required"
-                >Please enter your old password</mat-error
-              >
-            </mat-form-field>
-            <mat-form-field id="with-errors" appearance="fill">
-              <mat-label>enter your new password here</mat-label>
-              <input type="password" matInput formControlName="newPassword" />
-              <mat-error
-                *ngIf="resetPasswordForm.controls.newPassword.errors?.required"
-                >Please enter your new password</mat-error
-              >
-              <mat-error
-                *ngIf="resetPasswordForm.controls.newPassword.errors?.pattern"
-                >Must contain at least 1 letter and 1number</mat-error
-              >
-              <mat-error
-                *ngIf="
-                  resetPasswordForm.controls.newPassword.errors?.minlength &&
-                  !resetPasswordForm.controls.newPassword.errors?.pattern
-                "
-                >Must contain at least 4 characters</mat-error
-              >
-            </mat-form-field>
-            <mat-form-field id="with-errors" appearance="fill">
-              <mat-label>enter your new password here</mat-label>
-              <input
-                type="password"
-                matInput
-                formControlName="confirmPassword"
-              />
-              <mat-error
-                *ngIf="
-                  resetPasswordForm.controls.confirmPassword.errors?.required
-                "
-                >Please confirm your password</mat-error
-              >
-            </mat-form-field>
-            <button type="submit" class="btn btn-success">
-              Reset password
-            </button>
-          </form>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Desactivate account </mat-panel-title>
-            <mat-panel-description>
-              Desactivat your account
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <form
-            [formGroup]="desactivateForm"
-            id="desactivateForm"
-            (ngSubmit)="desactivateAccount(desactivateForm)"
-          >
-            <mat-form-field id="with-errors" appearance="fill">
-              <mat-label>enter your password here</mat-label>
-              <input type="password" matInput formControlName="password" />
-              <mat-error
-                *ngIf="desactivateForm.controls.password.errors?.required"
-                >Please enter your password</mat-error
-              >
-            </mat-form-field>
-            <button type="submit" class="btn btn-outline-danger">
-              Desactivate
-            </button>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
     </div>
   </div>
 </div>

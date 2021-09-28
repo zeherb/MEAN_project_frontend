@@ -1,0 +1,26 @@
+<form [formGroup]="tagForm" (ngSubmit)="updateTag(tagForm)">
+  <h1>Update tag :</h1>
+  <h2><i class="fa fa-hashtag text-info"></i> {{ tag.name }}</h2>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" />
+    <mat-error *ngIf="tagForm.controls.name.errors?.required">
+      Name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput type="text" formControlName="description"></textarea>
+    <mat-error *ngIf="tagForm.controls.description.errors?.required">
+      Description is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <div class="buttons">
+    <button type="button" [mat-dialog-close]="false" class="btn btn-danger">
+      Cancel<mat-icon>close</mat-icon>
+    </button>
+    <button type="submit" class="btn btn-success">
+      Confirm<mat-icon>check</mat-icon>
+    </button>
+  </div>
+</form>

@@ -5,8 +5,10 @@ import { Routes, RouterModule } from "@angular/router";
 import { DefaultLayoutComponent } from "./containers";
 import { AddEventComponent } from "./my-components/add-event/add-event.component";
 import { AdminGuard } from "./my-components/admin.guard";
+import { AnyOtherProfileComponent } from "./my-components/any-other-profile/any-other-profile.component";
 import { AuthGuard } from "./my-components/auth.guard";
 import { ConnectedGuard } from "./my-components/connected.guard";
+import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
 import { ForgotPasswordComponent } from "./my-components/forgot-password/forgot-password.component";
 import { HomeComponent } from "./my-components/home/home.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
@@ -14,6 +16,8 @@ import { MyProfileComponent } from "./my-components/my-profile/my-profile.compon
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
 import { ResetPasswordComponent } from "./my-components/reset-password/reset-password.component";
 import { SettingsComponent } from "./my-components/settings/settings.component";
+import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
+import { TicketsAdminComponent } from "./my-components/tickets-admin/tickets-admin.component";
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
@@ -89,6 +93,26 @@ export const routes: Routes = [
     path: "admin-space-users",
     component: UsersAdminComponent,
     canActivate: [AdminGuard],
+  },
+  {
+    path: "admin-space-events",
+    component: EventsAdminComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "admin-space-tags",
+    component: TagsAdminComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "admin-space-tickets",
+    component: TicketsAdminComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "user-profile",
+    component: AnyOtherProfileComponent,
+    canActivate: [AuthGuard],
   },
   // *************
   {

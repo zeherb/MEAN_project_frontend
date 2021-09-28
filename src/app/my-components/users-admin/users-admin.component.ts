@@ -20,6 +20,7 @@ export class UsersAdminComponent implements OnInit {
   allUsersList: any;
   adminList: any;
   usersList: any;
+  searchText: any;
   baseUrl = environment.baseUrl;
   public navItems = navItems;
   public sidebarMinimized = true;
@@ -73,6 +74,10 @@ export class UsersAdminComponent implements OnInit {
           );
           element.updatedAt = this.datePipe.transform(
             element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
             "dd MMMM yyyy, à HH:mm"
           );
           if (element.role == "admin") {
@@ -135,6 +140,10 @@ export class UsersAdminComponent implements OnInit {
                     element.updatedAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
                   if (element.role == "admin") {
                     this.adminList.push(element);
                   } else {
@@ -194,6 +203,10 @@ export class UsersAdminComponent implements OnInit {
                     element.updatedAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
                   if (element.role == "admin") {
                     this.adminList.push(element);
                   } else {
@@ -249,6 +262,10 @@ export class UsersAdminComponent implements OnInit {
                     element.updatedAt,
                     "dd MMMM yyyy, à HH:mm"
                   );
+                  element.createdAt = this.datePipe.transform(
+                    element.createdAt,
+                    "dd MMMM yyyy, à HH:mm"
+                  );
                   if (element.role == "admin") {
                     this.adminList.push(element);
                   } else {
@@ -261,5 +278,283 @@ export class UsersAdminComponent implements OnInit {
         );
       }
     });
+  }
+  AtoZ() {
+    this.adminList.sort(this.dynamicSort("firstName"));
+    this.usersList.sort(this.dynamicSort("firstName"));
+  }
+  ZtoA() {
+    this.adminList.sort(this.dynamicSort("-firstName"));
+    this.usersList.sort(this.dynamicSort("-firstName"));
+  }
+  creationUp() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.createdAt = new Date(element.createdAt).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("createdAt"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  creationDown() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.createdAt = new Date(element.createdAt).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("-createdAt"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  updateUp() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.updatedAt = new Date(element.updatedAt).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("updatedAt"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  updateDown() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.updatedAt = new Date(element.updatedAt).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("-updatedAt"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  ageUp() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.birthDate = new Date(element.birthDate).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("-birthDate"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  ageDown() {
+    this.userservice.getUsers().subscribe(
+      (res) => {
+        this.allUsersList = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.message);
+      },
+      () => {
+        this.adminList = [];
+        this.usersList = [];
+        this.allUsersList.forEach((element) => {
+          element.birthDate = new Date(element.birthDate).getTime();
+        });
+        this.allUsersList.sort(this.dynamicSort("birthDate"));
+        this.allUsersList.forEach((element) => {
+          element.birthDate = this.datePipe.transform(
+            element.birthDate,
+            "dd MMMM yyyy"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd MMMM yyyy, à HH:mm"
+          );
+          if (element.role == "admin") {
+            this.adminList.push(element);
+          } else {
+            this.usersList.push(element);
+          }
+        });
+      }
+    );
+  }
+  eventsUp() {
+    let adminsClone = this.adminList;
+    let usersClone = this.usersList;
+    adminsClone.forEach((element) => {
+      element.eventNum = element.events.length;
+    });
+    usersClone.forEach((element) => {
+      element.eventNum = element.events.length;
+    });
+
+    adminsClone.sort(this.dynamicSort("eventNum"));
+    usersClone.sort(this.dynamicSort("eventNum"));
+    this.adminList = adminsClone;
+    this.usersList = usersClone;
+  }
+  eventsDown() {
+    let adminsClone = this.adminList;
+    let usersClone = this.usersList;
+    adminsClone.forEach((element) => {
+      element.eventNum = element.events.length;
+    });
+    usersClone.forEach((element) => {
+      element.eventNum = element.events.length;
+    });
+
+    adminsClone.sort(this.dynamicSort("-eventNum"));
+    usersClone.sort(this.dynamicSort("-eventNum"));
+    this.adminList = adminsClone;
+    this.usersList = usersClone;
+  }
+  dynamicSort(property) {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      let result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
   }
 }

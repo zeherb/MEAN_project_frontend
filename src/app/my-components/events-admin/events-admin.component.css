@@ -12,11 +12,6 @@
   transition: 0.5s;
   color: white;
 }
-.active-link {
-  background-color: #306bffd2 !important;
-  font-weight: 900;
-  color: white;
-}
 
 .utilities {
   margin-right: 10px;
@@ -32,13 +27,11 @@ button:focus {
 .content {
   margin-top: 10px;
   margin-bottom: 60px;
-}
-.cards {
   display: flex;
-  justify-content: flex-start;
-}
-.one-card {
-  margin-bottom: 10px;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
 }
 .img-avatar {
   height: 40px !important;
@@ -46,18 +39,54 @@ button:focus {
   border-radius: 20px;
   box-shadow: 0px 0px 10px 0px rgb(61, 61, 61);
 }
+.card-img-avatar {
+  height: 80px !important;
+  width: 80px !important;
+  border-radius: 40px;
+  box-shadow: 0px 0px 10px 0px rgb(61, 61, 61);
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+a {
+  cursor: pointer;
+}
+.page-title {
+  font-weight: bold;
+  color: rgb(66, 170, 255);
+}
+
+.cards {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  width: 100%;
+}
+.one-card {
+  margin-bottom: 10px;
+}
 .event-owner-img {
   height: 50px;
   width: 50px;
   border-radius: 25px;
   box-shadow: 0px 0px 10px 0px rgb(61, 61, 61);
-  cursor: pointer;
 }
-.owner-name:hover {
-  cursor: pointer;
-  text-decoration: underline;
-  font-weight: 500;
-}
+
 .custom-card-header {
   height: 80px;
 }
@@ -65,10 +94,10 @@ button:focus {
   height: 225px;
 }
 .custom-card-content {
-  height: 250px;
+  height: 300px;
 }
 .instructions {
-  height: 100px;
+  height: 150px;
 }
 .instructions .description-title {
   margin-bottom: 10px !important ;
@@ -92,39 +121,27 @@ button:focus {
   justify-content: space-between;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f7f7f7;
-  border-radius: 20px;
-}
-::-webkit-scrollbar-thumb {
-  background: #dedede;
-  border-radius: 20px;
-}
-.infos {
+.event-infos {
   display: flex;
   justify-content: space-around;
 }
-.infos .btn {
+.event-infos .btn {
   width: 46%;
   padding: 0;
 }
-.infos .AP {
+.event-infos .AP {
   width: 54% !important;
 }
 .card-buttons {
   display: flex;
   flex-direction: column;
 }
-#footer {
-  position: fixed;
-  bottom: 0;
+.mat-tabs {
   width: 100%;
+  margin: 0;
 }
-a {
-  cursor: pointer;
+.update-event-btn {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }

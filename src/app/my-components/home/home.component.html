@@ -65,7 +65,7 @@
           <i class="icon-basket-loaded text-primary"></i> Tickets
         </a>
         <a [routerLink]="['/admin-space-tags']" class="dropdown-item">
-          <i class="icon-speedometer text-warning"></i> Tags
+          <i class="fa fa-hashtag text-warning"></i> Tags
         </a>
       </div>
     </li>
@@ -251,6 +251,7 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
           <li class="d-flex col-9 col-md-8">
             <input
+              [(ngModel)]="searchText"
               class="form-control me-2 search-input"
               type="search"
               placeholder="Search for events"
@@ -262,13 +263,15 @@
               Sort <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="ascendingPrice()">
                 Ascending price <mat-icon>north</mat-icon>
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="decreasingPrice()">
                 Decreasing price <mat-icon>south</mat-icon>
               </button>
-              <button mat-menu-item>Availability</button>
+              <button mat-menu-item (click)="availability()">
+                Availability
+              </button>
             </mat-menu>
           </li>
         </ul>
@@ -276,7 +279,10 @@
     </nav>
     <div class="content container-fluid">
       <div class="row cards">
-        <div class="one-card col-12 col-md-4" *ngFor="let event of eventList">
+        <div
+          class="one-card col-12 col-md-4"
+          *ngFor="let event of eventList | filter: searchText"
+        >
           <mat-card class="example-card">
             <mat-card-header class="custom-card-header">
               <div mat-card-avatar class="example-header-image">
@@ -284,11 +290,14 @@
                   class="event-owner-img"
                   src="{{ baseUrl }}/avatar/{{ event.owner.avatar }}"
                   alt="Event Owner's avatar"
+                  (click)="profile(event.owner._id)"
                 />
               </div>
 
               <mat-card-title>{{ event.title }}</mat-card-title>
               <mat-card-subtitle
+                class="owner-name"
+                (click)="profile(event.owner._id)"
                 >{{ event.owner.firstName }}
                 {{ event.owner.lastName }}</mat-card-subtitle
               >
