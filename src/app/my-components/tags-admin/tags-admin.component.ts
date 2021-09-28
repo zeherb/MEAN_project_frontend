@@ -9,9 +9,10 @@ import { environment } from "../../../environments/environment";
 import { EventService } from "../../services/event.service";
 import { TagsService } from "../../services/tags.service";
 import { UserService } from "../../services/user.service";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 import { UpdateTagComponent } from "./dialogs/update-tag/update-tag.component";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-tags-admin",
@@ -24,7 +25,7 @@ export class TagsAdminComponent implements OnInit {
   baseUrl = environment.baseUrl;
   allTags: any[];
   searchText: any;
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -57,7 +58,13 @@ export class TagsAdminComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.tagService.getAllTags().subscribe(
       (res) => {

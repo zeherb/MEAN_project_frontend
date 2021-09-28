@@ -7,8 +7,9 @@ import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
 import { TicketService } from "../../services/ticket.service";
 import { UserService } from "../../services/user.service";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-tickets-admin",
@@ -21,7 +22,7 @@ export class TicketsAdminComponent implements OnInit {
   baseUrl = environment.baseUrl;
   searchText: any;
   ticketList: any;
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -55,7 +56,13 @@ export class TicketsAdminComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.ticketService.getAllTickets().subscribe(
       (res) => {

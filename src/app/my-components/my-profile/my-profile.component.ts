@@ -6,13 +6,14 @@ import { ToasterService } from "angular2-toaster";
 import { environment } from "../../../environments/environment";
 import { user } from "../../models/user";
 import { UserService } from "../../services/user.service";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { ConfirmDeleteEventComponent } from "./dialogs/confirm-delete-event/confirm-delete-event.component";
 import { EditAvatarComponent } from "./dialogs/edit-avatar/edit-avatar.component";
 import { EditProfileComponent } from "./dialogs/edit-profile/edit-profile.component";
 import { UpdateEventComponent } from "./dialogs/update-event/update-event.component";
 import jwtDecode from "jwt-decode";
 import { BookingDialogComponent } from "../home/dialogs/booking-dialog/booking-dialog.component";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-my-profile",
@@ -31,7 +32,7 @@ export class MyProfileComponent implements OnInit {
   joinedUsText: String;
   joinedUsNumber: number;
 
-  public navItems = navItems;
+  navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -129,6 +130,11 @@ export class MyProfileComponent implements OnInit {
             this.programmedEvents.push(element);
           }
         });
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
       }
     );
   }

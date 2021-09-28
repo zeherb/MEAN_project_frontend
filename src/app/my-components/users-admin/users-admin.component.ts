@@ -6,8 +6,9 @@ import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
 import { UserService } from "../../services/user.service";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { ConfirmationComponent } from "./dialogs/confirmation/confirmation.component";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-users-admin",
@@ -22,7 +23,7 @@ export class UsersAdminComponent implements OnInit {
   usersList: any;
   searchText: any;
   baseUrl = environment.baseUrl;
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -56,7 +57,13 @@ export class UsersAdminComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.userservice.getUsers().subscribe(
       (res) => {

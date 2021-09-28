@@ -14,6 +14,8 @@ import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
+import { navItems } from "../../nav";
+import { navAdminItems } from "../../nav-admin";
 import { UserService } from "../../services/user.service";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 
@@ -29,7 +31,7 @@ export class SettingsComponent implements OnInit {
   baseUrl = environment.baseUrl;
   resetPasswordForm: FormGroup;
   desactivateForm: FormGroup;
-
+  navItems: any;
   constructor(
     private userservice: UserService,
     private toaster: ToasterService,
@@ -46,7 +48,13 @@ export class SettingsComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.resetPasswordForm = new FormGroup(
       {
