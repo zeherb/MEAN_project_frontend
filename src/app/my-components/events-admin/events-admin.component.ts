@@ -7,8 +7,9 @@ import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user.service";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-events-admin",
@@ -25,7 +26,7 @@ export class EventsAdminComponent implements OnInit {
   today: any;
   searchText: any;
   baseUrl = environment.baseUrl;
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -58,7 +59,13 @@ export class EventsAdminComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.today = Date.now();
     this.finishedEvents = [];

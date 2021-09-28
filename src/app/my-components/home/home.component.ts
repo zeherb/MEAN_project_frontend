@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { DatePipe, DOCUMENT } from "@angular/common";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
+import { navAdminItems } from "../../nav-admin";
 import { EventService } from "../../services/event.service";
 import { event } from "../../models/event";
 import { user } from "../../models/user";
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
   connectedUser: user;
   userId: any;
   searchText: any;
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -55,7 +56,13 @@ export class HomeComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.eventService.getAllEvents().subscribe(
       (res) => {

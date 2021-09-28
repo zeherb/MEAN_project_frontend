@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
-import { navItems } from "../../_nav";
+import { navItems } from "../../nav";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Observable } from "rxjs";
@@ -23,6 +23,7 @@ import { UserService } from "../../services/user.service";
 import { user } from "../../models/user";
 import { environment } from "../../../environments/environment";
 import jwtDecode from "jwt-decode";
+import { navAdminItems } from "../../nav-admin";
 
 @Component({
   selector: "app-add-event",
@@ -47,7 +48,7 @@ export class AddEventComponent implements OnInit {
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
   // default
-  public navItems = navItems;
+  navItems: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -83,7 +84,13 @@ export class AddEventComponent implements OnInit {
       (err) => {
         console.log(err);
       },
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
 
     this.tagService.getAllTags().subscribe(

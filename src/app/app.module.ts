@@ -76,7 +76,7 @@ import { EventsAdminComponent } from "./my-components/events-admin/events-admin.
 import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
 import { UpdateTagComponent } from "./my-components/tags-admin/dialogs/update-tag/update-tag.component";
 import { AnyOtherProfileComponent } from "./my-components/any-other-profile/any-other-profile.component";
-import { TicketsAdminComponent } from './my-components/tickets-admin/tickets-admin.component';
+import { TicketsAdminComponent } from "./my-components/tickets-admin/tickets-admin.component";
 
 @NgModule({
   imports: [
