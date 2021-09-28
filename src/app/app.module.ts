@@ -29,10 +29,11 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { Ng2SearchPipeModule } from "ng2-search-filter";
 
 // Import components
+import { HomeComponent } from "./my-components/home/home.component";
+import { AddEventComponent } from "./my-components/add-event/add-event.component";
+import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-tag/add-new-tag.component";
 import { AppComponent } from "./app.component";
-import { DefaultLayoutComponent } from "./containers";
 import { P404Component } from "./views/error/404.component";
-import { P500Component } from "./views/error/500.component";
 import { MyRegisterComponent } from "./my-components/my-register/my-register.component";
 import { MyLoginComponent } from "./my-components/my-login/my-login.component";
 import { MyProfileComponent } from "./my-components/my-profile/my-profile.component";
@@ -56,9 +57,7 @@ import { ToasterModule, ToasterService } from "angular2-toaster";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TextMaskModule } from "angular2-text-mask";
-import { HomeComponent } from "./my-components/home/home.component";
-import { AddEventComponent } from "./my-components/add-event/add-event.component";
-import { AddNewTagComponent } from "./my-components/add-event/dialogs/add-new-tag/add-new-tag.component";
+
 import { AuthInterceptor } from "./services/auth.interceptor";
 import { UpdateEventComponent } from "./my-components/my-profile/dialogs/update-event/update-event.component";
 import { UpdateEventImageComponent } from "./my-components/my-profile/dialogs/update-event-image/update-event-image.component";
@@ -131,9 +130,7 @@ import { TicketsAdminComponent } from "./my-components/tickets-admin/tickets-adm
   ],
   declarations: [
     AppComponent,
-    DefaultLayoutComponent,
     P404Component,
-    P500Component,
     MyRegisterComponent,
     MyLoginComponent,
     HomeComponent,
