@@ -17,6 +17,7 @@ import { MyRegisterComponent } from "./my-components/my-register/my-register.com
 import { ResetPasswordComponent } from "./my-components/reset-password/reset-password.component";
 import { SettingsComponent } from "./my-components/settings/settings.component";
 import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
+import { TicketsAdminComponent } from "./my-components/tickets-admin/tickets-admin.component";
 import { UsersAdminComponent } from "./my-components/users-admin/users-admin.component";
 import { P404Component } from "./views/error/404.component";
 import { P500Component } from "./views/error/500.component";
@@ -101,6 +102,11 @@ export const routes: Routes = [
   {
     path: "admin-space-tags",
     component: TagsAdminComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: "admin-space-tickets",
+    component: TicketsAdminComponent,
     canActivate: [AdminGuard],
   },
   {
