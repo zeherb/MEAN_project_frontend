@@ -23,6 +23,7 @@ export class TagsAdminComponent implements OnInit {
   connectedUser: any;
   baseUrl = environment.baseUrl;
   allTags: any[];
+  searchText: any;
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;

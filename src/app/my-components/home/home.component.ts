@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   baseUrl = environment.baseUrl;
   connectedUser: user;
   userId: any;
+  searchText: any;
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;

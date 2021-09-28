@@ -26,6 +26,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatCardModule } from "@angular/material/card";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { Ng2SearchPipeModule } from "ng2-search-filter";
 
 // Import components
 import { AppComponent } from "./app.component";
@@ -74,7 +75,7 @@ import { SettingsComponent } from "./my-components/settings/settings.component";
 import { EventsAdminComponent } from "./my-components/events-admin/events-admin.component";
 import { TagsAdminComponent } from "./my-components/tags-admin/tags-admin.component";
 import { UpdateTagComponent } from "./my-components/tags-admin/dialogs/update-tag/update-tag.component";
-import { AnyOtherProfileComponent } from './my-components/any-other-profile/any-other-profile.component';
+import { AnyOtherProfileComponent } from "./my-components/any-other-profile/any-other-profile.component";
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { AnyOtherProfileComponent } from './my-components/any-other-profile/any-
     MatTabsModule,
     MatExpansionModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
   ],
   entryComponents: [
     AddNewTagComponent,

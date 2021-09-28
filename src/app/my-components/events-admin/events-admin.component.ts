@@ -23,7 +23,7 @@ export class EventsAdminComponent implements OnInit {
   liveEvents: any[];
   programmedEvents: any[];
   today: any;
-
+  searchText: any;
   baseUrl = environment.baseUrl;
   public navItems = navItems;
   public sidebarMinimized = true;

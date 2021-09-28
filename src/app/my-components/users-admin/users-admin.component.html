@@ -251,9 +251,10 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
           <li class="d-flex col-9 col-md-8">
             <input
+              [(ngModel)]="searchText"
               class="form-control me-2 search-input"
               type="search"
-              placeholder="Search for events"
+              placeholder="Search for users"
               aria-label="Search"
             />
           </li>
@@ -302,7 +303,10 @@
       <div class="list admins">
         <h1>Admins</h1>
         <hr />
-        <mat-card class="example-card" *ngFor="let admin of adminList">
+        <mat-card
+          class="example-card"
+          *ngFor="let admin of adminList | filter: searchText"
+        >
           <mat-card-title-group>
             <mat-card-title
               >{{ admin.firstName }} {{ admin.lastName }}</mat-card-title
@@ -343,7 +347,10 @@
         <hr />
         <h1>Users</h1>
         <hr />
-        <mat-card class="example-card" *ngFor="let user of usersList">
+        <mat-card
+          class="example-card"
+          *ngFor="let user of usersList | filter: searchText"
+        >
           <mat-card-title-group>
             <mat-card-title
               >{{ user.firstName }} {{ user.lastName }}</mat-card-title

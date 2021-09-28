@@ -20,6 +20,7 @@ export class UsersAdminComponent implements OnInit {
   allUsersList: any;
   adminList: any;
   usersList: any;
+  searchText: any;
   baseUrl = environment.baseUrl;
   public navItems = navItems;
   public sidebarMinimized = true;

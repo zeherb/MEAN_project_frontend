@@ -251,9 +251,10 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
           <li class="d-flex col-9 col-md-8">
             <input
+              [(ngModel)]="searchText"
               class="form-control me-2 search-input"
               type="search"
-              placeholder="Search for events"
+              placeholder="Search for tags"
               aria-label="Search"
             />
           </li>
@@ -288,7 +289,7 @@
     <div class="content">
       <h1 class="page-title">Admin Space : Tags</h1>
       <mat-accordion class="according">
-        <mat-expansion-panel *ngFor="let tag of allTags">
+        <mat-expansion-panel *ngFor="let tag of allTags | filter: searchText">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <i class="fa fa-hashtag text-info"></i> &nbsp;

@@ -251,6 +251,7 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 nav-list row">
           <li class="d-flex col-9 col-md-8">
             <input
+              [(ngModel)]="searchText"
               class="form-control me-2 search-input"
               type="search"
               placeholder="Search for events"
@@ -287,7 +288,7 @@
           ><div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of programmedEvents"
+              *ngFor="let event of programmedEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
@@ -381,7 +382,7 @@
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of liveEvents"
+              *ngFor="let event of liveEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
@@ -471,7 +472,7 @@
           <div class="row cards">
             <div
               class="one-card col-12 col-md-4"
-              *ngFor="let event of finishedEvents"
+              *ngFor="let event of finishedEvents | filter: searchText"
             >
               <mat-card class="example-card">
                 <mat-card-header class="custom-card-header">
