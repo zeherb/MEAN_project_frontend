@@ -104,9 +104,15 @@ export class MyRegisterComponent implements OnInit {
       const dob = form.controls.birthDate.value.split("/");
       const birthDate = dob[1] + "/" + dob[0] + "/" + dob[2];
       let formData = new FormData();
-      formData.append("firstName", form.controls.firstName.value.trim());
-      formData.append("lastName", form.controls.lastName.value.trim());
-      formData.append("email", form.controls.email.value.trim());
+      formData.append(
+        "firstName",
+        form.controls.firstName.value.trim().toLowerCase()
+      );
+      formData.append(
+        "lastName",
+        form.controls.lastName.value.trim().toLowerCase()
+      );
+      formData.append("email", form.controls.email.value.trim().toLowerCase());
       formData.append("password", form.controls.password.value);
       formData.append("birthDate", birthDate);
       formData.append("phone", form.controls.phone.value);
