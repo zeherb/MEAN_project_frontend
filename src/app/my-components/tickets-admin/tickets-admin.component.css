@@ -79,6 +79,9 @@ a {
 .example-card {
   margin-bottom: 5px;
 }
+.example-card * {
+  word-break: break-all;
+}
 .downloadBtn {
   width: 60px;
   height: 60px;
