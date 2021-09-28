@@ -257,6 +257,43 @@
               aria-label="Search"
             />
           </li>
+          <li class="nav-item dropdown col-2 col-md-3">
+            <button mat-button [matMenuTriggerFor]="beforeMenu">
+              Sort <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="AtoZ()">
+                Name (A-Z) <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ZtoA()">
+                Name (Z-A) <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="creationUp()">
+                First created <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="creationDown()">
+                Last created <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="updateUp()">
+                First updated <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="updateDown()">
+                Last Updated <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ageUp()">
+                Ascending age <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="ageDown()">
+                Decreasing age <mat-icon>south</mat-icon>
+              </button>
+              <button mat-menu-item (click)="eventsUp()">
+                More Events <mat-icon>north</mat-icon>
+              </button>
+              <button mat-menu-item (click)="eventsDown()">
+                Less Events <mat-icon>south</mat-icon>
+              </button>
+            </mat-menu>
+          </li>
         </ul>
       </div>
     </nav>

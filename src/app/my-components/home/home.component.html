@@ -262,13 +262,15 @@
               Sort <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="ascendingPrice()">
                 Ascending price <mat-icon>north</mat-icon>
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="decreasingPrice()">
                 Decreasing price <mat-icon>south</mat-icon>
               </button>
-              <button mat-menu-item>Availability</button>
+              <button mat-menu-item (click)="availability()">
+                Availability
+              </button>
             </mat-menu>
           </li>
         </ul>

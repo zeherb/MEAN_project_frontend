@@ -4,6 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
+import { element } from "protractor";
 import { environment } from "../../../environments/environment";
 import { EventService } from "../../services/event.service";
 import { TagsService } from "../../services/tags.service";
@@ -162,5 +163,131 @@ export class TagsAdminComponent implements OnInit {
         );
       }
     });
+  }
+  AtoZ() {
+    this.allTags.sort(this.dynamicSort("name"));
+  }
+  ZtoA() {
+    this.allTags.sort(this.dynamicSort("-name"));
+  }
+  creationUp() {
+    this.tagService.getAllTags().subscribe(
+      (res) => {
+        this.allTags = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.error.message);
+      },
+      () => {
+        this.allTags.forEach((element) => {
+          element.createdAt = new Date(element.createdAt).getTime();
+        });
+        this.allTags.sort(this.dynamicSort("createdAt"));
+        this.allTags.forEach((element) => {
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+        });
+      }
+    );
+  }
+  creationDown() {
+    this.tagService.getAllTags().subscribe(
+      (res) => {
+        this.allTags = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.error.message);
+      },
+      () => {
+        this.allTags.forEach((element) => {
+          element.createdAt = new Date(element.createdAt).getTime();
+        });
+        this.allTags.sort(this.dynamicSort("-createdAt"));
+        this.allTags.forEach((element) => {
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+        });
+      }
+    );
+  }
+  updateUp() {
+    this.tagService.getAllTags().subscribe(
+      (res) => {
+        this.allTags = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.error.message);
+      },
+      () => {
+        this.allTags.forEach((element) => {
+          element.updatedAt = new Date(element.updatedAt).getTime();
+        });
+        this.allTags.sort(this.dynamicSort("updatedAt"));
+        this.allTags.forEach((element) => {
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+        });
+      }
+    );
+  }
+  updateDown() {
+    this.tagService.getAllTags().subscribe(
+      (res) => {
+        this.allTags = res;
+      },
+      (err) => {
+        console.log(err);
+        this.toaster.pop("error", "Error", err.error.message);
+      },
+      () => {
+        this.allTags.forEach((element) => {
+          element.updatedAt = new Date(element.updatedAt).getTime();
+        });
+        this.allTags.sort(this.dynamicSort("-updatedAt"));
+        this.allTags.forEach((element) => {
+          element.createdAt = this.datePipe.transform(
+            element.createdAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+          element.updatedAt = this.datePipe.transform(
+            element.updatedAt,
+            "dd/MM/yyyy, HH,mm"
+          );
+        });
+      }
+    );
+  }
+  dynamicSort(property) {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      let result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
   }
 }
