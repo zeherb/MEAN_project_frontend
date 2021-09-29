@@ -24,6 +24,7 @@ import { user } from "../../models/user";
 import { environment } from "../../../environments/environment";
 import jwtDecode from "jwt-decode";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 
 @Component({
   selector: "app-add-event",
@@ -44,6 +45,7 @@ export class AddEventComponent implements OnInit {
   selectedTags: string[] = [];
   connectedUser: user;
   userId: any;
+  notifications: any[];
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
@@ -60,6 +62,7 @@ export class AddEventComponent implements OnInit {
     private dialog: MatDialog,
     private toasterService: ToasterService,
     private tagService: TagsService,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -104,6 +107,17 @@ export class AddEventComponent implements OnInit {
         console.log(err);
       },
       () => {}
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        console.log(this.notifications);
+      }
     );
 
     this.defaultHours = new Date().getHours() + 1;
