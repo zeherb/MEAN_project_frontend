@@ -16,6 +16,7 @@ import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
 import { navItems } from "../../nav";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 import { UserService } from "../../services/user.service";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 
@@ -32,11 +33,13 @@ export class SettingsComponent implements OnInit {
   resetPasswordForm: FormGroup;
   desactivateForm: FormGroup;
   navItems: any;
+  notifications: any[];
   constructor(
     private userservice: UserService,
     private toaster: ToasterService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notifService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +74,15 @@ export class SettingsComponent implements OnInit {
     this.desactivateForm = new FormGroup({
       password: new FormControl("", Validators.required),
     });
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
   }
 
   logOut() {

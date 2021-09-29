@@ -10,6 +10,7 @@ import { UserService } from "../../services/user.service";
 import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 
 @Component({
   selector: "app-tickets-admin",
@@ -23,6 +24,7 @@ export class TicketsAdminComponent implements OnInit {
   searchText: any;
   ticketList: any;
   navItems: any;
+  notifications: any[];
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -33,6 +35,7 @@ export class TicketsAdminComponent implements OnInit {
     private datePipe: DatePipe,
     private ticketService: TicketService,
     private dialog: MatDialog,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -87,6 +90,15 @@ export class TicketsAdminComponent implements OnInit {
           );
         });
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
   logOut() {

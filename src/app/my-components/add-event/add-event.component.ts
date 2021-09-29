@@ -115,9 +115,7 @@ export class AddEventComponent implements OnInit {
       (err) => {
         console.log(err);
       },
-      () => {
-        console.log(this.notifications);
-      }
+      () => {}
     );
 
     this.defaultHours = new Date().getHours() + 1;

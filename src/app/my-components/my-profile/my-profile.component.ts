@@ -14,6 +14,7 @@ import { UpdateEventComponent } from "./dialogs/update-event/update-event.compon
 import jwtDecode from "jwt-decode";
 import { BookingDialogComponent } from "../home/dialogs/booking-dialog/booking-dialog.component";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 
 @Component({
   selector: "app-my-profile",
@@ -31,7 +32,7 @@ export class MyProfileComponent implements OnInit {
   userId: any;
   joinedUsText: String;
   joinedUsNumber: number;
-
+  notifications: any[];
   navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
@@ -42,6 +43,7 @@ export class MyProfileComponent implements OnInit {
     private dialog: MatDialog,
     private userservice: UserService,
     private toaster: ToasterService,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -136,6 +138,15 @@ export class MyProfileComponent implements OnInit {
           this.navItems = navItems;
         }
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
 

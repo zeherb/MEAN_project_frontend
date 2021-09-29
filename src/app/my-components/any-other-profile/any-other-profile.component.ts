@@ -1,12 +1,15 @@
-import { DatePipe } from "@angular/common";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { DatePipe, DOCUMENT } from "@angular/common";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
 import { environment } from "../../../environments/environment";
+import { NotificationsService } from "../../services/notifications.service";
 import { UserService } from "../../services/user.service";
+import { navAdminItems } from "../../nav-admin";
 import { BookingDialogComponent } from "../home/dialogs/booking-dialog/booking-dialog.component";
+import { navItems } from "../../nav";
 
 @Component({
   selector: "app-any-other-profile",
@@ -25,13 +28,30 @@ export class AnyOtherProfileComponent implements OnInit {
   joinedUsText: String;
   joinedUsNumber: Number;
   connectedUser: any;
+  notifications: any[];
+  navItems: any;
+  public sidebarMinimized = true;
+  private changes: MutationObserver;
+  public element: HTMLElement;
   constructor(
     private dialog: MatDialog,
     private userService: UserService,
     private datePipe: DatePipe,
     private toaster: ToasterService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private notifService: NotificationsService,
+    @Inject(DOCUMENT) _document?: any
+  ) {
+    this.changes = new MutationObserver((mutations) => {
+      this.sidebarMinimized =
+        _document.body.classList.contains("sidebar-minimized");
+    });
+    this.element = _document.body;
+    this.changes.observe(<Element>this.element, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
 
   ngOnInit(): void {
     this.today = Date.now();
@@ -46,7 +66,13 @@ export class AnyOtherProfileComponent implements OnInit {
         this.connectedUser = res;
       },
       (err) => {},
-      () => {}
+      () => {
+        if (this.connectedUser.role === "admin") {
+          this.navItems = navAdminItems;
+        } else {
+          this.navItems = navItems;
+        }
+      }
     );
     this.selectedUserId = localStorage.getItem("selectedUserId");
     this.userService.getUserById(this.selectedUserId).subscribe(
@@ -116,6 +142,15 @@ export class AnyOtherProfileComponent implements OnInit {
           }
         });
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
   ngOnDestroy(): void {

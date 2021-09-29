@@ -9,6 +9,7 @@ import { UserService } from "../../services/user.service";
 import { navItems } from "../../nav";
 import { ConfirmationComponent } from "./dialogs/confirmation/confirmation.component";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 
 @Component({
   selector: "app-users-admin",
@@ -24,10 +25,12 @@ export class UsersAdminComponent implements OnInit {
   searchText: any;
   baseUrl = environment.baseUrl;
   navItems: any;
+  notifications: any[];
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
   constructor(
+    private notifService: NotificationsService,
     private userservice: UserService,
     private toaster: ToasterService,
     private router: Router,
@@ -94,6 +97,15 @@ export class UsersAdminComponent implements OnInit {
           }
         });
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
   logOut() {

@@ -13,6 +13,7 @@ import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 import { UpdateTagComponent } from "./dialogs/update-tag/update-tag.component";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
 
 @Component({
   selector: "app-tags-admin",
@@ -26,6 +27,7 @@ export class TagsAdminComponent implements OnInit {
   allTags: any[];
   searchText: any;
   navItems: any;
+  notifications: any[];
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -36,6 +38,7 @@ export class TagsAdminComponent implements OnInit {
     private datePipe: DatePipe,
     private dialog: MatDialog,
     private tagService: TagsService,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -85,6 +88,15 @@ export class TagsAdminComponent implements OnInit {
           );
         });
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
   logOut() {

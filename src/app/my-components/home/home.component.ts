@@ -12,6 +12,7 @@ import { ToasterService } from "angular2-toaster";
 import jwtDecode from "jwt-decode";
 import { MatDialog } from "@angular/material/dialog";
 import { BookingDialogComponent } from "./dialogs/booking-dialog/booking-dialog.component";
+import { NotificationsService } from "../../services/notifications.service";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
   userId: any;
   searchText: any;
   navItems: any;
+  notifications: any[];
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
     private userservice: UserService,
     private toaster: ToasterService,
     private dialog: MatDialog,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -93,6 +96,15 @@ export class HomeComponent implements OnInit {
           );
         });
       }
+    );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
   }
   logOut() {
