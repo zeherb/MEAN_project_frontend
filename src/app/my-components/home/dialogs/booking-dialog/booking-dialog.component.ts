@@ -42,9 +42,7 @@ export class BookingDialogComponent implements OnInit {
         this.reservationService
           .reservation(this.event._id, this.user._id)
           .subscribe(
-            (res) => {
-              console.log(res);
-            },
+            (res) => {},
             (err) => {
               console.log(err);
               this.toaster.pop("error", "Error", err.message);

@@ -130,7 +130,9 @@
                 *ngIf="notification.notifType == 'delete'"
                 >ADMIN</small
               >
-              <small class="text-muted float-right mt-1">Just now</small>
+              <small class="text-muted float-right mt-1"
+                >{{{notification.time}}}</small
+              >
             </div>
             <div
               class="font-weight-bold"

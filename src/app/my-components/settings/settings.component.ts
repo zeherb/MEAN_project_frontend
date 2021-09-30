@@ -19,6 +19,7 @@ import { navAdminItems } from "../../nav-admin";
 import { NotificationsService } from "../../services/notifications.service";
 import { UserService } from "../../services/user.service";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
+import { io } from "socket.io-client";
 
 @Component({
   selector: "app-settings",
@@ -34,13 +35,17 @@ export class SettingsComponent implements OnInit {
   desactivateForm: FormGroup;
   navItems: any;
   notifications: any[];
+  socket: any;
+
   constructor(
     private userservice: UserService,
     private toaster: ToasterService,
     private router: Router,
     private dialog: MatDialog,
     private notifService: NotificationsService
-  ) {}
+  ) {
+    this.socket = io(environment.baseUrl, { transports: ["websocket"] });
+  }
 
   ngOnInit(): void {
     this.userId = jwtDecode<any>(
@@ -76,13 +81,79 @@ export class SettingsComponent implements OnInit {
     });
     this.notifService.getNotifications(this.userId).subscribe(
       (res) => {
-        this.notifications = res;
+        this.notifications = res.reverse();
       },
       (err) => {
         console.log(err);
       },
-      () => {}
+      () => {
+        this.notifications.forEach((element) => {
+          let diffrence = this.transformCreationDate(element);
+          if (diffrence[0] > 1) {
+            element.time = diffrence[0] + " years ago";
+          } else if (diffrence[0] == 1) {
+            element.time = diffrence[0] + " year ago";
+          } else if (diffrence[1] > 1) {
+            element.time = diffrence[1] + " months ago";
+          } else if (diffrence[1] == 1) {
+            element.time = diffrence[1] + " month ago";
+          } else if (diffrence[2] > 1) {
+            element.time = diffrence[2] + " days ago";
+          } else if (diffrence[2] == 1) {
+            element.createdAt = diffrence[2] + " day ago";
+          } else if (diffrence[3] > 1) {
+            element.time = diffrence[3] + " hours ago";
+          } else if (diffrence[3] == 1) {
+            element.time = diffrence[3] + " hour ago";
+          } else if (diffrence[4] > 1) {
+            element.time = diffrence[4] + " minutes ago";
+          } else if (diffrence[4] == 1) {
+            element.time = diffrence[4] + " minute ago";
+          } else {
+            element.time = "Just now";
+          }
+        });
+      }
     );
+    this.socket.on("notification", (data) => {
+      this.toaster.pop("info", "New notificaiotn", data.text);
+      this.notifService.getNotifications(this.userId).subscribe(
+        (res) => {
+          this.notifications = res.reverse();
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          this.notifications.forEach((element) => {
+            let diffrence = this.transformCreationDate(element);
+            if (diffrence[0] > 1) {
+              element.time = diffrence[0] + " years ago";
+            } else if (diffrence[0] == 1) {
+              element.time = diffrence[0] + " year ago";
+            } else if (diffrence[1] > 1) {
+              element.time = diffrence[1] + " months ago";
+            } else if (diffrence[1] == 1) {
+              element.time = diffrence[1] + " month ago";
+            } else if (diffrence[2] > 1) {
+              element.time = diffrence[2] + " days ago";
+            } else if (diffrence[2] == 1) {
+              element.createdAt = diffrence[2] + " day ago";
+            } else if (diffrence[3] > 1) {
+              element.time = diffrence[3] + " hours ago";
+            } else if (diffrence[3] == 1) {
+              element.time = diffrence[3] + " hour ago";
+            } else if (diffrence[4] > 1) {
+              element.time = diffrence[4] + " minutes ago";
+            } else if (diffrence[4] == 1) {
+              element.time = diffrence[4] + " minute ago";
+            } else {
+              element.time = "Just now";
+            }
+          });
+        }
+      );
+    });
   }
 
   logOut() {
@@ -177,6 +248,26 @@ export class SettingsComponent implements OnInit {
         }
       });
     }
+  }
+  transformCreationDate(element) {
+    let diff = new Date().getTime() - new Date(element.createdAt).getTime();
+    let daysDifference = Math.floor(diff / 1000 / 60 / 60 / 24);
+    diff -= daysDifference * 1000 * 60 * 60 * 24;
+
+    let hoursDifference = Math.floor(diff / 1000 / 60 / 60);
+    diff -= hoursDifference * 1000 * 60 * 60;
+
+    let minutesDifference = Math.floor(diff / 1000 / 60);
+    diff -= minutesDifference * 1000 * 60;
+    let monthsDiff = Math.floor(daysDifference / 30);
+    let yearsDiff = Math.floor(monthsDiff / 12);
+    return [
+      yearsDiff,
+      monthsDiff,
+      daysDifference,
+      hoursDifference,
+      minutesDifference,
+    ];
   }
 }
 

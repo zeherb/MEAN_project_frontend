@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { ToasterConfig, ToasterService } from "angular2-toaster";
-
+// import * as io from "socket.io-client";
+import { io } from "socket.io-client";
+import { environment } from "../environments/environment";
+import { EventService } from "./services/event.service";
+import jwtDecode from "jwt-decode";
+import { SocketService } from "./services/socket.service";
+import { AuthentificationService } from "./services/authentification.service";
 @Component({
   selector: "body",
   styleUrls: ["../scss/vendors/toastr/toastr.scss"],
@@ -13,10 +19,35 @@ export class AppComponent implements OnInit {
     tapToDismiss: true,
     timeout: 5000,
   });
-
-  constructor(private router: Router, private toasterService: ToasterService) {}
+  socket: any;
+  data: any;
+  userId: any;
+  constructor(
+    private router: Router,
+    private socketService: SocketService,
+    private authService: AuthentificationService
+  ) {
+    this.socket = io(environment.baseUrl, { transports: ["websocket"] });
+  }
 
   ngOnInit() {
+    const token = localStorage.getItem("loginToken");
+    if (token) {
+      const loggedIn = this.authService.checkLoggedIn();
+      if (loggedIn) {
+        this.userId = jwtDecode<any>(
+          JSON.parse(localStorage.getItem("loginToken")).token
+        ).userId;
+        this.socket.on("connected", () => {
+          this.socketService.saveId(this.userId).subscribe(
+            (res) => {},
+            (err) => {},
+            () => {}
+          );
+        });
+      }
+    }
+
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
