@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
-import { ToasterConfig, ToasterService } from "angular2-toaster";
+import { ToasterConfig } from "angular2-toaster";
 // import * as io from "socket.io-client";
 import { io } from "socket.io-client";
 import { environment } from "../environments/environment";
-import { EventService } from "./services/event.service";
 import jwtDecode from "jwt-decode";
 import { SocketService } from "./services/socket.service";
 import { AuthentificationService } from "./services/authentification.service";
