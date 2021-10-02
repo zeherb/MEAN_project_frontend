@@ -5,6 +5,40 @@
   border-radius: 5px;
   padding: 2px 10px 2px 10px;
 }
+.notifications {
+  margin-right: -10px;
+}
+.notifText {
+  word-wrap: break-word;
+  white-space: normal;
+}
+.drop-down-notif {
+  height: 95px;
+}
+.notif-drop-down-menu {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}
+.img-avatar {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px 0px rgb(61, 61, 61);
+}
 
 .components .nav-item a:hover {
   background-color: #306bffd2;

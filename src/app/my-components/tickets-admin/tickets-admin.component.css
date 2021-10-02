@@ -91,3 +91,31 @@ h3 {
   font-weight: bold;
   font-style: italic;
 }
+.notifications {
+  margin-right: -10px;
+}
+.notifText {
+  word-wrap: break-word;
+  white-space: normal;
+}
+.drop-down-notif {
+  height: 95px;
+}
+.notif-drop-down-menu {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dedede;
+  border-radius: 20px;
+}

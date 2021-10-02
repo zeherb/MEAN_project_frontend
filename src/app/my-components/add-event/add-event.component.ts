@@ -24,6 +24,8 @@ import { user } from "../../models/user";
 import { environment } from "../../../environments/environment";
 import jwtDecode from "jwt-decode";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
+import { io } from "socket.io-client";
 
 @Component({
   selector: "app-add-event",
@@ -31,6 +33,7 @@ import { navAdminItems } from "../../nav-admin";
   styleUrls: ["./add-event.component.css"],
 })
 export class AddEventComponent implements OnInit {
+  newNotification: number;
   baseUrl = environment.baseUrl;
   eventForm: FormGroup;
   minStartDate: Date;
@@ -44,6 +47,8 @@ export class AddEventComponent implements OnInit {
   selectedTags: string[] = [];
   connectedUser: user;
   userId: any;
+  notifications: any[];
+  socket: any;
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
 
@@ -60,6 +65,7 @@ export class AddEventComponent implements OnInit {
     private dialog: MatDialog,
     private toasterService: ToasterService,
     private tagService: TagsService,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -71,6 +77,7 @@ export class AddEventComponent implements OnInit {
       attributes: true,
       attributeFilter: ["class"],
     });
+    this.socket = io(environment.baseUrl, { transports: ["websocket"] });
   }
 
   ngOnInit(): void {
@@ -105,6 +112,90 @@ export class AddEventComponent implements OnInit {
       },
       () => {}
     );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res.reverse();
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
+          let diffrence = this.transformCreationDate(element);
+          if (diffrence[0] > 1) {
+            element.time = diffrence[0] + " years ago";
+          } else if (diffrence[0] == 1) {
+            element.time = diffrence[0] + " year ago";
+          } else if (diffrence[1] > 1) {
+            element.time = diffrence[1] + " months ago";
+          } else if (diffrence[1] == 1) {
+            element.time = diffrence[1] + " month ago";
+          } else if (diffrence[2] > 1) {
+            element.time = diffrence[2] + " days ago";
+          } else if (diffrence[2] == 1) {
+            element.createdAt = diffrence[2] + " day ago";
+          } else if (diffrence[3] > 1) {
+            element.time = diffrence[3] + " hours ago";
+          } else if (diffrence[3] == 1) {
+            element.time = diffrence[3] + " hour ago";
+          } else if (diffrence[4] > 1) {
+            element.time = diffrence[4] + " minutes ago";
+          } else if (diffrence[4] == 1) {
+            element.time = diffrence[4] + " minute ago";
+          } else {
+            element.time = "Just now";
+          }
+        });
+      }
+    );
+    this.newNotification = 0;
+    this.socket.on("notification", (data) => {
+      this.toasterService.pop("info", "New notificaiotn", data.text);
+
+      this.notifService.getNotifications(this.userId).subscribe(
+        (res) => {
+          this.notifications = res.reverse();
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          this.newNotification = 0;
+          this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
+            let diffrence = this.transformCreationDate(element);
+            if (diffrence[0] > 1) {
+              element.time = diffrence[0] + " years ago";
+            } else if (diffrence[0] == 1) {
+              element.time = diffrence[0] + " year ago";
+            } else if (diffrence[1] > 1) {
+              element.time = diffrence[1] + " months ago";
+            } else if (diffrence[1] == 1) {
+              element.time = diffrence[1] + " month ago";
+            } else if (diffrence[2] > 1) {
+              element.time = diffrence[2] + " days ago";
+            } else if (diffrence[2] == 1) {
+              element.createdAt = diffrence[2] + " day ago";
+            } else if (diffrence[3] > 1) {
+              element.time = diffrence[3] + " hours ago";
+            } else if (diffrence[3] == 1) {
+              element.time = diffrence[3] + " hour ago";
+            } else if (diffrence[4] > 1) {
+              element.time = diffrence[4] + " minutes ago";
+            } else if (diffrence[4] == 1) {
+              element.time = diffrence[4] + " minute ago";
+            } else {
+              element.time = "Just now";
+            }
+          });
+        }
+      );
+    });
 
     this.defaultHours = new Date().getHours() + 1;
     this.eventForm = new FormGroup({
@@ -138,7 +229,26 @@ export class AddEventComponent implements OnInit {
       )
     );
   }
+  transformCreationDate(element) {
+    let diff = new Date().getTime() - new Date(element.createdAt).getTime();
+    let daysDifference = Math.floor(diff / 1000 / 60 / 60 / 24);
+    diff -= daysDifference * 1000 * 60 * 60 * 24;
 
+    let hoursDifference = Math.floor(diff / 1000 / 60 / 60);
+    diff -= hoursDifference * 1000 * 60 * 60;
+
+    let minutesDifference = Math.floor(diff / 1000 / 60);
+    diff -= minutesDifference * 1000 * 60;
+    let monthsDiff = Math.floor(daysDifference / 30);
+    let yearsDiff = Math.floor(monthsDiff / 12);
+    return [
+      yearsDiff,
+      monthsDiff,
+      daysDifference,
+      hoursDifference,
+      minutesDifference,
+    ];
+  }
   changeDate() {
     if (this.eventForm.controls.startDateTime.value) {
       this.minEndDate = new Date(this.eventForm.controls.startDateTime.value);
@@ -286,5 +396,13 @@ export class AddEventComponent implements OnInit {
     localStorage.removeItem("loginToken");
     this.toasterService.pop("success", "Success", "Logged out successfully");
     this.router.navigate(["/login"]);
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

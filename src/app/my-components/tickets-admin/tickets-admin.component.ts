@@ -10,6 +10,8 @@ import { UserService } from "../../services/user.service";
 import { navItems } from "../../nav";
 import { ConfirmationComponent } from "../users-admin/dialogs/confirmation/confirmation.component";
 import { navAdminItems } from "../../nav-admin";
+import { NotificationsService } from "../../services/notifications.service";
+import { io } from "socket.io-client";
 
 @Component({
   selector: "app-tickets-admin",
@@ -17,12 +19,15 @@ import { navAdminItems } from "../../nav-admin";
   styleUrls: ["./tickets-admin.component.css"],
 })
 export class TicketsAdminComponent implements OnInit {
+  newNotification: number;
   userId: any;
   connectedUser: any;
   baseUrl = environment.baseUrl;
   searchText: any;
   ticketList: any;
   navItems: any;
+  notifications: any[];
+  socket: any;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -33,6 +38,7 @@ export class TicketsAdminComponent implements OnInit {
     private datePipe: DatePipe,
     private ticketService: TicketService,
     private dialog: MatDialog,
+    private notifService: NotificationsService,
     @Inject(DOCUMENT) _document?: any
   ) {
     this.changes = new MutationObserver((mutations) => {
@@ -44,6 +50,7 @@ export class TicketsAdminComponent implements OnInit {
       attributes: true,
       attributeFilter: ["class"],
     });
+    this.socket = io(environment.baseUrl, { transports: ["websocket"] });
   }
 
   ngOnInit(): void {
@@ -88,6 +95,90 @@ export class TicketsAdminComponent implements OnInit {
         });
       }
     );
+    this.notifService.getNotifications(this.userId).subscribe(
+      (res) => {
+        this.notifications = res.reverse();
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
+          let diffrence = this.transformCreationDate(element);
+          if (diffrence[0] > 1) {
+            element.time = diffrence[0] + " years ago";
+          } else if (diffrence[0] == 1) {
+            element.time = diffrence[0] + " year ago";
+          } else if (diffrence[1] > 1) {
+            element.time = diffrence[1] + " months ago";
+          } else if (diffrence[1] == 1) {
+            element.time = diffrence[1] + " month ago";
+          } else if (diffrence[2] > 1) {
+            element.time = diffrence[2] + " days ago";
+          } else if (diffrence[2] == 1) {
+            element.createdAt = diffrence[2] + " day ago";
+          } else if (diffrence[3] > 1) {
+            element.time = diffrence[3] + " hours ago";
+          } else if (diffrence[3] == 1) {
+            element.time = diffrence[3] + " hour ago";
+          } else if (diffrence[4] > 1) {
+            element.time = diffrence[4] + " minutes ago";
+          } else if (diffrence[4] == 1) {
+            element.time = diffrence[4] + " minute ago";
+          } else {
+            element.time = "Just now";
+          }
+        });
+      }
+    );
+    this.newNotification = 0;
+    this.socket.on("notification", (data) => {
+      this.toaster.pop("info", "New notificaiotn", data.text);
+
+      this.notifService.getNotifications(this.userId).subscribe(
+        (res) => {
+          this.notifications = res.reverse();
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          this.newNotification = 0;
+          this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
+            let diffrence = this.transformCreationDate(element);
+            if (diffrence[0] > 1) {
+              element.time = diffrence[0] + " years ago";
+            } else if (diffrence[0] == 1) {
+              element.time = diffrence[0] + " year ago";
+            } else if (diffrence[1] > 1) {
+              element.time = diffrence[1] + " months ago";
+            } else if (diffrence[1] == 1) {
+              element.time = diffrence[1] + " month ago";
+            } else if (diffrence[2] > 1) {
+              element.time = diffrence[2] + " days ago";
+            } else if (diffrence[2] == 1) {
+              element.createdAt = diffrence[2] + " day ago";
+            } else if (diffrence[3] > 1) {
+              element.time = diffrence[3] + " hours ago";
+            } else if (diffrence[3] == 1) {
+              element.time = diffrence[3] + " hour ago";
+            } else if (diffrence[4] > 1) {
+              element.time = diffrence[4] + " minutes ago";
+            } else if (diffrence[4] == 1) {
+              element.time = diffrence[4] + " minute ago";
+            } else {
+              element.time = "Just now";
+            }
+          });
+        }
+      );
+    });
   }
   logOut() {
     localStorage.removeItem("loginToken");
@@ -215,7 +306,26 @@ export class TicketsAdminComponent implements OnInit {
       }
     );
   }
+  transformCreationDate(element) {
+    let diff = new Date().getTime() - new Date(element.createdAt).getTime();
+    let daysDifference = Math.floor(diff / 1000 / 60 / 60 / 24);
+    diff -= daysDifference * 1000 * 60 * 60 * 24;
 
+    let hoursDifference = Math.floor(diff / 1000 / 60 / 60);
+    diff -= hoursDifference * 1000 * 60 * 60;
+
+    let minutesDifference = Math.floor(diff / 1000 / 60);
+    diff -= minutesDifference * 1000 * 60;
+    let monthsDiff = Math.floor(daysDifference / 30);
+    let yearsDiff = Math.floor(monthsDiff / 12);
+    return [
+      yearsDiff,
+      monthsDiff,
+      daysDifference,
+      hoursDifference,
+      minutesDifference,
+    ];
+  }
   dynamicSort(property) {
     let sortOrder = 1;
     if (property[0] === "-") {
@@ -227,5 +337,13 @@ export class TicketsAdminComponent implements OnInit {
         a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
       return result * sortOrder;
     };
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

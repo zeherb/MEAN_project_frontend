@@ -72,129 +72,91 @@
       </div>
     </li>
     <li
-      class="nav-item dropdown d-md-down-none"
+      class="nav-item notifications dropdown"
       dropdown
       placement="bottom right"
     >
       <a
         class="nav-link"
         data-toggle="dropdown"
-        href="#"
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
         dropdownToggle
-        (click)="(false)"
+        (click)="(false); resetNotifications()"
       >
         <i class="icon-bell"></i
-        ><span class="badge badge-pill badge-danger">7</span>
+        ><span
+          class="badge badge-pill badge-danger"
+          *ngIf="newNotification !== 0"
+          >{{ newNotification }}</span
+        >
       </a>
       <div
-        class="dropdown-menu dropdown-menu-right dropdown-menu-lg"
+        class="
+          dropdown-menu dropdown-menu-right
+          notif-drop-down-menu
+          dropdown-menu-lg
+        "
         *dropdownMenu
         aria-labelledby="simple-dropdown"
       >
         <div class="dropdown-header text-center">
           <strong>Notifications</strong>
         </div>
-        <a href="#" class="dropdown-item">
+        <a
+          class="dropdown-item drop-down-notif"
+          *ngFor="let notification of notifications"
+        >
           <div class="message">
             <div class="py-3 mr-3 float-left">
               <div class="avatar">
                 <img
-                  src="assets/img/avatars/7.jpg"
+                  *ngIf="notification.notifType === 'delete'"
+                  src="assets/img/delete.png"
                   class="img-avatar"
-                  alt="admin@bootstrapmaster.com"
+                  alt="delete"
                 />
-                <span class="avatar-status badge-success"></span>
-              </div>
-            </div>
-            <div>
-              <small class="text-muted">John Doe</small>
-              <small class="text-muted float-right mt-1">Just now</small>
-            </div>
-            <div class="text-truncate font-weight-bold">
-              <span class="fa fa-exclamation text-danger"></span> Important
-              message
-            </div>
-            <div class="small text-muted text-truncate">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt...
-            </div>
-          </div>
-        </a>
-        <a href="#" class="dropdown-item">
-          <div class="message">
-            <div class="py-3 mr-3 float-left">
-              <div class="avatar">
                 <img
-                  src="assets/img/avatars/6.jpg"
+                  *ngIf="notification.notifType === 'book'"
+                  src="assets/img/book.png"
                   class="img-avatar"
-                  alt="admin@bootstrapmaster.com"
+                  alt="book"
                 />
-                <span class="avatar-status badge-warning"></span>
               </div>
             </div>
             <div>
-              <small class="text-muted">John Doe</small>
-              <small class="text-muted float-right mt-1">5 minutes ago</small>
+              <small class="text-muted" *ngIf="notification.notifType == 'book'"
+                >{{ notification.user.firstName }}
+                {{ notification.user.lastName }}</small
+              >
+              <small
+                class="text-muted"
+                *ngIf="notification.notifType == 'delete'"
+                >ADMIN</small
+              >
+              <small class="text-muted float-right mt-1">{{
+                notification.time
+              }}</small>
             </div>
-            <div class="text-truncate font-weight-bold">
-              Lorem ipsum dolor sit amet
+            <div
+              class="font-weight-bold"
+              *ngIf="notification.notifType == 'book'"
+            >
+              {{ notification.event.title }}
             </div>
-            <div class="small text-muted text-truncate">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt...
+            <div
+              class="small notifText text-muted"
+              *ngIf="notification.notifType == 'book'"
+            >
+              {{ notification.user.firstName }} {{ notification.text }}
+              {{ notification.event.title }}
             </div>
-          </div>
-        </a>
-        <a href="#" class="dropdown-item">
-          <div class="message">
-            <div class="py-3 mr-3 float-left">
-              <div class="avatar">
-                <img
-                  src="assets/img/avatars/5.jpg"
-                  class="img-avatar"
-                  alt="admin@bootstrapmaster.com"
-                />
-                <span class="avatar-status badge-danger"></span>
-              </div>
-            </div>
-            <div>
-              <small class="text-muted">John Doe</small>
-              <small class="text-muted float-right mt-1">1:52 PM</small>
-            </div>
-            <div class="text-truncate font-weight-bold">
-              Lorem ipsum dolor sit amet
-            </div>
-            <div class="small text-muted text-truncate">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt...
-            </div>
-          </div>
-        </a>
-        <a href="#" class="dropdown-item">
-          <div class="message">
-            <div class="py-3 mr-3 float-left">
-              <div class="avatar">
-                <img
-                  src="assets/img/avatars/4.jpg"
-                  class="img-avatar"
-                  alt="admin@bootstrapmaster.com"
-                />
-                <span class="avatar-status badge-info"></span>
-              </div>
-            </div>
-            <div>
-              <small class="text-muted">John Doe</small>
-              <small class="text-muted float-right mt-1">4:03 PM</small>
-            </div>
-            <div class="text-truncate font-weight-bold">
-              Lorem ipsum dolor sit amet
-            </div>
-            <div class="small text-muted text-truncate">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt...
+            <div
+              class="small text-muted notifText"
+              *ngIf="notification.notifType == 'delete'"
+            >
+              <p>{{ notification.text }}</p>
             </div>
           </div>
         </a>
