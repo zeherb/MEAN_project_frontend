@@ -20,6 +20,7 @@ import { io } from "socket.io-client";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
+  newNotification: number;
   eventList: event[];
   baseUrl = environment.baseUrl;
   connectedUser: user;
@@ -110,6 +111,9 @@ export class HomeComponent implements OnInit {
       },
       () => {
         this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
           let diffrence = this.transformCreationDate(element);
           if (diffrence[0] > 1) {
             element.time = diffrence[0] + " years ago";
@@ -137,8 +141,10 @@ export class HomeComponent implements OnInit {
         });
       }
     );
+    this.newNotification = 0;
     this.socket.on("notification", (data) => {
       this.toaster.pop("info", "New notificaiotn", data.text);
+
       this.notifService.getNotifications(this.userId).subscribe(
         (res) => {
           this.notifications = res.reverse();
@@ -147,7 +153,11 @@ export class HomeComponent implements OnInit {
           console.log(err);
         },
         () => {
+          this.newNotification = 0;
           this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
             let diffrence = this.transformCreationDate(element);
             if (diffrence[0] > 1) {
               element.time = diffrence[0] + " years ago";
@@ -276,5 +286,13 @@ export class HomeComponent implements OnInit {
       hoursDifference,
       minutesDifference,
     ];
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

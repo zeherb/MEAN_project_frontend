@@ -23,6 +23,7 @@ import { io } from "socket.io-client";
   styleUrls: ["./my-profile.component.css"],
 })
 export class MyProfileComponent implements OnInit {
+  newNotification: number;
   baseUrl = environment.baseUrl;
   connectedUser: user;
   connectedUserBirthDay: String;
@@ -152,6 +153,9 @@ export class MyProfileComponent implements OnInit {
       },
       () => {
         this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
           let diffrence = this.transformCreationDate(element);
           if (diffrence[0] > 1) {
             element.time = diffrence[0] + " years ago";
@@ -179,8 +183,10 @@ export class MyProfileComponent implements OnInit {
         });
       }
     );
+    this.newNotification = 0;
     this.socket.on("notification", (data) => {
       this.toaster.pop("info", "New notificaiotn", data.text);
+
       this.notifService.getNotifications(this.userId).subscribe(
         (res) => {
           this.notifications = res.reverse();
@@ -189,7 +195,11 @@ export class MyProfileComponent implements OnInit {
           console.log(err);
         },
         () => {
+          this.newNotification = 0;
           this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
             let diffrence = this.transformCreationDate(element);
             if (diffrence[0] > 1) {
               element.time = diffrence[0] + " years ago";
@@ -495,5 +505,13 @@ export class MyProfileComponent implements OnInit {
         );
       }
     });
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

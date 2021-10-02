@@ -33,6 +33,7 @@ import { io } from "socket.io-client";
   styleUrls: ["./add-event.component.css"],
 })
 export class AddEventComponent implements OnInit {
+  newNotification: number;
   baseUrl = environment.baseUrl;
   eventForm: FormGroup;
   minStartDate: Date;
@@ -120,6 +121,9 @@ export class AddEventComponent implements OnInit {
       },
       () => {
         this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
           let diffrence = this.transformCreationDate(element);
           if (diffrence[0] > 1) {
             element.time = diffrence[0] + " years ago";
@@ -147,8 +151,10 @@ export class AddEventComponent implements OnInit {
         });
       }
     );
+    this.newNotification = 0;
     this.socket.on("notification", (data) => {
       this.toasterService.pop("info", "New notificaiotn", data.text);
+
       this.notifService.getNotifications(this.userId).subscribe(
         (res) => {
           this.notifications = res.reverse();
@@ -157,7 +163,11 @@ export class AddEventComponent implements OnInit {
           console.log(err);
         },
         () => {
+          this.newNotification = 0;
           this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
             let diffrence = this.transformCreationDate(element);
             if (diffrence[0] > 1) {
               element.time = diffrence[0] + " years ago";
@@ -386,5 +396,13 @@ export class AddEventComponent implements OnInit {
     localStorage.removeItem("loginToken");
     this.toasterService.pop("success", "Success", "Logged out successfully");
     this.router.navigate(["/login"]);
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

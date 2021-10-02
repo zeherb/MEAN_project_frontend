@@ -11,4 +11,7 @@ export class NotificationsService {
   getNotifications(id: any): Observable<any> {
     return this.http.get(this.notifUrl + "/" + id);
   }
+  seeNotifications(id: any, body?: any): Observable<any> {
+    return this.http.put(this.notifUrl + "/" + id, body);
+  }
 }

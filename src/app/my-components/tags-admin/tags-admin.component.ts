@@ -20,6 +20,7 @@ import { io } from "socket.io-client";
   styleUrls: ["./tags-admin.component.css"],
 })
 export class TagsAdminComponent implements OnInit {
+  newNotification: number;
   userId: any;
   connectedUser: any;
   baseUrl = environment.baseUrl;
@@ -100,6 +101,9 @@ export class TagsAdminComponent implements OnInit {
       },
       () => {
         this.notifications.forEach((element) => {
+          if (element.seen == false) {
+            this.newNotification++;
+          }
           let diffrence = this.transformCreationDate(element);
           if (diffrence[0] > 1) {
             element.time = diffrence[0] + " years ago";
@@ -127,8 +131,10 @@ export class TagsAdminComponent implements OnInit {
         });
       }
     );
+    this.newNotification = 0;
     this.socket.on("notification", (data) => {
       this.toaster.pop("info", "New notificaiotn", data.text);
+
       this.notifService.getNotifications(this.userId).subscribe(
         (res) => {
           this.notifications = res.reverse();
@@ -137,7 +143,11 @@ export class TagsAdminComponent implements OnInit {
           console.log(err);
         },
         () => {
+          this.newNotification = 0;
           this.notifications.forEach((element) => {
+            if (element.seen == false) {
+              this.newNotification++;
+            }
             let diffrence = this.transformCreationDate(element);
             if (diffrence[0] > 1) {
               element.time = diffrence[0] + " years ago";
@@ -396,5 +406,13 @@ export class TagsAdminComponent implements OnInit {
         a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
       return result * sortOrder;
     };
+  }
+  resetNotifications() {
+    this.newNotification = 0;
+    this.notifService.seeNotifications(this.connectedUser._id).subscribe(
+      (res) => {},
+      (err) => {},
+      () => {}
+    );
   }
 }

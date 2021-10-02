@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { ToasterConfig } from "angular2-toaster";
-// import * as io from "socket.io-client";
 import { io } from "socket.io-client";
 import { environment } from "../environments/environment";
 import jwtDecode from "jwt-decode";

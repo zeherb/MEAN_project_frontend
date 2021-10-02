@@ -77,15 +77,18 @@
       <a
         class="nav-link"
         data-toggle="dropdown"
-        href="#"
         role="button"
         aria-haspopup="true"
         aria-expanded="false"
         dropdownToggle
-        (click)="(false)"
+        (click)="(false); resetNotifications()"
       >
         <i class="icon-bell"></i
-        ><span class="badge badge-pill badge-danger">7</span>
+        ><span
+          class="badge badge-pill badge-danger"
+          *ngIf="newNotification !== 0"
+          >{{ newNotification }}</span
+        >
       </a>
       <div
         class="
