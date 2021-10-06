@@ -36,13 +36,7 @@ export class AppComponent implements OnInit {
         this.userId = jwtDecode<any>(
           JSON.parse(localStorage.getItem("loginToken")).token
         ).userId;
-        this.socket.on("connected", () => {
-          this.socketService.saveId(this.userId).subscribe(
-            (res) => {},
-            (err) => {},
-            () => {}
-          );
-        });
+        this.socket.on("connected", () => {});
       }
     }
 

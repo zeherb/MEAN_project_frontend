@@ -172,48 +172,49 @@ export class EventsAdminComponent implements OnInit {
     );
     this.newNotification = 0;
     this.socket.on("notification", (data) => {
-      this.toaster.pop("info", "New notificaiotn", data.text);
-
-      this.notifService.getNotifications(this.userId).subscribe(
-        (res) => {
-          this.notifications = res.reverse();
-        },
-        (err) => {
-          console.log(err);
-        },
-        () => {
-          this.newNotification = 0;
-          this.notifications.forEach((element) => {
-            if (element.seen == false) {
-              this.newNotification++;
-            }
-            let diffrence = this.transformCreationDate(element);
-            if (diffrence[0] > 1) {
-              element.time = diffrence[0] + " years ago";
-            } else if (diffrence[0] == 1) {
-              element.time = diffrence[0] + " year ago";
-            } else if (diffrence[1] > 1) {
-              element.time = diffrence[1] + " months ago";
-            } else if (diffrence[1] == 1) {
-              element.time = diffrence[1] + " month ago";
-            } else if (diffrence[2] > 1) {
-              element.time = diffrence[2] + " days ago";
-            } else if (diffrence[2] == 1) {
-              element.createdAt = diffrence[2] + " day ago";
-            } else if (diffrence[3] > 1) {
-              element.time = diffrence[3] + " hours ago";
-            } else if (diffrence[3] == 1) {
-              element.time = diffrence[3] + " hour ago";
-            } else if (diffrence[4] > 1) {
-              element.time = diffrence[4] + " minutes ago";
-            } else if (diffrence[4] == 1) {
-              element.time = diffrence[4] + " minute ago";
-            } else {
-              element.time = "Just now";
-            }
-          });
-        }
-      );
+      if (data.to == this.userId) {
+        this.toaster.pop("info", "New notificaiotn", data.text);
+        this.notifService.getNotifications(this.userId).subscribe(
+          (res) => {
+            this.notifications = res.reverse();
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            this.newNotification = 0;
+            this.notifications.forEach((element) => {
+              if (element.seen == false) {
+                this.newNotification++;
+              }
+              let diffrence = this.transformCreationDate(element);
+              if (diffrence[0] > 1) {
+                element.time = diffrence[0] + " years ago";
+              } else if (diffrence[0] == 1) {
+                element.time = diffrence[0] + " year ago";
+              } else if (diffrence[1] > 1) {
+                element.time = diffrence[1] + " months ago";
+              } else if (diffrence[1] == 1) {
+                element.time = diffrence[1] + " month ago";
+              } else if (diffrence[2] > 1) {
+                element.time = diffrence[2] + " days ago";
+              } else if (diffrence[2] == 1) {
+                element.createdAt = diffrence[2] + " day ago";
+              } else if (diffrence[3] > 1) {
+                element.time = diffrence[3] + " hours ago";
+              } else if (diffrence[3] == 1) {
+                element.time = diffrence[3] + " hour ago";
+              } else if (diffrence[4] > 1) {
+                element.time = diffrence[4] + " minutes ago";
+              } else if (diffrence[4] == 1) {
+                element.time = diffrence[4] + " minute ago";
+              } else {
+                element.time = "Just now";
+              }
+            });
+          }
+        );
+      }
     });
   }
   logOut() {
